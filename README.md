@@ -2,11 +2,15 @@
 Repository for the Godslighthouse starter kit mobile app
 
 # Branches:
-main: most functional branch using expo-audio, does not have notification or persistent background play when app is out of memory
+main: the latest
+online: the online edition
 
-rntp: a failed implementation of reat native track player due to lack of library update
+Note: update this readme as you create new branches
 
-rnap: successful implementation of react native audio api, implementing background play and notification tracking. This will be offline, I will find a way to get file paths.
+# details
+server_url = https://gsp-server-gr8z.vercel.app/
+docs = https://gsp-server-gr8z.vercel.app/docs
+api_root = https://gsp-server-gr8z.vercel.app/api/
+# Release Schedule
 
-online: (upcoming) when rnap is successfull will switch to an online version.
 

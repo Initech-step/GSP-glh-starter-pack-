@@ -174,7 +174,7 @@ export const AppProvider = ({ children }) => {
     getNextAudio,
     isWeekUnlocked,
     getCompletionStats,
-    refreshProgress: loadSavedState,
+    refreshProgress: loadSavedState
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -116,7 +116,7 @@ export const saveNote = async (audioId, noteText) => {
       text: noteText,
       updatedAt: new Date().toISOString(),
     };
-    await AsyncStorage.setItem(KEYS.NOTES, JSON.stringify());
+    await AsyncStorage.setItem(KEYS.NOTES, JSON.stringify(notes));
   } catch (error) {
     console.error('Error saving note:', error);
   }

@@ -12,6 +12,7 @@ import {
   Animated,
 } from 'react-native';
 import { useAudio } from '../contexts/AudioContext';
+import { useApp } from '../contexts/AppContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -42,6 +43,8 @@ export default function PlayerScreen({ route, navigation }) {
     seekBackward,
     isAudioLoaded,
   } = useAudio();
+
+  const { markAudioCompleted } = useApp();
 
   // ============================================
   // LOCAL STATE
@@ -137,11 +140,19 @@ export default function PlayerScreen({ route, navigation }) {
   // HANDLE AUDIO COMPLETION
   // Called when user reaches 98% of audio
   // ============================================
-  const handleAudioCompletion = () => {
+  const handleAudioCompletion = async () => {
     setCompletionNotified(true);
     
     // Pause the audio
     pause();
+
+    // ✅ SAVE COMPLETION TO STORAGE
+    try {
+      await markAudioCompleted(audio.id);
+      console.log('✅ Audio marked as completed:', audio.id);
+    } catch (error) {
+      console.error('❌ Error marking audio as completed:', error);
+    }
     
     // Show completion dialog with options
     Alert.alert(
@@ -152,15 +163,6 @@ export default function PlayerScreen({ route, navigation }) {
           text: 'Take Notes',
           onPress: () => {
             navigation.navigate('Notes', { audioId: audio.id });
-          }
-        },
-        {
-          text: 'Replay',
-          onPress: () => {
-            seekTo(0);
-            setHasReached95Percent(false);
-            setCompletionNotified(false);
-            play();
           }
         },
         {
@@ -186,47 +188,47 @@ export default function PlayerScreen({ route, navigation }) {
   // PAN RESPONDER FOR DRAGGABLE PROGRESS BAR
   // Allows user to drag the progress thumb to seek
   // ============================================
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+  // const panResponder = useRef(
+  //   PanResponder.create({
+  //     onStartShouldSetPanResponder: () => true,
+  //     onMoveShouldSetPanResponder: () => true,
       
-      onPanResponderGrant: (evt) => {
-        // User started touching the progress bar
-        setIsDragging(true);
+  //     onPanResponderGrant: (evt) => {
+  //       // User started touching the progress bar
+  //       setIsDragging(true);
         
-        // Calculate initial position from touch
-        const touchX = evt.nativeEvent.locationX;
-        const newPosition = Math.max(0, Math.min(touchX, progressBarWidth));
-        setDragPosition(newPosition);
-      },
+  //       // Calculate initial position from touch
+  //       const touchX = evt.nativeEvent.locationX;
+  //       const newPosition = Math.max(0, Math.min(touchX, progressBarWidth));
+  //       setDragPosition(newPosition);
+  //     },
       
-      onPanResponderMove: (evt, gestureState) => {
-        // User is dragging - update drag position
-        const newPosition = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
-        setDragPosition(newPosition);
-      },
+  //     onPanResponderMove: (evt, gestureState) => {
+  //       // User is dragging - update drag position
+  //       const newPosition = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
+  //       setDragPosition(newPosition);
+  //     },
       
-      onPanResponderRelease: (evt, gestureState) => {
-        // User released finger - seek to new position
-        setIsDragging(false);
+  //     onPanResponderRelease: (evt, gestureState) => {
+  //       // User released finger - seek to new position
+  //       setIsDragging(false);
         
-        if (!duration) return;
+  //       if (!duration) return;
         
-        // Calculate percentage based on drag position
-        const touchX = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
-        const percentage = touchX / progressBarWidth;
+  //       // Calculate percentage based on drag position
+  //       const touchX = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
+  //       const percentage = touchX / progressBarWidth;
         
-        // Calculate new time in seconds
-        const newTime = percentage * duration;
+  //       // Calculate new time in seconds
+  //       const newTime = percentage * duration;
         
-        console.log(`⏩ Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
+  //       console.log(`⏩ Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
         
-        // Seek to new position using AudioContext
-        seekTo(newTime);
-      },
-    })
-  ).current;
+  //       // Seek to new position using AudioContext
+  //       seekTo(newTime);
+  //     },
+  //   })
+  // ).current;
 
   // ============================================
   // PLAYBACK CONTROLS
@@ -347,19 +349,17 @@ export default function PlayerScreen({ route, navigation }) {
             ============================================ */}
         <View style={styles.progressSection}>
           {/* Progress Bar */}
-          <View 
+          {/* <View 
             style={styles.progressBarContainer}
             {...panResponder.panHandlers}
           >
             <View style={styles.progressBar}>
-              {/* Progress Fill */}
               <View 
                 style={[
                   styles.progressFill,
                   { width: `${displayPercentage}%` }
                 ]}
               />
-              {/* Progress Thumb */}
               <View
                 style={[
                   styles.progressThumb,
@@ -368,7 +368,7 @@ export default function PlayerScreen({ route, navigation }) {
                 ]}
               />
             </View>
-          </View>
+          </View> */}
 
           {/* Time Display */}
           <View style={styles.timeRow}>
@@ -421,7 +421,7 @@ export default function PlayerScreen({ route, navigation }) {
             ) : isPlaying ? (
               <AntDesign name="pause" size={32} color="#fff" />
             ) : (
-              <AntDesign name="caretright" size={32} color="#fff" />
+              <AntDesign name="play" size={32} color="#fff" />
             )}
           </TouchableOpacity>
 
@@ -448,18 +448,17 @@ export default function PlayerScreen({ route, navigation }) {
         {/* ============================================
             INFO BOX
             ============================================ */}
-        <View style={styles.infoBox}>
-          <MaterialIcons name="info-outline" size={24} color="#360f5a" />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.infoText}>
-              <Text style={{ fontWeight: 'bold' }}>Background Playback Active:</Text>
-              {'\n'}
-              Navigate away and your audio will continue playing in the background
-              with lock screen controls.
-            </Text>
-          </View>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.notesButton}
+            onPress={() => navigation.navigate('Notes', { audioId: audio.id })}
+            activeOpacity={0.7}
+          >
+            <MaterialIcons name="notes" size={24} color="#360f5a" />
+            <Text style={styles.notesButtonText}>Take Notes</Text>
+          </TouchableOpacity>
         </View>
-
+       
         {/* ============================================
             DEBUG INFO
             Useful for development - remove in production
@@ -521,6 +520,26 @@ export default function PlayerScreen({ route, navigation }) {
 // STYLES
 // ============================================
 const styles = StyleSheet.create({
+  notesButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    gap: 8,
+  },
+  notesButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#360f5a',
+  },
   container: {
     flex: 1,
     backgroundColor: '#F8FAFC',

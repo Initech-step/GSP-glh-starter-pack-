@@ -1016,7 +1016,7 @@ This feature pauses the audio every 30 minutes (configurable) and requires users
 
 ```javascript
   // Active Listening state
-  const [activeListen Timer, setActiveListenTimer] = useState(null);
+  const [activeListenTimer, setActiveListenTimer] = useState(null);
   const [showKeepPlayingPrompt, setShowKeepPlayingPrompt] = useState(false);
   const activeListenDuration = 30 * 60; // 30 minutes in seconds
 ```

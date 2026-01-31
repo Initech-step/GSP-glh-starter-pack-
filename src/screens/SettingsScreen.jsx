@@ -15,7 +15,19 @@ import {
   pickAudioFolder,
   verifyAudioFolder,
   resetAudioFolder,
+  getProgress,
+  getNotes,
+  saveProgress,
+  saveNote,
+  getCurrentPosition
 } from '../utils/storage';
+import {
+  isLoggedIn,
+  uploadProgress,
+  downloadProgress,
+  backupNotes,
+  retrieveNotes,
+} from '../utils/api';
 import { useApp } from '../contexts/AppContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -101,9 +113,159 @@ export default function SettingsScreen({ navigation }) {
 
   const handleAbout = () => {
     Alert.alert(
-      "God's Lighthouse BSK",
-      'Version 1.0.0\n\nBuilt to help believers grow in their faith through systematic study of foundational Christian teachings.\n\nMay the Lord bless your learning journey! 🙏',
+      "God's Lighthouse Starter Kit App",
+      'Version 1.0.0\n\nBuilt to help believers grow in their faith through the word.',
       [{ text: 'OK' }]
+    );
+  };
+
+  const handleUploadProgress = async () => {
+    const loggedIn = await isLoggedIn();
+    if (!loggedIn) {
+      Alert.alert('Not Logged In', 'Please login first to upload progress');
+      // TODO: Navigate to login screen
+      return;
+    }
+
+    Alert.alert(
+      'Upload Progress',
+      'Upload your local progress to the cloud?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Upload',
+          onPress: async () => {
+            try {
+              const progress = await getProgress();
+              const position = await getCurrentPosition();
+
+              const result = await uploadProgress(
+                progress,
+                position.level,
+                position.weekNumber,
+                position.audioId
+              );
+
+              if (result.success) {
+                Alert.alert('Success', 'Progress uploaded successfully!');
+              } else {
+                Alert.alert('Error', result.error);
+              }
+            } catch (error) {
+              Alert.alert('Error', 'Failed to upload progress');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleDownloadProgress = async () => {
+    const loggedIn = await isLoggedIn();
+    if (!loggedIn) {
+      Alert.alert('Not Logged In', 'Please login first to download progress');
+      // TODO: Navigate to login screen
+      return;
+    }
+
+    Alert.alert(
+      'Download Progress',
+      'Download progress from cloud? This will overwrite your local progress.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Download',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const result = await downloadProgress();
+
+              if (result.success) {
+                const { progress, current_level, current_week, current_audio } = result.data;
+
+                // Save to local storage
+                for (const [audioId, audioProgress] of Object.entries(progress)) {
+                  await saveProgress(
+                    audioId,
+                    audioProgress.completed,
+                    audioProgress.position
+                  );
+                }
+
+                // Refresh the app
+                await refreshProgress();
+
+                Alert.alert('Success', 'Progress downloaded and synced!');
+              } else {
+                Alert.alert('Error', result.error);
+              }
+            } catch (error) {
+              Alert.alert('Error', 'Failed to download progress');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleBackupNotes = async () => {
+    const loggedIn = await isLoggedIn();
+    if (!loggedIn) {
+      Alert.alert('Not Logged In', 'Please login first to backup notes');
+      return;
+    }
+
+    try {
+      const notes = await getNotes();
+      const result = await backupNotes(notes);
+
+      if (result.success) {
+        Alert.alert('Success', 'Notes backed up successfully!');
+      } else {
+        Alert.alert('Error', result.error);
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to backup notes');
+    }
+  };
+
+  const handleRestoreNotes = async () => {
+    const loggedIn = await isLoggedIn();
+    if (!loggedIn) {
+      Alert.alert('Not Logged In', 'Please login first to restore notes');
+      return;
+    }
+
+    Alert.alert(
+      'Restore Notes',
+      'Restore notes from cloud? This will overwrite your local notes.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Restore',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const result = await retrieveNotes();
+
+              if (result.success && result.data.notes) {
+                const notes = result.data.notes;
+
+                // Save each note locally
+                for (const [audioId, noteData] of Object.entries(notes)) {
+                  await saveNote(audioId, noteData.text);
+                }
+
+                Alert.alert('Success', 'Notes restored successfully!');
+              } else {
+                Alert.alert('Info', 'No notes found in cloud');
+              }
+            } catch (error) {
+              Alert.alert('Error', 'Failed to restore notes');
+            }
+          },
+        },
+      ]
     );
   };
 
@@ -150,6 +312,39 @@ export default function SettingsScreen({ navigation }) {
         },
       ],
     },
+    {
+      title: 'Cloud Sync',
+      items: [
+        {
+          label: 'Upload Progress',
+          type: 'button',
+          onPress: handleUploadProgress,
+          icon: '☁️',
+          description: 'Backup your progress to the cloud',
+        },
+        {
+          label: 'Download Progress',
+          type: 'button',
+          onPress: handleDownloadProgress,
+          icon: '⬇️',
+          description: 'Restore progress from cloud',
+        },
+        {
+          label: 'Backup Notes',
+          type: 'button',
+          onPress: handleBackupNotes,
+          icon: '📝',
+          description: 'Backup your notes to the cloud',
+        },
+        {
+          label: 'Restore Notes',
+          type: 'button',
+          onPress: handleRestoreNotes,
+          icon: '📥',
+          description: 'Restore notes from cloud',
+        },
+      ],
+    }
   ];
 
   return (
