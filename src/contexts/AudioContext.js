@@ -117,15 +117,15 @@ export const AudioProvider = ({ children }) => {
         case AudioProEventType.PROGRESS:
           // Update position and duration from progress events
           if (event.payload) {
-            setPosition(event.payload.positionMs / 1000); // Convert ms to seconds
-            setDuration(event.payload.durationMs / 1000); // Convert ms to seconds
+            setPosition(event.payload.position / 1000); // Convert ms to seconds
+            setDuration(event.payload.duration / 1000); // Convert ms to seconds
           }
           break;
 
         case AudioProEventType.TRACK_ENDED:
           // Audio finished playing - update state
           console.log('✅ Track ended in Context');
-          setIsPlaying(false);
+          setIsPlaying(false); 
           // Save final progress
           saveProgress();
           break;
@@ -137,10 +137,6 @@ export const AudioProvider = ({ children }) => {
           setIsLoaded(false);
           setIsLoading(false);
           break;
-
-        // Remote control events are handled in audioSetup.js
-        // We don't need to handle them here unless we want
-        // Context-specific behavior
 
         default:
           // Other events handled in audioSetup.js
@@ -252,14 +248,6 @@ export const AudioProvider = ({ children }) => {
       // convert content:\\ to file
       const playableUri = await getPlayableAudioUri(audioMetadata.id, audioSource);
 
-      // Prepare the track object for AudioPro
-      // const track = {
-      //   id: audioMetadata.id,
-      //   url: 'https://res.cloudinary.com/dhsnrwwwn/video/upload/v1768213956/2c._Stages_of_Christian_Growth-_Sons_of_God_adjklw.mp3',
-      //   title: audioMetadata.title,
-      //   artist: 'Pst. Ita Udoh', // Use speaker as artist
-      //   artwork: 'https://res.cloudinary.com/dhsnrwwwn/image/upload/v1768211441/SELECT_ME_aevm3j.png'
-      // };
       const track = {
         id: audioMetadata.id,
         url: playableUri,
@@ -269,22 +257,21 @@ export const AudioProvider = ({ children }) => {
       };
 
       // Check if we should restore previous position
-      // const savedPosition = await getPlaybackPosition(audioMetadata.id);
-      // const startTimeMs = savedPosition && savedPosition > 0 ? savedPosition * 1000 : 0;
+      const savedPosition = await getPlaybackPosition(audioMetadata.id);
+      const startTimeMs = savedPosition && savedPosition > 0 ? savedPosition * 1000 : 0;
 
       // Set up progress saving interval (every 30 seconds)
       startProgressSavingInterval();
 
       // Load and play the track
-      // AudioPro.play() automatically handles stopping the previous track
       AudioPro.play(track, {
         autoPlay: false, // Start playing automatically
-        //startTimeMs, // Start from saved position if available
+        startTimeMs, // Start from saved position if available
       });
 
-      // if (savedPosition && savedPosition > 0) {
-      //   console.log(`✅ Resuming from saved position: ${savedPosition.toFixed(2)}s`);
-      // }
+      if (savedPosition && savedPosition > 0) {
+        console.log(`✅ Resuming from saved position: ${savedPosition.toFixed(2)}s`);
+      }
 
       console.log('✅ Audio loaded successfully:', audioMetadata.title);
       return true;

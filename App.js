@@ -16,6 +16,7 @@ import SettingsScreen from './src/screens/SettingsScreen';
 import BookListScreen from './src/screens/BookListScreen';
 import ReadBook from './src/screens/ReadBook';
 import { AudioProvider } from './src/contexts/AudioContext';
+import LoginScreen from './src/screens/LoginScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -99,6 +100,11 @@ export default function App() {
               name="ReadBook"
               component={ReadBook}
               options={({ route }) => ({ title: route.params?.title || 'Read Book' })}
+            />
+            <Stack.Screen
+              name="LoginOut"
+              component={LoginScreen}
+              options={({ route }) => ({ title:'LoginOut' })}
             />
           </Stack.Navigator>
         </NavigationContainer>

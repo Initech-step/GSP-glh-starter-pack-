@@ -42,18 +42,18 @@ export default function PlayerScreen({ route, navigation }) {
     seekForward,
     seekBackward,
     isAudioLoaded,
+    releaseAudio
   } = useAudio();
 
-  const { markAudioCompleted } = useApp();
+  const { 
+    markAudioCompleted,
+    getNextAudio
+  } = useApp();
 
   // ============================================
   // LOCAL STATE
   // ============================================
   const [audioPath, setAudioPath] = useState(null);
-  
-  // Completion tracking state
-  const [hasReached95Percent, setHasReached95Percent] = useState(false);
-  const [completionNotified, setCompletionNotified] = useState(false);
   
   // Dragging state for progress bar
   const [isDragging, setIsDragging] = useState(false);
@@ -120,120 +120,58 @@ export default function PlayerScreen({ route, navigation }) {
   // ============================================
   useEffect(() => {
     if (!isLoaded || !duration || duration === 0) return;
-    
+
     const progressPercentage = (position / duration) * 100;
+    console.log(progressPercentage);
     
-    // Check if reached 95% (completion threshold)
-    if (progressPercentage >= 95 && !hasReached95Percent) {
-      console.log('🎯 User reached 95% of audio');
-      setHasReached95Percent(true);
-    }
-    
-    // Check if completed (98% to be safe)
-    if (progressPercentage >= 98 && hasReached95Percent && !completionNotified) {
-      console.log('✅ Audio completed!');
-      handleAudioCompletion();
-    }
-  }, [position, duration, hasReached95Percent, completionNotified]);
+    if (progressPercentage >= 99.9) {
+      console.log("AUDIO COMPLETED!");
+      
+      // ✅ Create an async function inside useEffect
+      const handleCompletion = async () => {
+        try {
+          await markAudioCompleted(audio.id);
+          console.log('✅ Audio marked as completed:', audio.id);
+          releaseAudio();
 
-  // ============================================
-  // HANDLE AUDIO COMPLETION
-  // Called when user reaches 98% of audio
-  // ============================================
-  const handleAudioCompletion = async () => {
-    setCompletionNotified(true);
-    
-    // Pause the audio
-    pause();
-
-    // ✅ SAVE COMPLETION TO STORAGE
-    try {
-      await markAudioCompleted(audio.id);
-      console.log('✅ Audio marked as completed:', audio.id);
-    } catch (error) {
-      console.error('❌ Error marking audio as completed:', error);
-    }
-    
-    // Show completion dialog with options
-    Alert.alert(
-      '🎉 Message Completed!',
-      `You've finished "${audio.title}"\n\nWhat would you like to do next?`,
-      [
-        {
-          text: 'Take Notes',
-          onPress: () => {
-            navigation.navigate('Notes', { audioId: audio.id });
+          // ✅ Get next audio
+          const nextAudio = getNextAudio();
+          
+          if (nextAudio != null) {
+            // ✅ Destructure the returned object correctly
+            navigation.replace('Player', {
+              level: nextAudio.level,           // Not audio.level
+              weekNumber: nextAudio.week,       // Not audio.week, it's 'week'
+              audio: nextAudio.audio,           // This is the actual audio object
+            });
+          } else {
+            // No more audios - go back or show completion message
+            Alert.alert(
+              '🎉 Congratulations!',
+              'You have completed all available content!',
+              [
+                {
+                  text: 'OK',
+                  onPress: () => navigation.navigate('Home')
+                }
+              ]
+            );
           }
-        },
-        {
-          text: 'Next Message',
-          onPress: () => {
-            // TODO: Navigate to next audio in sequence
-            console.log('Navigate to next message');
-          }
-        },
-        {
-          text: 'Done',
-          style: 'cancel',
-          onPress: () => {
-            navigation.goBack();
-          }
+          
+        } catch (error) {
+          console.error('❌ Error marking audio as completed:', error);
         }
-      ],
-      { cancelable: true }
-    );
-  };
-
-  // ============================================
-  // PAN RESPONDER FOR DRAGGABLE PROGRESS BAR
-  // Allows user to drag the progress thumb to seek
-  // ============================================
-  // const panResponder = useRef(
-  //   PanResponder.create({
-  //     onStartShouldSetPanResponder: () => true,
-  //     onMoveShouldSetPanResponder: () => true,
+      };
       
-  //     onPanResponderGrant: (evt) => {
-  //       // User started touching the progress bar
-  //       setIsDragging(true);
-        
-  //       // Calculate initial position from touch
-  //       const touchX = evt.nativeEvent.locationX;
-  //       const newPosition = Math.max(0, Math.min(touchX, progressBarWidth));
-  //       setDragPosition(newPosition);
-  //     },
-      
-  //     onPanResponderMove: (evt, gestureState) => {
-  //       // User is dragging - update drag position
-  //       const newPosition = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
-  //       setDragPosition(newPosition);
-  //     },
-      
-  //     onPanResponderRelease: (evt, gestureState) => {
-  //       // User released finger - seek to new position
-  //       setIsDragging(false);
-        
-  //       if (!duration) return;
-        
-  //       // Calculate percentage based on drag position
-  //       const touchX = Math.max(0, Math.min(gestureState.moveX - 20, progressBarWidth));
-  //       const percentage = touchX / progressBarWidth;
-        
-  //       // Calculate new time in seconds
-  //       const newTime = percentage * duration;
-        
-  //       console.log(`⏩ Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
-        
-  //       // Seek to new position using AudioContext
-  //       seekTo(newTime);
-  //     },
-  //   })
-  // ).current;
+      // ✅ Call the async function
+      handleCompletion();
+    }
+  }, [position, duration]);
 
   // ============================================
   // PLAYBACK CONTROLS
   // ============================================
-  
+
   const togglePlayPause = () => {
     if (!isAudioLoaded(audio.id)) {
       Alert.alert(
@@ -280,14 +218,6 @@ export default function PlayerScreen({ route, navigation }) {
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // ============================================
-  // CALCULATE PROGRESS
-  // Shows either actual progress or drag preview
-  // ============================================
-  const progressPercentage = duration > 0 ? ((position || 0) / duration) * 100 : 0;
-  const displayPercentage = isDragging 
-    ? (dragPosition / progressBarWidth) * 100 
-    : progressPercentage;
 
   // Determine if controls should be disabled
   const controlsDisabled = !isLoaded || isLoading;
@@ -328,13 +258,7 @@ export default function PlayerScreen({ route, navigation }) {
             </View>
           )}
 
-          {/* Completion Badge - shows when user reaches 95% */}
-          {hasReached95Percent && (
-            <View style={styles.completionBadge}>
-              <FontAwesome name="check-circle" size={14} color="#22c55e" />
-              <Text style={styles.completionText}>Completed</Text>
-            </View>
-          )}
+          
         </View>
 
         {/* ============================================
@@ -342,46 +266,6 @@ export default function PlayerScreen({ route, navigation }) {
             ============================================ */}
         <View style={styles.albumArt}>
           <Text style={styles.albumArtEmoji}>🎧</Text>
-        </View>
-
-        {/* ============================================
-            PROGRESS SECTION
-            ============================================ */}
-        <View style={styles.progressSection}>
-          {/* Progress Bar */}
-          {/* <View 
-            style={styles.progressBarContainer}
-            {...panResponder.panHandlers}
-          >
-            <View style={styles.progressBar}>
-              <View 
-                style={[
-                  styles.progressFill,
-                  { width: `${displayPercentage}%` }
-                ]}
-              />
-              <View
-                style={[
-                  styles.progressThumb,
-                  isDragging && styles.progressThumbActive,
-                  { left: `${displayPercentage}%` }
-                ]}
-              />
-            </View>
-          </View> */}
-
-          {/* Time Display */}
-          <View style={styles.timeRow}>
-            <Text style={styles.timeText}>
-              {formatTime(isDragging ? (dragPosition / progressBarWidth) * duration : position)}
-            </Text>
-            <Text style={styles.progressText}>
-              {displayPercentage.toFixed(1)}%
-            </Text>
-            <Text style={styles.timeText}>
-              {formatTime(duration)}
-            </Text>
-          </View>
         </View>
 
         {/* ============================================
@@ -419,9 +303,9 @@ export default function PlayerScreen({ route, navigation }) {
             {isLoading ? (
               <MaterialIcons name="downloading" size={40} color="#fff" />
             ) : isPlaying ? (
-              <AntDesign name="pause" size={32} color="#fff" />
+              <FontAwesome name="pause" size={40} color="#ffff" />
             ) : (
-              <AntDesign name="play" size={32} color="#fff" />
+              <FontAwesome name="play" size={40} color="#ffff" />
             )}
           </TouchableOpacity>
 
@@ -459,58 +343,6 @@ export default function PlayerScreen({ route, navigation }) {
           </TouchableOpacity>
         </View>
        
-        {/* ============================================
-            DEBUG INFO
-            Useful for development - remove in production
-            ============================================ */}
-        {__DEV__ && (
-          <View style={styles.debugBox}>
-            <Text style={styles.debugTitle}>Debug Status:</Text>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Progress:</Text>
-              <Text style={styles.debugValue}>
-                {progressPercentage.toFixed(1)}%
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Completed:</Text>
-              <Text style={styles.debugValue}>
-                {hasReached95Percent ? '✅ Yes' : '❌ Not yet'}
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Playing:</Text>
-              <Text style={styles.debugValue}>
-                {isPlaying ? '▶️ Yes' : '⏸️ No'}
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Loaded:</Text>
-              <Text style={styles.debugValue}>
-                {isLoaded ? '✅ Yes' : '❌ No'}
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Loading:</Text>
-              <Text style={styles.debugValue}>
-                {isLoading ? '⏳ Yes' : '✅ No'}
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Dragging:</Text>
-              <Text style={styles.debugValue}>
-                {isDragging ? '👆 Yes' : '❌ No'}
-              </Text>
-            </View>
-            <View style={styles.debugRow}>
-              <Text style={styles.debugLabel}>Position:</Text>
-              <Text style={styles.debugValue}>
-                {position.toFixed(2)}s / {duration.toFixed(2)}s
-              </Text>
-            </View>
-          </View>
-        )}
-
       </ScrollView>
     </View>
   );

@@ -122,179 +122,175 @@ export default function SettingsScreen({ navigation }) {
   const handleUploadProgress = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-      Alert.alert('Not Logged In', 'Please login first to upload progress');
-      // TODO: Navigate to login screen
-      return;
-    }
+      navigation.navigate('LoginOut');
+    }else{
+      Alert.alert(
+        'Upload Progress',
+        'Upload your local progress to the cloud?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Upload',
+            onPress: async () => {
+              try {
+                const progress = await getProgress();
+                const position = await getCurrentPosition();
 
-    Alert.alert(
-      'Upload Progress',
-      'Upload your local progress to the cloud?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Upload',
-          onPress: async () => {
-            try {
-              const progress = await getProgress();
-              const position = await getCurrentPosition();
+                const result = await uploadProgress(
+                  progress,
+                  position.level,
+                  position.weekNumber,
+                  position.audioId
+                );
 
-              const result = await uploadProgress(
-                progress,
-                position.level,
-                position.weekNumber,
-                position.audioId
-              );
-
-              if (result.success) {
-                Alert.alert('Success', 'Progress uploaded successfully!');
-              } else {
-                Alert.alert('Error', result.error);
+                if (result.success) {
+                  Alert.alert('Success', 'Progress uploaded successfully!');
+                } else {
+                  Alert.alert('Error', result.error);
+                }
+              } catch (error) {
+                Alert.alert('Error', 'Failed to upload progress');
               }
-            } catch (error) {
-              Alert.alert('Error', 'Failed to upload progress');
-            }
+            },
           },
-        },
-      ]
-    );
+        ]
+      );
+    }
   };
 
   const handleDownloadProgress = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-      Alert.alert('Not Logged In', 'Please login first to download progress');
-      // TODO: Navigate to login screen
-      return;
-    }
+      navigation.navigate('LoginOut');
+    }else{
+      Alert.alert(
+        'Download Progress',
+        'Download progress from cloud? This will overwrite your local progress.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Download',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                const result = await downloadProgress();
 
-    Alert.alert(
-      'Download Progress',
-      'Download progress from cloud? This will overwrite your local progress.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Download',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const result = await downloadProgress();
+                if (result.success) {
+                  const { progress, current_level, current_week, current_audio } = result.data;
 
-              if (result.success) {
-                const { progress, current_level, current_week, current_audio } = result.data;
+                  // Save to local storage
+                  for (const [audioId, audioProgress] of Object.entries(progress)) {
+                    await saveProgress(
+                      audioId,
+                      audioProgress.completed,
+                      audioProgress.position
+                    );
+                  }
 
-                // Save to local storage
-                for (const [audioId, audioProgress] of Object.entries(progress)) {
-                  await saveProgress(
-                    audioId,
-                    audioProgress.completed,
-                    audioProgress.position
-                  );
+                  // Refresh the app
+                  await refreshProgress();
+
+                  Alert.alert('Success', 'Progress downloaded and synced!');
+                } else {
+                  Alert.alert('Error', result.error);
                 }
-
-                // Refresh the app
-                await refreshProgress();
-
-                Alert.alert('Success', 'Progress downloaded and synced!');
-              } else {
-                Alert.alert('Error', result.error);
+              } catch (error) {
+                Alert.alert('Error', 'Failed to download progress');
               }
-            } catch (error) {
-              Alert.alert('Error', 'Failed to download progress');
-            }
+            },
           },
-        },
-      ]
-    );
+        ]
+      );
+    }
   };
 
   const handleBackupNotes = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-      Alert.alert('Not Logged In', 'Please login first to backup notes');
-      return;
-    }
+      navigation.navigate('LoginOut');
+    }else{
+      try {
+        const notes = await getNotes();
+        const result = await backupNotes(notes);
 
-    try {
-      const notes = await getNotes();
-      const result = await backupNotes(notes);
-
-      if (result.success) {
-        Alert.alert('Success', 'Notes backed up successfully!');
-      } else {
-        Alert.alert('Error', result.error);
+        if (result.success) {
+          Alert.alert('Success', 'Notes backed up successfully!');
+        } else {
+          Alert.alert('Error', result.error);
+        }
+      } catch (error) {
+        Alert.alert('Error', 'Failed to backup notes');
       }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to backup notes');
     }
   };
 
   const handleRestoreNotes = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-      Alert.alert('Not Logged In', 'Please login first to restore notes');
-      return;
+      navigation.navigate('LoginOut');
+    }else {
+      Alert.alert(
+        'Restore Notes',
+        'Restore notes from cloud? This will overwrite your local notes.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Restore',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                const result = await retrieveNotes();
+
+                if (result.success && result.data.notes) {
+                  const notes = result.data.notes;
+
+                  // Save each note locally
+                  for (const [audioId, noteData] of Object.entries(notes)) {
+                    await saveNote(audioId, noteData.text);
+                  }
+
+                  Alert.alert('Success', 'Notes restored successfully!');
+                } else {
+                  Alert.alert('Info', 'No notes found in cloud');
+                }
+              } catch (error) {
+                Alert.alert('Error', 'Failed to restore notes');
+              }
+            },
+          },
+        ]
+      );
     }
 
-    Alert.alert(
-      'Restore Notes',
-      'Restore notes from cloud? This will overwrite your local notes.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Restore',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const result = await retrieveNotes();
-
-              if (result.success && result.data.notes) {
-                const notes = result.data.notes;
-
-                // Save each note locally
-                for (const [audioId, noteData] of Object.entries(notes)) {
-                  await saveNote(audioId, noteData.text);
-                }
-
-                Alert.alert('Success', 'Notes restored successfully!');
-              } else {
-                Alert.alert('Info', 'No notes found in cloud');
-              }
-            } catch (error) {
-              Alert.alert('Error', 'Failed to restore notes');
-            }
-          },
-        },
-      ]
-    );
+    
   };
 
   const settingsSections = [
-    {
-      title: 'Notifications',
-      items: [
-        {
-          label: 'Daily Reminders',
-          type: 'switch',
-          value: notificationsEnabled,
-          onToggle: setNotificationsEnabled,
-          description: 'Get reminded to continue your learning',
-        },
-      ],
-    },
-    {
-      title: 'Data & Progress',
-      items: [
-        {
-          label: 'Reset All Progress',
-          type: 'button',
-          onPress: handleResetProgress,
-          icon: '🔄',
-          description: 'Clear all completed messages and notes',
-          destructive: true,
-        },
-      ],
-    },
+    // {
+    //   title: 'Notifications',
+    //   items: [
+    //     {
+    //       label: 'Daily Reminders',
+    //       type: 'switch',
+    //       value: notificationsEnabled,
+    //       onToggle: setNotificationsEnabled,
+    //       description: 'Get reminded to continue your learning',
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Data & Progress',
+    //   items: [
+    //     {
+    //       label: 'Reset All Progress',
+    //       type: 'button',
+    //       onPress: handleResetProgress,
+    //       icon: '🔄',
+    //       description: 'Clear all completed messages and notes',
+    //       destructive: true,
+    //     },
+    //   ],
+    // },
     {
       title: 'About',
       items: [
@@ -308,7 +304,7 @@ export default function SettingsScreen({ navigation }) {
           label: "God's Lighthouse",
           type: 'link',
           icon: '🌐',
-          description: 'Visit our website',
+          description: 'Visit our website @ www.g-lh.org',
         },
       ],
     },
