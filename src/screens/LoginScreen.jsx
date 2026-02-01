@@ -139,8 +139,7 @@ export default function LoginScreen({ navigation }) {
             {
               text: 'OK',
               onPress: () => {
-                // Navigate to Onboarding or Home
-                navigation.replace('Onboarding');
+                navigation.replace('Home');
               }
             }
           ]

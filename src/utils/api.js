@@ -62,6 +62,7 @@ export const isLoggedIn = async () => {
  */
 export const registerUser = async (phoneOrEmail, password) => {
   try {
+    console.log(`reg fired with ${phoneOrEmail} and ${password}`)
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {

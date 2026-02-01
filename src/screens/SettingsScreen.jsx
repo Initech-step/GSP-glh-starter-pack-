@@ -417,7 +417,7 @@ export default function SettingsScreen({ navigation }) {
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleChangeFolder}>
+          {/* <TouchableOpacity style={styles.button} onPress={handleChangeFolder}>
             <MaterialIcons name="folder-open" size={20} color="#fff" />
             <Text style={styles.buttonText}>Change Audio Folder</Text>
           </TouchableOpacity>
@@ -428,22 +428,22 @@ export default function SettingsScreen({ navigation }) {
           >
             <MaterialIcons name="refresh" size={20} color="#fff" />
             <Text style={styles.buttonText}>Reset Folder</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* App Info Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            God's Lighthouse Messages
+            God's Lighthouse Starter Kit
           </Text>
           <Text style={styles.footerSubtext}>
-            Space Mogul Edition v1.0.0
+            Offline Edition v1.0.0
           </Text>
-          <Text style={styles.footerVerse}>
+          {/* <Text style={styles.footerVerse}>
             "Thy word is a lamp unto my feet,{'\n'}
             and a light unto my path."{'\n'}
             - Psalm 119:105
-          </Text>
+          </Text> */}
         </View>
         
       </ScrollView>
