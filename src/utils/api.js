@@ -3,7 +3,18 @@ const API_BASE_URL = 'https://gsp-server-gr8z.vercel.app/api';
 
 const AUTH_TOKEN_KEY = '@glh_auth_token';
 const USER_IDENTIFIER_KEY = '@glh_user_identifier';
-
+const KEYS = {
+  PROGRESS: '@glh_progress',
+  CURRENT_LEVEL: '@glh_current_level',
+  CURRENT_WEEK: '@glh_current_week',
+  CURRENT_AUDIO: '@glh_current_audio',
+  PLAYBACK_POSITION: '@glh_playback_position',
+  NOTES: '@glh_notes',
+  ONBOARDING_COMPLETED: '@glh_onboarding',
+  AUDIO_FOLDER_KEY: '@glh_audio_folder_path',
+  AUDIO_URI: '@glh_audio_uri',
+  PDF_URI: '@glh_pdf_uri'
+};
 
 export const saveAuthData = async (token, userIdentifier) => {
   try {
@@ -123,6 +134,24 @@ export const loginUser = async (phoneOrEmail, password) => {
 };
 
 /**
+ * Replace current position (used when downloading from cloud)
+ */
+export const replaceCurrentPosition = async (level, weekNumber, audioId) => {
+  try {
+    await AsyncStorage.setItem(KEYS.CURRENT_LEVEL, level);
+    await AsyncStorage.setItem(KEYS.CURRENT_WEEK, weekNumber.toString());
+    if (audioId) {
+      await AsyncStorage.setItem(KEYS.CURRENT_AUDIO, audioId);
+    }
+    console.log('✅ Current position replaced:', { level, weekNumber, audioId });
+    return true;
+  } catch (error) {
+    console.error('Error replacing current position:', error);
+    return false;
+  }
+};
+
+/**
  * Upload progress to cloud
  */
 export const uploadProgress = async (progressData, currentLevel, currentWeek, currentAudio) => {
@@ -160,6 +189,20 @@ export const uploadProgress = async (progressData, currentLevel, currentWeek, cu
   }
 };
 
+/* replace local function */
+export const replaceAllProgress = async (progressData) => {
+  try {
+    // Directly replace the entire progress object
+    await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
+    console.log('✅ All progress replaced with cloud data');
+    return true;
+  } catch (error) {
+    console.error('Error replacing progress:', error);
+    return false;
+  }
+};
+
+
 /**
  * Download progress from cloud
  */
@@ -179,14 +222,46 @@ export const downloadProgress = async () => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.detail || 'Failed to download progress');
-    }
+    const { 
+      progress,
+      current_level, 
+      current_week, 
+      current_audio 
+    } = data.data;
 
-    return { success: true, data: data.data };
+    // ✅ REPLACE entire progress (not merge)
+    const progressReplaced = await replaceAllProgress(progress);
+    
+    // ✅ REPLACE current position
+    const positionReplaced = await replaceCurrentPosition(
+      current_level,
+      current_week,
+      current_audio
+    );
+
+    return { 
+      success: true, 
+      message: 'Progress and position replaced successfully' 
+    };
   } catch (error) {
     console.error('Download progress error:', error);
     return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Replace all notes data (used when downloading from cloud)
+ * This completely overwrites local notes instead of merging
+ */
+export const replaceAllNotes = async (notesData) => {
+  try {
+    // Directly replace the entire notes object
+    await AsyncStorage.setItem(KEYS.NOTES, JSON.stringify(notesData));
+    console.log('✅ All notes replaced with cloud data');
+    return true;
+  } catch (error) {
+    console.error('Error replacing notes:', error);
+    return false;
   }
 };
 
@@ -241,16 +316,19 @@ export const retrieveNotes = async () => {
         'Content-Type': 'application/json',
       },
     });
-
-    const data = await response.json();
-
     if (!response.ok) {
       throw new Error(data.detail || 'Failed to retrieve notes');
     }
+    const data = await response.json();
+    const cloudNotes = data.data.notes;
 
-    return { success: true, data: data.data };
+    // ✅ REPLACE entire notes object (not merge)
+    const notesReplaced = await replaceAllNotes(cloudNotes);
+    return { success: true, message: 'Notes replaced successfully' };
+    
   } catch (error) {
     console.error('Retrieve notes error:', error);
     return { success: false, error: error.message };
   }
 };
+

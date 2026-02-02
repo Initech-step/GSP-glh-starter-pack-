@@ -174,22 +174,7 @@ export default function SettingsScreen({ navigation }) {
             onPress: async () => {
               try {
                 const result = await downloadProgress();
-
                 if (result.success) {
-                  const { progress, current_level, current_week, current_audio } = result.data;
-
-                  // Save to local storage
-                  for (const [audioId, audioProgress] of Object.entries(progress)) {
-                    await saveProgress(
-                      audioId,
-                      audioProgress.completed,
-                      audioProgress.position
-                    );
-                  }
-
-                  // Refresh the app
-                  await refreshProgress();
-
                   Alert.alert('Success', 'Progress downloaded and synced!');
                 } else {
                   Alert.alert('Error', result.error);
@@ -241,14 +226,7 @@ export default function SettingsScreen({ navigation }) {
               try {
                 const result = await retrieveNotes();
 
-                if (result.success && result.data.notes) {
-                  const notes = result.data.notes;
-
-                  // Save each note locally
-                  for (const [audioId, noteData] of Object.entries(notes)) {
-                    await saveNote(audioId, noteData.text);
-                  }
-
+                if (result.success) {
                   Alert.alert('Success', 'Notes restored successfully!');
                 } else {
                   Alert.alert('Info', 'No notes found in cloud');
