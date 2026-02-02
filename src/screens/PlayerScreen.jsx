@@ -135,28 +135,28 @@ export default function PlayerScreen({ route, navigation }) {
           releaseAudio();
 
           // ✅ Get next audio
-          const nextAudio = getNextAudio();
+          // const nextAudio = getNextAudio();
           
-          if (nextAudio != null) {
-            // ✅ Destructure the returned object correctly
-            navigation.replace('Player', {
-              level: nextAudio.level,           // Not audio.level
-              weekNumber: nextAudio.week,       // Not audio.week, it's 'week'
-              audio: nextAudio.audio,           // This is the actual audio object
-            });
-          } else {
-            // No more audios - go back or show completion message
-            Alert.alert(
-              '🎉 Congratulations!',
-              'You have completed all available content!',
-              [
-                {
-                  text: 'OK',
-                  onPress: () => navigation.navigate('Home')
-                }
-              ]
-            );
-          }
+          // if (nextAudio != null) {
+          //   // ✅ Destructure the returned object correctly
+          //   navigation.replace('Player', {
+          //     level: nextAudio.level,           // Not audio.level
+          //     weekNumber: nextAudio.week,       // Not audio.week, it's 'week'
+          //     audio: nextAudio.audio,           // This is the actual audio object
+          //   });
+          // } else {
+          //   // No more audios - go back or show completion message
+          //   Alert.alert(
+          //     '🎉 Congratulations!',
+          //     'You have completed all available content!',
+          //     [
+          //       {
+          //         text: 'OK',
+          //         onPress: () => navigation.navigate('Home')
+          //       }
+          //     ]
+          //   );
+          // }
           
         } catch (error) {
           console.error('❌ Error marking audio as completed:', error);
