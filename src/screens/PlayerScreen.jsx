@@ -10,6 +10,7 @@ import {
   Dimensions,
   PanResponder,
   Animated,
+  Modal,
 } from 'react-native';
 import { useAudio } from '../contexts/AudioContext';
 import { useApp } from '../contexts/AppContext';
@@ -42,7 +43,8 @@ export default function PlayerScreen({ route, navigation }) {
     seekForward,
     seekBackward,
     isAudioLoaded,
-    releaseAudio
+    releaseAudio,
+    setPlaybackRate
   } = useAudio();
 
   const { 
@@ -55,6 +57,10 @@ export default function PlayerScreen({ route, navigation }) {
   // ============================================
   const [audioPath, setAudioPath] = useState(null);
   
+  // PLAYBACK STATE
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+
   // Dragging state for progress bar
   const [isDragging, setIsDragging] = useState(false);
   const [dragPosition, setDragPosition] = useState(0);
@@ -87,6 +93,9 @@ export default function PlayerScreen({ route, navigation }) {
     };
 
     loadPath();
+    setPlaybackSpeed(1.0);
+    setPlaybackRate(1.0);
+
     return () => {
       mounted = false;
     };
@@ -194,6 +203,24 @@ export default function PlayerScreen({ route, navigation }) {
     if (!isAudioLoaded(audio.id)) return;
     seekBackward(30); // 30 seconds backward
   };
+
+  const handleSpeedChange = (speed) => {
+    setPlaybackSpeed(speed);
+    setPlaybackRate(speed);
+    setShowSpeedMenu(false);
+    console.log(`⚡ Playback speed changed to: ${speed}x`);
+  };
+
+  // Predefined speed options
+  const speedOptions = [
+    { label: '0.5x', value: 0.5 },
+    { label: '0.75x', value: 0.75 },
+    { label: 'Normal', value: 1.0 },
+    { label: '1.25x', value: 1.25 },
+    { label: '1.5x', value: 1.5 },
+    { label: '1.75x', value: 1.75 },
+    { label: '2x', value: 2.0 },
+  ];
 
   // Use the new seekForward method from AudioContext
   const handleForward = () => {
@@ -330,8 +357,27 @@ export default function PlayerScreen({ route, navigation }) {
         </View>
 
         {/* ============================================
+            PLAYBACK SPEED CONTROL
+        ============================================ */}
+        <View style={styles.speedControlSection}>
+          <TouchableOpacity
+            style={styles.speedButton}
+            onPress={() => setShowSpeedMenu(true)}
+            disabled={controlsDisabled}
+          >
+            <MaterialIcons name="speed" size={24} color={controlsDisabled ? '#CBD5E1' : '#360f5a'} />
+            <Text style={[
+              styles.speedButtonText,
+              controlsDisabled && styles.speedButtonTextDisabled
+            ]}>
+              {playbackSpeed}x Speed
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* ============================================
             INFO BOX
-            ============================================ */}
+        ============================================ */}
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.notesButton}
@@ -342,6 +388,61 @@ export default function PlayerScreen({ route, navigation }) {
             <Text style={styles.notesButtonText}>Take Notes</Text>
           </TouchableOpacity>
         </View>
+
+        {/* ============================================
+          SPEED SELECTION MODAL
+        ============================================ */}
+      <Modal
+        visible={showSpeedMenu}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowSpeedMenu(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowSpeedMenu(false)}
+        >
+          <View style={styles.speedModalContent}>
+            <View style={styles.speedModalHeader}>
+              <Text style={styles.speedModalTitle}>Playback Speed</Text>
+              <TouchableOpacity
+                onPress={() => setShowSpeedMenu(false)}
+                style={styles.modalCloseButton}
+              >
+                <MaterialIcons name="close" size={24} color="#64748B" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.speedOptionsContainer}>
+              {speedOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.speedOption,
+                    playbackSpeed === option.value && styles.speedOptionActive
+                  ]}
+                  onPress={() => handleSpeedChange(option.value)}
+                >
+                  <Text style={[
+                    styles.speedOptionText,
+                    playbackSpeed === option.value && styles.speedOptionTextActive
+                  ]}>
+                    {option.label}
+                  </Text>
+                  {playbackSpeed === option.value && (
+                    <MaterialIcons name="check" size={20} color="#360f5a" />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <Text style={styles.speedHint}>
+              💡 Tip: Increase speed to listen faster, or decrease for better comprehension
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </Modal>
        
       </ScrollView>
     </View>
@@ -609,6 +710,97 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#1E293B',
     fontFamily: 'monospace',
+  },
+  // Speed Control Styles
+  speedControlSection: {
+    marginBottom: 24,
+  },
+  speedButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    gap: 8,
+  },
+  speedButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#360f5a',
+  },
+  speedButtonTextDisabled: {
+    color: '#CBD5E1',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  speedModalContent: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingTop: 20,
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+    maxHeight: '70%',
+  },
+  speedModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  speedModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1E293B',
+  },
+  modalCloseButton: {
+    padding: 4,
+  },
+  speedOptionsContainer: {
+    gap: 8,
+  },
+  speedOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  speedOptionActive: {
+    backgroundColor: '#EEF2FF',
+    borderColor: '#360f5a',
+  },
+  speedOptionText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+  speedOptionTextActive: {
+    color: '#360f5a',
+  },
+  speedHint: {
+    fontSize: 13,
+    color: '#64748B',
+    textAlign: 'center',
+    marginTop: 20,
+    lineHeight: 18,
   },
 });
 

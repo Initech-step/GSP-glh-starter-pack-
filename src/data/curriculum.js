@@ -2684,458 +2684,468 @@ export const book_curriculum = {
 
 
 export const bible_curriculum = {
-  old_testament: [
-    
-    {
-      id: 'adv_w261_ac584',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___01_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___01_Genesis_____ENGESVO2DA.mp3',
-      duration: 342.41,
-      size: '2.64 MB',
-      date: null
-    },
-    {
-      id: 'adv_w262_a190b',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___02_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___02_Genesis_____ENGESVO2DA.mp3',
-      duration: 255.61,
-      size: '1.98 MB',
-      date: null
-    },
-    {
-      id: 'adv_w263_a04b9',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___03_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___03_Genesis_____ENGESVO2DA.mp3',
-      duration: 294.58,
-      size: '2.27 MB',
-      date: null
-    },
-    {
-      id: 'adv_w264_ac578',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___04_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___04_Genesis_____ENGESVO2DA.mp3',
-      duration: 268.62,
-      size: '2.07 MB',
-      date: null
-    },
-    {
-      id: 'adv_w265_ab6fe',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___05_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___05_Genesis_____ENGESVO2DA.mp3',
-      duration: 208.65,
-      size: '1.62 MB',
-      date: null
-    },
-    {
-      id: 'adv_w266_a9b83',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___06_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___06_Genesis_____ENGESVO2DA.mp3',
-      duration: 222.59,
-      size: '1.72 MB',
-      date: null
-    },
-    {
-      id: 'adv_w267_a6081',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___07_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___07_Genesis_____ENGESVO2DA.mp3',
-      duration: 236.91,
-      size: '1.83 MB',
-      date: null
-    },
-    {
-      id: 'adv_w268_ac678',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___08_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___08_Genesis_____ENGESVO2DA.mp3',
-      duration: 225.6,
-      size: '1.75 MB',
-      date: null
-    },
-    {
-      id: 'adv_w269_a97c9',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___09_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___09_Genesis_____ENGESVO2DA.mp3',
-      duration: 251.25,
-      size: '1.94 MB',
-      date: null
-    },
-    {
-      id: 'adv_w270_aaee9',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___10_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___10_Genesis_____ENGESVO2DA.mp3',
-      duration: 226.02,
-      size: '1.75 MB',
-      date: null
-    },
-    {
-      id: 'adv_w271_aee4d',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___11_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___11_Genesis_____ENGESVO2DA.mp3',
-      duration: 250.12,
-      size: '1.93 MB',
-      date: null
-    },
-    {
-      id: 'adv_w272_a195d',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___12_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___12_Genesis_____ENGESVO2DA.mp3',
-      duration: 194.72,
-      size: '1.51 MB',
-      date: null
-    },
-    {
-      id: 'adv_w273_a7164',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___13_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___13_Genesis_____ENGESVO2DA.mp3',
-      duration: 166.57,
-      size: '1.3 MB',
-      date: null
-    },
-    {
-      id: 'adv_w274_a3776',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___14_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___14_Genesis_____ENGESVO2DA.mp3',
-      duration: 249.16,
-      size: '1.93 MB',
-      date: null
-    },
-    {
-      id: 'adv_w275_ac57d',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___15_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___15_Genesis_____ENGESVO2DA.mp3',
-      duration: 185.48,
-      size: '1.44 MB',
-      date: null
-    },
-    {
-      id: 'adv_w276_a55a4',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___16_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___16_Genesis_____ENGESVO2DA.mp3',
-      duration: 179.6,
-      size: '1.4 MB',
-      date: null
-    },
-    {
-      id: 'adv_w277_affcd',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___17_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___17_Genesis_____ENGESVO2DA.mp3',
-      duration: 274.57,
-      size: '2.12 MB',
-      date: null
-    },
-    {
-      id: 'adv_w278_aca21',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___18_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___18_Genesis_____ENGESVO2DA.mp3',
-      duration: 344.13,
-      size: '2.65 MB',
-      date: null
-    },
-    {
-      id: 'adv_w279_ae142',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___19_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___19_Genesis_____ENGESVO2DA.mp3',
-      duration: 387.28,
-      size: '2.98 MB',
-      date: null
-    },
-    {
-      id: 'adv_w280_a393a',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___20_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___20_Genesis_____ENGESVO2DA.mp3',
-      duration: 198.38,
-      size: '1.54 MB',
-      date: null
-    },
-    {
-      id: 'adv_w281_a6cd0',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___21_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___21_Genesis_____ENGESVO2DA.mp3',
-      duration: 295.68,
-      size: '2.28 MB',
-      date: null
-    },
-    {
-      id: 'adv_w282_aaba9',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___22_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___22_Genesis_____ENGESVO2DA.mp3',
-      duration: 249.71,
-      size: '1.93 MB',
-      date: null
-    },
-    {
-      id: 'adv_w283_a2f50',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___23_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___23_Genesis_____ENGESVO2DA.mp3',
-      duration: 195.04,
-      size: '1.51 MB',
-      date: null
-    },
-    {
-      id: 'adv_w284_ae957',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___24_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___24_Genesis_____ENGESVO2DA.mp3',
-      duration: 691.6,
-      size: '5.3 MB',
-      date: null
-    },
-    {
-      id: 'adv_w285_a6f3b',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___25_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___25_Genesis_____ENGESVO2DA.mp3',
-      duration: 300.98,
-      size: '2.32 MB',
-      date: null
-    },
-    {
-      id: 'adv_w286_ac33d',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___26_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___26_Genesis_____ENGESVO2DA.mp3',
-      duration: 326.63,
-      size: '2.52 MB',
-      date: null
-    },
-    {
-      id: 'adv_w287_a0e38',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___27_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___27_Genesis_____ENGESVO2DA.mp3',
-      duration: 515.21,
-      size: '3.96 MB',
-      date: null
-    },
-    {
-      id: 'adv_w288_ae6d8',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___28_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___28_Genesis_____ENGESVO2DA.mp3',
-      duration: 230.06,
-      size: '1.78 MB',
-      date: null
-    },
-    {
-      id: 'adv_w289_a1998',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___29_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___29_Genesis_____ENGESVO2DA.mp3',
-      duration: 323.78,
-      size: '2.5 MB',
-      date: null
-    },
-    {
-      id: 'adv_w290_ab907',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___30_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___30_Genesis_____ENGESVO2DA.mp3',
-      duration: 396.26,
-      size: '3.05 MB',
-      date: null
-    },
-    {
-      id: 'adv_w291_ada62',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___31_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___31_Genesis_____ENGESVO2DA.mp3',
-      duration: 543.97,
-      size: '4.18 MB',
-      date: null
-    },
-    {
-      id: 'adv_w292_a3e56',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___32_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___32_Genesis_____ENGESVO2DA.mp3',
-      duration: 304.48,
-      size: '2.35 MB',
-      date: null
-    },
-    {
-      id: 'adv_w293_a4c13',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___33_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___33_Genesis_____ENGESVO2DA.mp3',
-      duration: 200.84,
-      size: '1.56 MB',
-      date: null
-    },
-    {
-      id: 'adv_w294_ab270',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___34_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___34_Genesis_____ENGESVO2DA.mp3',
-      duration: 281.42,
-      size: '2.17 MB',
-      date: null
-    },
-    {
-      id: 'adv_w295_a1b63',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___35_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___35_Genesis_____ENGESVO2DA.mp3',
-      duration: 265.77,
-      size: '2.05 MB',
-      date: null
-    },
-    {
-      id: 'adv_w296_a6d89',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___36_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___36_Genesis_____ENGESVO2DA.mp3',
-      duration: 362.96,
-      size: '2.79 MB',
-      date: null
-    },
-    {
-      id: 'adv_w297_a9ba4',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___37_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___37_Genesis_____ENGESVO2DA.mp3',
-      duration: 349.77,
-      size: '2.69 MB',
-      date: null
-    },
-    {
-      id: 'adv_w298_a2e12',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___38_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___38_Genesis_____ENGESVO2DA.mp3',
-      duration: 307.98,
-      size: '2.38 MB',
-      date: null
-    },
-    {
-      id: 'adv_w299_a3d34',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___39_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___39_Genesis_____ENGESVO2DA.mp3',
-      duration: 233.93,
-      size: '1.81 MB',
-      date: null
-    },
-    {
-      id: 'adv_w300_acdd2',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___40_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___40_Genesis_____ENGESVO2DA.mp3',
-      duration: 204.28,
-      size: '1.58 MB',
-      date: null
-    },
-    {
-      id: 'adv_w301_aaa4c',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___41_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___41_Genesis_____ENGESVO2DA.mp3',
-      duration: 522.66,
-      size: '4.01 MB',
-      date: null
-    },
-    {
-      id: 'adv_w302_a0c43',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___42_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___42_Genesis_____ENGESVO2DA.mp3',
-      duration: 377.25,
-      size: '2.9 MB',
-      date: null
-    },
-    {
-      id: 'adv_w303_a0dec',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___43_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___43_Genesis_____ENGESVO2DA.mp3',
-      duration: 351.97,
-      size: '2.71 MB',
-      date: null
-    },
-    {
-      id: 'adv_w304_a4623',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___44_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___44_Genesis_____ENGESVO2DA.mp3',
-      duration: 309.23,
-      size: '2.38 MB',
-      date: null
-    },
-    {
-      id: 'adv_w305_ae342',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___45_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___45_Genesis_____ENGESVO2DA.mp3',
-      duration: 284.13,
-      size: '2.19 MB',
-      date: null
-    },
-    {
-      id: 'adv_w306_ad5c5',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___46_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___46_Genesis_____ENGESVO2DA.mp3',
-      duration: 324.33,
-      size: '2.5 MB',
-      date: null
-    },
-    {
-      id: 'adv_w307_aa281',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___47_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___47_Genesis_____ENGESVO2DA.mp3',
-      duration: 385.37,
-      size: '2.97 MB',
-      date: null
-    },
-    {
-      id: 'adv_w308_af8a3',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___48_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___48_Genesis_____ENGESVO2DA.mp3',
-      duration: 372.65,
-      size: '2.87 MB',
-      date: null
-    },
-    {
-      id: 'adv_w309_a571f',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___49_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___49_Genesis_____ENGESVO2DA.mp3',
-      duration: 540.11,
-      size: '4.15 MB',
-      date: null
-    },
-    {
-      id: 'adv_w310_aa9f4',
-      subfolder: 'English_eng_ESV_OT_Drama',
-      title: 'A01___50_Genesis_____ENGESVO2DA',
-      filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___50_Genesis_____ENGESVO2DA.mp3',
-      duration: 286.69,
-      size: '2.21 MB',
-      date: null
-    },
+  old_testament: {
+    books: [
+      {
+        id: 'GEN',
+        name: 'Genesis',
+        audios: [
+          {
+            id: 'adv_w261_ac584',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___01_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___01_Genesis_____ENGESVO2DA.mp3',
+            duration: 342.41,
+            size: '2.64 MB',
+            date: null
+          },
+          {
+            id: 'adv_w262_a190b',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___02_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___02_Genesis_____ENGESVO2DA.mp3',
+            duration: 255.61,
+            size: '1.98 MB',
+            date: null
+          },
+          {
+            id: 'adv_w263_a04b9',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___03_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___03_Genesis_____ENGESVO2DA.mp3',
+            duration: 294.58,
+            size: '2.27 MB',
+            date: null
+          },
+          {
+            id: 'adv_w264_ac578',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___04_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___04_Genesis_____ENGESVO2DA.mp3',
+            duration: 268.62,
+            size: '2.07 MB',
+            date: null
+          },
+          {
+            id: 'adv_w265_ab6fe',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___05_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___05_Genesis_____ENGESVO2DA.mp3',
+            duration: 208.65,
+            size: '1.62 MB',
+            date: null
+          },
+          {
+            id: 'adv_w266_a9b83',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___06_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___06_Genesis_____ENGESVO2DA.mp3',
+            duration: 222.59,
+            size: '1.72 MB',
+            date: null
+          },
+          {
+            id: 'adv_w267_a6081',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___07_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___07_Genesis_____ENGESVO2DA.mp3',
+            duration: 236.91,
+            size: '1.83 MB',
+            date: null
+          },
+          {
+            id: 'adv_w268_ac678',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___08_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___08_Genesis_____ENGESVO2DA.mp3',
+            duration: 225.6,
+            size: '1.75 MB',
+            date: null
+          },
+          {
+            id: 'adv_w269_a97c9',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___09_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___09_Genesis_____ENGESVO2DA.mp3',
+            duration: 251.25,
+            size: '1.94 MB',
+            date: null
+          },
+          {
+            id: 'adv_w270_aaee9',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___10_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___10_Genesis_____ENGESVO2DA.mp3',
+            duration: 226.02,
+            size: '1.75 MB',
+            date: null
+          },
+          {
+            id: 'adv_w271_aee4d',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___11_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___11_Genesis_____ENGESVO2DA.mp3',
+            duration: 250.12,
+            size: '1.93 MB',
+            date: null
+          },
+          {
+            id: 'adv_w272_a195d',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___12_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___12_Genesis_____ENGESVO2DA.mp3',
+            duration: 194.72,
+            size: '1.51 MB',
+            date: null
+          },
+          {
+            id: 'adv_w273_a7164',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___13_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___13_Genesis_____ENGESVO2DA.mp3',
+            duration: 166.57,
+            size: '1.3 MB',
+            date: null
+          },
+          {
+            id: 'adv_w274_a3776',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___14_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___14_Genesis_____ENGESVO2DA.mp3',
+            duration: 249.16,
+            size: '1.93 MB',
+            date: null
+          },
+          {
+            id: 'adv_w275_ac57d',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___15_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___15_Genesis_____ENGESVO2DA.mp3',
+            duration: 185.48,
+            size: '1.44 MB',
+            date: null
+          },
+          {
+            id: 'adv_w276_a55a4',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___16_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___16_Genesis_____ENGESVO2DA.mp3',
+            duration: 179.6,
+            size: '1.4 MB',
+            date: null
+          },
+          {
+            id: 'adv_w277_affcd',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___17_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___17_Genesis_____ENGESVO2DA.mp3',
+            duration: 274.57,
+            size: '2.12 MB',
+            date: null
+          },
+          {
+            id: 'adv_w278_aca21',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___18_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___18_Genesis_____ENGESVO2DA.mp3',
+            duration: 344.13,
+            size: '2.65 MB',
+            date: null
+          },
+          {
+            id: 'adv_w279_ae142',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___19_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___19_Genesis_____ENGESVO2DA.mp3',
+            duration: 387.28,
+            size: '2.98 MB',
+            date: null
+          },
+          {
+            id: 'adv_w280_a393a',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___20_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___20_Genesis_____ENGESVO2DA.mp3',
+            duration: 198.38,
+            size: '1.54 MB',
+            date: null
+          },
+          {
+            id: 'adv_w281_a6cd0',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___21_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___21_Genesis_____ENGESVO2DA.mp3',
+            duration: 295.68,
+            size: '2.28 MB',
+            date: null
+          },
+          {
+            id: 'adv_w282_aaba9',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___22_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___22_Genesis_____ENGESVO2DA.mp3',
+            duration: 249.71,
+            size: '1.93 MB',
+            date: null
+          },
+          {
+            id: 'adv_w283_a2f50',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___23_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___23_Genesis_____ENGESVO2DA.mp3',
+            duration: 195.04,
+            size: '1.51 MB',
+            date: null
+          },
+          {
+            id: 'adv_w284_ae957',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___24_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___24_Genesis_____ENGESVO2DA.mp3',
+            duration: 691.6,
+            size: '5.3 MB',
+            date: null
+          },
+          {
+            id: 'adv_w285_a6f3b',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___25_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___25_Genesis_____ENGESVO2DA.mp3',
+            duration: 300.98,
+            size: '2.32 MB',
+            date: null
+          },
+          {
+            id: 'adv_w286_ac33d',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___26_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___26_Genesis_____ENGESVO2DA.mp3',
+            duration: 326.63,
+            size: '2.52 MB',
+            date: null
+          },
+          {
+            id: 'adv_w287_a0e38',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___27_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___27_Genesis_____ENGESVO2DA.mp3',
+            duration: 515.21,
+            size: '3.96 MB',
+            date: null
+          },
+          {
+            id: 'adv_w288_ae6d8',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___28_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___28_Genesis_____ENGESVO2DA.mp3',
+            duration: 230.06,
+            size: '1.78 MB',
+            date: null
+          },
+          {
+            id: 'adv_w289_a1998',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___29_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___29_Genesis_____ENGESVO2DA.mp3',
+            duration: 323.78,
+            size: '2.5 MB',
+            date: null
+          },
+          {
+            id: 'adv_w290_ab907',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___30_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___30_Genesis_____ENGESVO2DA.mp3',
+            duration: 396.26,
+            size: '3.05 MB',
+            date: null
+          },
+          {
+            id: 'adv_w291_ada62',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___31_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___31_Genesis_____ENGESVO2DA.mp3',
+            duration: 543.97,
+            size: '4.18 MB',
+            date: null
+          },
+          {
+            id: 'adv_w292_a3e56',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___32_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___32_Genesis_____ENGESVO2DA.mp3',
+            duration: 304.48,
+            size: '2.35 MB',
+            date: null
+          },
+          {
+            id: 'adv_w293_a4c13',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___33_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___33_Genesis_____ENGESVO2DA.mp3',
+            duration: 200.84,
+            size: '1.56 MB',
+            date: null
+          },
+          {
+            id: 'adv_w294_ab270',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___34_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___34_Genesis_____ENGESVO2DA.mp3',
+            duration: 281.42,
+            size: '2.17 MB',
+            date: null
+          },
+          {
+            id: 'adv_w295_a1b63',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___35_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___35_Genesis_____ENGESVO2DA.mp3',
+            duration: 265.77,
+            size: '2.05 MB',
+            date: null
+          },
+          {
+            id: 'adv_w296_a6d89',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___36_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___36_Genesis_____ENGESVO2DA.mp3',
+            duration: 362.96,
+            size: '2.79 MB',
+            date: null
+          },
+          {
+            id: 'adv_w297_a9ba4',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___37_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___37_Genesis_____ENGESVO2DA.mp3',
+            duration: 349.77,
+            size: '2.69 MB',
+            date: null
+          },
+          {
+            id: 'adv_w298_a2e12',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___38_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___38_Genesis_____ENGESVO2DA.mp3',
+            duration: 307.98,
+            size: '2.38 MB',
+            date: null
+          },
+          {
+            id: 'adv_w299_a3d34',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___39_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___39_Genesis_____ENGESVO2DA.mp3',
+            duration: 233.93,
+            size: '1.81 MB',
+            date: null
+          },
+          {
+            id: 'adv_w300_acdd2',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___40_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___40_Genesis_____ENGESVO2DA.mp3',
+            duration: 204.28,
+            size: '1.58 MB',
+            date: null
+          },
+          {
+            id: 'adv_w301_aaa4c',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___41_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___41_Genesis_____ENGESVO2DA.mp3',
+            duration: 522.66,
+            size: '4.01 MB',
+            date: null
+          },
+          {
+            id: 'adv_w302_a0c43',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___42_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___42_Genesis_____ENGESVO2DA.mp3',
+            duration: 377.25,
+            size: '2.9 MB',
+            date: null
+          },
+          {
+            id: 'adv_w303_a0dec',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___43_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___43_Genesis_____ENGESVO2DA.mp3',
+            duration: 351.97,
+            size: '2.71 MB',
+            date: null
+          },
+          {
+            id: 'adv_w304_a4623',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___44_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___44_Genesis_____ENGESVO2DA.mp3',
+            duration: 309.23,
+            size: '2.38 MB',
+            date: null
+          },
+          {
+            id: 'adv_w305_ae342',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___45_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___45_Genesis_____ENGESVO2DA.mp3',
+            duration: 284.13,
+            size: '2.19 MB',
+            date: null
+          },
+          {
+            id: 'adv_w306_ad5c5',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___46_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___46_Genesis_____ENGESVO2DA.mp3',
+            duration: 324.33,
+            size: '2.5 MB',
+            date: null
+          },
+          {
+            id: 'adv_w307_aa281',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___47_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___47_Genesis_____ENGESVO2DA.mp3',
+            duration: 385.37,
+            size: '2.97 MB',
+            date: null
+          },
+          {
+            id: 'adv_w308_af8a3',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___48_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___48_Genesis_____ENGESVO2DA.mp3',
+            duration: 372.65,
+            size: '2.87 MB',
+            date: null
+          },
+          {
+            id: 'adv_w309_a571f',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___49_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___49_Genesis_____ENGESVO2DA.mp3',
+            duration: 540.11,
+            size: '4.15 MB',
+            date: null
+          },
+          {
+            id: 'adv_w310_aa9f4',
+            subfolder: 'English_eng_ESV_OT_Drama',
+            title: 'A01___50_Genesis_____ENGESVO2DA',
+            filePath: 'full_bible/ENGESVO2DA/English_eng_ESV_OT_Drama/A01___50_Genesis_____ENGESVO2DA.mp3',
+            duration: 286.69,
+            size: '2.21 MB',
+            date: null
+          }
+        ]
+      },
+      {
+        id: 'EXD',
+        name: 'Exodus',
+        audios: [
     {
       id: 'adv_w311_a96c5',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -3495,7 +3505,13 @@ export const bible_curriculum = {
       duration: 292.44,
       size: '2.26 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: 'LEV',
+        name: 'Levitius',
+        audios: [
     {
       id: 'adv_w351_a3ed9',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -3981,7 +3997,13 @@ export const bible_curriculum = {
       duration: 319.79,
       size: '2.47 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w405_ae442',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -4306,6 +4328,13 @@ export const bible_curriculum = {
       size: '1.29 MB',
       date: null
     },
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w441_a9a60',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -4917,7 +4946,13 @@ export const bible_curriculum = {
       duration: 133.08,
       size: '1.04 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w509_ae119',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -5133,7 +5168,13 @@ export const bible_curriculum = {
       duration: 357.58,
       size: '2.75 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w533_ac17e',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -5322,7 +5363,13 @@ export const bible_curriculum = {
       duration: 248.01,
       size: '1.92 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w554_a82d2',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -5359,6 +5406,12 @@ export const bible_curriculum = {
       size: '1.81 MB',
       date: null
     },
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w558_a9163',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -5637,7 +5690,13 @@ export const bible_curriculum = {
       duration: 127.7,
       size: '1.0 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w589_a459d',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -5854,6 +5913,12 @@ export const bible_curriculum = {
       size: '2.2 MB',
       date: null
     },
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w613_a5d87',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -6051,8 +6116,14 @@ export const bible_curriculum = {
       duration: 546.61,
       size: '4.2 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w635_a6317',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A12___01_2Kings______ENGESVO2DA',
@@ -6276,7 +6347,13 @@ export const bible_curriculum = {
       duration: 310.54,
       size: '2.39 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w660_a4e96',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -6798,7 +6875,13 @@ export const bible_curriculum = {
       duration: 398.15,
       size: '3.06 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w718_a71b9',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -7446,7 +7529,13 @@ export const bible_curriculum = {
       duration: 240.28,
       size: '1.86 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w790_ac979',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -7536,7 +7625,13 @@ export const bible_curriculum = {
       duration: 401.18,
       size: '3.09 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w800_a6227',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -7770,7 +7865,14 @@ export const bible_curriculum = {
       duration: 384.3,
       size: '2.96 MB',
       date: null
-    },
+    }
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w826_a1279',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -7860,7 +7962,13 @@ export const bible_curriculum = {
       duration: 40.93,
       size: '0.34 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w836_a21b9',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -8238,7 +8346,13 @@ export const bible_curriculum = {
       duration: 176.39,
       size: '1.37 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w878_a1626',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -9588,7 +9702,13 @@ export const bible_curriculum = {
       duration: 58.33,
       size: '0.47 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1028_a87fc',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -10147,7 +10267,14 @@ export const bible_curriculum = {
       size: '1.77 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1090_ad24f',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A21___01_EcclesiastesENGESVO2DA',
@@ -10362,7 +10489,13 @@ export const bible_curriculum = {
       duration: 141.65,
       size: '1.11 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1114_aa077',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -10506,8 +10639,14 @@ export const bible_curriculum = {
       duration: 140.73,
       size: '1.1 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1130_a28ac',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A23___01_Isaiah______ENGESVO2DA',
@@ -11101,7 +11240,14 @@ export const bible_curriculum = {
       size: '2.44 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1196_a4f9b',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A24___01_Jeremiah____ENGESVO2DA',
@@ -12037,7 +12183,14 @@ export const bible_curriculum = {
       size: '2.85 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1300_a9eb4',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A25___01_LamentationsENGESVO2DA',
@@ -12127,6 +12280,12 @@ export const bible_curriculum = {
       size: '1.0 MB',
       date: null
     },
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1310_a0b69',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -12558,8 +12717,14 @@ export const bible_curriculum = {
       duration: 396.84,
       size: '3.05 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1358_afad2',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A27___01_Daniel______ENGESVO2DA',
@@ -12666,8 +12831,14 @@ export const bible_curriculum = {
       duration: 181.43,
       size: '1.41 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1370_adc7b',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A28___01_Hosea_______ENGESVO2DA',
@@ -12792,8 +12963,14 @@ export const bible_curriculum = {
       duration: 100.77,
       size: '0.79 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1384_adb05',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A29___01_Joel________ENGESVO2DA',
@@ -12819,7 +12996,13 @@ export const bible_curriculum = {
       duration: 202.46,
       size: '1.57 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1387_a3154',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -12900,7 +13083,13 @@ export const bible_curriculum = {
       duration: 193.57,
       size: '1.5 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1396_aba23',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -12910,6 +13099,13 @@ export const bible_curriculum = {
       size: '2.11 MB',
       date: null
     },
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1397_a7b6e',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -12945,8 +13141,14 @@ export const bible_curriculum = {
       duration: 119.97,
       size: '0.94 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1401_a945c',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A33___01_Micah_______ENGESVO2DA',
@@ -13009,7 +13211,14 @@ export const bible_curriculum = {
       size: '1.68 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1408_aeb0b',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A34___01_Nahum_______ENGESVO2DA',
@@ -13036,7 +13245,13 @@ export const bible_curriculum = {
       size: '1.75 MB',
       date: null
     },
-    {
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1411_a8237',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A35___01_Habakkuk____ENGESVO2DA',
@@ -13089,8 +13304,14 @@ export const bible_curriculum = {
       duration: 188.95,
       size: '1.47 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1417_aeb3b',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A36___01_Zephaniah___ENGESVO2DA',
@@ -13143,7 +13364,13 @@ export const bible_curriculum = {
       duration: 216.72,
       size: '1.68 MB',
       date: null
-    },
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
     {
       id: 'adv_w1423_a705b',
       subfolder: 'English_eng_ESV_OT_Drama',
@@ -13162,7 +13389,14 @@ export const bible_curriculum = {
       size: '1.82 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1425_a631b',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A38___01_Zechariah___ENGESVO2DA',
@@ -13413,8 +13647,14 @@ export const bible_curriculum = {
       duration: 275.59,
       size: '2.13 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1453_a90be',
       subfolder: 'English_eng_ESV_OT_Drama',
       title: 'A39___01_Malachi_____ENGESVO2DA',
@@ -13450,9 +13690,18 @@ export const bible_curriculum = {
       size: '0.54 MB',
       date: null
     }
-  ],
-  new_testament: [
-    {
+
+        ]
+      }
+    ]
+  },
+  new_testament: {
+    books: [
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w1_a26f2',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B01___01_Matthew_____ENGESVN2DA',
@@ -13703,8 +13952,14 @@ export const bible_curriculum = {
       duration: 165.14,
       size: '1.27 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w29_aeb25',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B02___01_Mark________ENGESVN2DA',
@@ -13847,8 +14102,14 @@ export const bible_curriculum = {
       duration: 161.64,
       size: '1.24 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w45_ae203',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B03___01_Luke________ENGESVN2DA',
@@ -14063,8 +14324,14 @@ export const bible_curriculum = {
       duration: 353.71,
       size: '2.71 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w69_aa61e',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B04___01_John________ENGESVN2DA',
@@ -14252,8 +14519,15 @@ export const bible_curriculum = {
       duration: 276.38,
       size: '2.12 MB',
       date: null
-    },
-    {
+    }
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w90_a6031',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B05___01_Acts________ENGESVN2DA',
@@ -14504,8 +14778,14 @@ export const bible_curriculum = {
       duration: 278.93,
       size: '2.14 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w118_a2e46',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B06___01_Romans______ENGESVN2DA',
@@ -14648,8 +14928,14 @@ export const bible_curriculum = {
       duration: 208.85,
       size: '1.6 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w134_a3f8f',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B07___01_1CorinthiansENGESVN2DA',
@@ -14793,7 +15079,14 @@ export const bible_curriculum = {
       size: '1.24 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w150_aa783',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B08___01_2CorinthiansENGESVN2DA',
@@ -14910,7 +15203,14 @@ export const bible_curriculum = {
       size: '1.0 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w163_af9a7',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B09___01_Galatians___ENGESVN2DA',
@@ -14964,7 +15264,14 @@ export const bible_curriculum = {
       size: '1.25 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w169_a9eb1',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B10___01_Ephesians___ENGESVN2DA',
@@ -15018,7 +15325,14 @@ export const bible_curriculum = {
       size: '1.59 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w175_a7d83',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B11___01_Philippians_ENGESVN2DA',
@@ -15053,8 +15367,14 @@ export const bible_curriculum = {
       duration: 194.45,
       size: '1.49 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w179_a6b53',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B12___01_Colossians__ENGESVN2DA',
@@ -15089,8 +15409,14 @@ export const bible_curriculum = {
       duration: 151.39,
       size: '1.17 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w183_a306f',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B13___01_1Thess______ENGESVN2DA',
@@ -15134,8 +15460,14 @@ export const bible_curriculum = {
       duration: 170.38,
       size: '1.31 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w188_a4618',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B14___01_2Thess______ENGESVN2DA',
@@ -15162,7 +15494,14 @@ export const bible_curriculum = {
       size: '1.05 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w191_af248',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B15___01_1Timothy____ENGESVN2DA',
@@ -15215,8 +15554,14 @@ export const bible_curriculum = {
       duration: 224.59,
       size: '1.72 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w197_a940d',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B16___01_2Timothy____ENGESVN2DA',
@@ -15252,7 +15597,14 @@ export const bible_curriculum = {
       size: '1.4 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w201_a2d78',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B17___01_Titus_______ENGESVN2DA',
@@ -15279,7 +15631,14 @@ export const bible_curriculum = {
       size: '1.06 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w204_a8d51',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B18___01_Philemon____ENGESVN2DA',
@@ -15288,7 +15647,14 @@ export const bible_curriculum = {
       size: '1.44 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w205_a224c',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B19___01_Hebrews_____ENGESVN2DA',
@@ -15404,8 +15770,14 @@ export const bible_curriculum = {
       duration: 238.87,
       size: '1.83 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w218_aa033',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B20___01_James_______ENGESVN2DA',
@@ -15450,7 +15822,14 @@ export const bible_curriculum = {
       size: '1.53 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w223_a364b',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B21___01_1Peter______ENGESVN2DA',
@@ -15494,8 +15873,14 @@ export const bible_curriculum = {
       duration: 137.47,
       size: '1.06 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w228_a4f07',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B22___01_2Peter______ENGESVN2DA',
@@ -15521,8 +15906,14 @@ export const bible_curriculum = {
       duration: 191.42,
       size: '1.47 MB',
       date: null
-    },
-    {
+    }
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w231_a3450',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B23___01_1John_______ENGESVN2DA',
@@ -15567,7 +15958,13 @@ export const bible_curriculum = {
       size: '1.47 MB',
       date: null
     },
-    {
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+           {
       id: 'adv_w236_ae552',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B24___01_2John_______ENGESVN2DA',
@@ -15576,7 +15973,13 @@ export const bible_curriculum = {
       size: '0.85 MB',
       date: null
     },
-    {
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w237_a603a',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B25___01_3John_______ENGESVN2DA',
@@ -15585,7 +15988,14 @@ export const bible_curriculum = {
       size: '0.95 MB',
       date: null
     },
-    {
+    
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+           {
       id: 'adv_w238_a8357',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B26___01_Jude________ENGESVN2DA',
@@ -15594,7 +16004,13 @@ export const bible_curriculum = {
       size: '1.88 MB',
       date: null
     },
-    {
+        ]
+      },
+      {
+        id: '',
+        name: '',
+        audios: [
+          {
       id: 'adv_w239_a36e3',
       subfolder: 'English_eng_ESV_NT_Drama',
       title: 'B27___01_Revelation__ENGESVN2DA',
@@ -15792,8 +16208,10 @@ export const bible_curriculum = {
       size: '2.16 MB',
       date: null
     }
-  
-  ]
+        ]
+      }
+    ]
+  }
 }
 
 export const getLevelByKey = (key) => curriculum[key];

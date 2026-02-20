@@ -34,6 +34,11 @@ export default function HomeScreen({ navigation }) {
     { key: 'advanced', color: '#360f5a', emoji: '📙' },
   ];
 
+  const bible_levels = [
+    { key: 'old_testament', name: 'Old Testament', color: '#052e16', emoji: '📙' },
+    { key: 'new_testament', name: 'New Testament', color: '#07e015', emoji: '📘' },
+  ];
+
   const handleContinue = () => {
     if (currentAudioId) {
       const levelData = curriculum[currentLevel];
@@ -67,6 +72,12 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate('BooksByLevel', {
       level: levelData,
       title: levelData.title,});
+  };
+
+  const handleBibleTestamentPress = (testamentData) => {
+    navigation.navigate('BibleByTestament', {
+      testament: testamentData,
+      title: testamentData.title,});
   };
 
   if (loading) {
@@ -189,6 +200,38 @@ export default function HomeScreen({ navigation }) {
                       <Text style={styles.levelTitle}>{levelData.title}</Text>
                       <Text style={styles.levelDescription}>
                         {levelData.description}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* AUDIO BIBLE DRAMATISED */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Audio Bible Dramatised</Text>
+          
+          {bible_levels.map((item) => {
+
+            return (
+              <TouchableOpacity
+                key={item.key}
+                style={[
+                  styles.levelCard,
+                  { borderLeftColor: item.color },
+                ]}
+                onPress={() => handleBibleTestamentPress(item)}
+                activeOpacity={0.7}
+              >
+                <View style={styles.levelHeader}>
+                  <View style={styles.levelTitleRow}>
+                    <Text style={styles.levelEmoji}>{item.emoji}</Text>
+                    <View style={styles.levelInfo}>
+                      <Text style={styles.levelTitle}>{item.name}</Text>
+                      <Text style={styles.levelDescription}>
+                        {item.description}
                       </Text>
                     </View>
                   </View>
