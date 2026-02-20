@@ -963,15 +963,7 @@ export const curriculum = {
             filePath: "../../assets/audio/full_audio/beginners/Week30/Copy of GLH-FRI02102020mp3.mp3",
             duration: null, // Will be calculated
             date: "2020"
-          },
-          {
-            id: "bg_w29_a2",
-            subfolder: "False Accusations Against GLH",
-            title: "False Accusations Against GLH",
-            filePath: "../../assets/audio/full_audio/beginners/Week30/GLH-WED061217R.mp3",
-            duration: null, // Will be calculated
-            date: "2017"
-          },
+          }
         ]
       }
     ]

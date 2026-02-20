@@ -40,6 +40,7 @@ const audioMap = {
   'bg_w5_a3': '11a. Eternal Judgment II (HELL).mp3', // Elementary Principles Of Christ: Eternal Judgement
   'bg_w5_a4': '11b. Eternal Judgment II (HELL).mp3', // Elementary Principles Of Christ: Eternal Judgement
   'bg_w5_a5': 'GLH-WED011117R.mp3', // Natural vs Godly Wisdom
+
   // Week 6: Hearing God & Praying Against Principalities
   'bg_w6_a1': 'GLH-WED061217R.mp3', // Hearing God
   'bg_w6_a2': 'GLH-THU141119R.mp3', // Praying Against Principalities
@@ -160,7 +161,6 @@ const audioMap = {
 
   // Week 29: The 3 Harvests: Barley, Wheat, Grapes || False Accusations Against GLH
   'bg_w29_a1': 'Copy of GLH-FRI02102020mp3.mp3', // False Accusations Against GLH
-  'bg_w29_a2': 'GLH-WED061217R.mp3', // False Accusations Against GLH
 
   // ========== INTERMEDIARY ==========
   // Week 1: Suffering and the Christian || Martyrdom
