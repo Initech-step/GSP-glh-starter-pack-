@@ -18,6 +18,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadAudioById } from '../utils/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -133,7 +134,7 @@ export default function PlayerScreen({ route, navigation }) {
     const progressPercentage = (position / duration) * 100;
     console.log(progressPercentage);
     
-    if (progressPercentage >= 99.9) {
+    if (progressPercentage >= 99.999) {
       console.log("AUDIO COMPLETED!");
       
       // ✅ Create an async function inside useEffect
@@ -204,11 +205,12 @@ export default function PlayerScreen({ route, navigation }) {
     seekBackward(30); // 30 seconds backward
   };
 
-  const handleSpeedChange = (speed) => {
+  const handleSpeedChange = async (speed) => {
     setPlaybackSpeed(speed);
     setPlaybackRate(speed);
     setShowSpeedMenu(false);
     console.log(`⚡ Playback speed changed to: ${speed}x`);
+    await AsyncStorage.setItem('@preferred_speed', speed.toString());
   };
 
   // Predefined speed options
@@ -245,6 +247,18 @@ export default function PlayerScreen({ route, navigation }) {
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // use on mount to 
+  useEffect(() => {
+    const loadSpeedPreference = async () => {
+      const saved = await AsyncStorage.getItem('@preferred_speed');
+      if (saved) {
+        const speed = parseFloat(saved);
+        setPlaybackSpeed(speed);
+        setPlaybackRate(speed);
+      }
+    };
+    loadSpeedPreference();
+  }, []);
 
   // Determine if controls should be disabled
   const controlsDisabled = !isLoaded || isLoading;

@@ -17,7 +17,7 @@ import BookListScreen from './src/screens/BookListScreen';
 import ReadBook from './src/screens/ReadBook';
 import { AudioProvider } from './src/contexts/AudioContext';
 import LoginScreen from './src/screens/LoginScreen';
-
+import TestamentBooks from './src/screens/TestamentBooks';
 
 const Stack = createNativeStackNavigator();
 
@@ -105,6 +105,11 @@ export default function App() {
               name="LoginOut"
               component={LoginScreen}
               options={({ route }) => ({ title:'LoginOut' })}
+            />
+            <Stack.Screen
+              name="TestamentBooks"
+              component={TestamentBooks}
+              options={({ route }) => ({ title:'Books' })}
             />
           </Stack.Navigator>
         </NavigationContainer>

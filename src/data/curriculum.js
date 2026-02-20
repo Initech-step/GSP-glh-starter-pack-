@@ -4001,8 +4001,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'NUM',
+        name: 'Numbers',
         audios: [
     {
       id: 'adv_w405_ae442',
@@ -4332,8 +4332,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'DEUT',
+        name: 'Deuteronomy',
         audios: [
     {
       id: 'adv_w441_a9a60',
@@ -4950,8 +4950,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JOSH',
+        name: 'Joshua',
         audios: [
     {
       id: 'adv_w509_ae119',
@@ -5172,8 +5172,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JUDG',
+        name: 'Judges',
         audios: [
     {
       id: 'adv_w533_ac17e',
@@ -5367,8 +5367,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'RUT',
+        name: 'Ruth',
         audios: [
     {
       id: 'adv_w554_a82d2',
@@ -5409,8 +5409,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1SAM',
+        name: '1 Samuel',
         audios: [
     {
       id: 'adv_w558_a9163',
@@ -5694,8 +5694,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2SAM',
+        name: '2 Samuel',
         audios: [
     {
       id: 'adv_w589_a459d',
@@ -5916,8 +5916,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1KNG',
+        name: '1 Kings',
         audios: [
     {
       id: 'adv_w613_a5d87',
@@ -6120,8 +6120,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2KNG',
+        name: '2 Kings',
         audios: [
           {
       id: 'adv_w635_a6317',
@@ -6351,8 +6351,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1CHRON',
+        name: '1 Chronicles',
         audios: [
     {
       id: 'adv_w660_a4e96',
@@ -6879,8 +6879,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2CHRON',
+        name: '2 Chronicles',
         audios: [
     {
       id: 'adv_w718_a71b9',
@@ -7533,8 +7533,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'EZR',
+        name: 'Ezra',
         audios: [
     {
       id: 'adv_w790_ac979',
@@ -7629,8 +7629,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'NEH',
+        name: 'Nehemiah',
         audios: [
     {
       id: 'adv_w800_a6227',
@@ -7870,8 +7870,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'EST',
+        name: 'Esther',
         audios: [
     {
       id: 'adv_w826_a1279',
@@ -7966,8 +7966,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JOB',
+        name: 'Job',
         audios: [
     {
       id: 'adv_w836_a21b9',
@@ -8350,8 +8350,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'PSLM',
+        name: 'Psalms',
         audios: [
     {
       id: 'adv_w878_a1626',
@@ -9706,8 +9706,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'PROV',
+        name: 'Proverbs',
         audios: [
     {
       id: 'adv_w1028_a87fc',
@@ -10271,8 +10271,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ECCL',
+        name: 'Ecclesiastes',
         audios: [
           {
       id: 'adv_w1090_ad24f',
@@ -10493,8 +10493,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'SNGS',
+        name: 'Song of Songs',
         audios: [
     {
       id: 'adv_w1114_aa077',
@@ -10643,8 +10643,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ISH',
+        name: 'Isaiah',
         audios: [
           {
       id: 'adv_w1130_a28ac',
@@ -11244,8 +11244,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JER',
+        name: 'Jeremiah',
         audios: [
           {
       id: 'adv_w1196_a4f9b',
@@ -12187,8 +12187,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'LAM',
+        name: 'Lamentations',
         audios: [
           {
       id: 'adv_w1300_a9eb4',
@@ -12283,8 +12283,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'EZK',
+        name: 'Ezekiel',
         audios: [
     {
       id: 'adv_w1310_a0b69',
@@ -12721,8 +12721,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'DAN',
+        name: 'Daniel',
         audios: [
           {
       id: 'adv_w1358_afad2',
@@ -12835,8 +12835,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'HOS',
+        name: 'Hosea',
         audios: [
           {
       id: 'adv_w1370_adc7b',
@@ -12967,8 +12967,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JOEL',
+        name: 'Joel',
         audios: [
           {
       id: 'adv_w1384_adb05',
@@ -13000,8 +13000,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'AMOS',
+        name: 'Amos',
         audios: [
     {
       id: 'adv_w1387_a3154',
@@ -13087,8 +13087,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'OBA',
+        name: 'Obadiah',
         audios: [
     {
       id: 'adv_w1396_aba23',
@@ -13103,8 +13103,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JON',
+        name: 'Jonah',
         audios: [
     {
       id: 'adv_w1397_a7b6e',
@@ -13145,8 +13145,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'MIC',
+        name: 'Micah',
         audios: [
           {
       id: 'adv_w1401_a945c',
@@ -13215,8 +13215,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'NAH',
+        name: 'Nahum',
         audios: [
           {
       id: 'adv_w1408_aeb0b',
@@ -13248,8 +13248,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'HAB',
+        name: 'Habakkuk',
         audios: [
           {
       id: 'adv_w1411_a8237',
@@ -13308,8 +13308,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ZEPH',
+        name: 'Zephaniah',
         audios: [
           {
       id: 'adv_w1417_aeb3b',
@@ -13368,8 +13368,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'HAG',
+        name: 'Haggai',
         audios: [
     {
       id: 'adv_w1423_a705b',
@@ -13393,8 +13393,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ZECH',
+        name: 'Zechariah',
         audios: [
           {
       id: 'adv_w1425_a631b',
@@ -13651,8 +13651,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'MAL',
+        name: 'Malachi',
         audios: [
           {
       id: 'adv_w1453_a90be',
@@ -13698,8 +13698,8 @@ export const bible_curriculum = {
   new_testament: {
     books: [
       {
-        id: '',
-        name: '',
+        id: 'MAT',
+        name: 'Matthew',
         audios: [
           {
       id: 'adv_w1_a26f2',
@@ -13956,8 +13956,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'MRK',
+        name: 'Mark',
         audios: [
           {
       id: 'adv_w29_aeb25',
@@ -14106,8 +14106,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'LUK',
+        name: 'Luke',
         audios: [
           {
       id: 'adv_w45_ae203',
@@ -14328,8 +14328,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JHN',
+        name: 'John',
         audios: [
           {
       id: 'adv_w69_aa61e',
@@ -14524,8 +14524,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ACT',
+        name: 'Acts',
         audios: [
           {
       id: 'adv_w90_a6031',
@@ -14782,8 +14782,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'ROM',
+        name: 'Romans',
         audios: [
           {
       id: 'adv_w118_a2e46',
@@ -14932,8 +14932,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1COR',
+        name: '1 Corinthians',
         audios: [
           {
       id: 'adv_w134_a3f8f',
@@ -15083,8 +15083,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2COR',
+        name: '2 Corinthians',
         audios: [
           {
       id: 'adv_w150_aa783',
@@ -15207,8 +15207,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'GAL',
+        name: 'Galatians',
         audios: [
           {
       id: 'adv_w163_af9a7',
@@ -15268,8 +15268,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'EPH',
+        name: 'Ephesians',
         audios: [
           {
       id: 'adv_w169_a9eb1',
@@ -15329,8 +15329,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'PHIL',
+        name: 'Philippians',
         audios: [
           {
       id: 'adv_w175_a7d83',
@@ -15371,8 +15371,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'COL',
+        name: 'Colossians',
         audios: [
           {
       id: 'adv_w179_a6b53',
@@ -15413,8 +15413,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1Thess',
+        name: '1 Thess',
         audios: [
           {
       id: 'adv_w183_a306f',
@@ -15464,8 +15464,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2Thess',
+        name: '2 Thess',
         audios: [
           {
       id: 'adv_w188_a4618',
@@ -15498,8 +15498,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1Timothy',
+        name: '1 Timothy',
         audios: [
           {
       id: 'adv_w191_af248',
@@ -15558,8 +15558,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2Tim',
+        name: '2 Timothy',
         audios: [
           {
       id: 'adv_w197_a940d',
@@ -15601,8 +15601,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'TIT',
+        name: 'Titus',
         audios: [
           {
       id: 'adv_w201_a2d78',
@@ -15635,8 +15635,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'Phil',
+        name: 'Philemon',
         audios: [
           {
       id: 'adv_w204_a8d51',
@@ -15651,8 +15651,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'HEB',
+        name: 'Hebrews',
         audios: [
           {
       id: 'adv_w205_a224c',
@@ -15774,8 +15774,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JAM',
+        name: 'James',
         audios: [
           {
       id: 'adv_w218_aa033',
@@ -15826,8 +15826,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1PET',
+        name: '1 Peter',
         audios: [
           {
       id: 'adv_w223_a364b',
@@ -15877,8 +15877,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2PET',
+        name: '2 Peter',
         audios: [
           {
       id: 'adv_w228_a4f07',
@@ -15910,8 +15910,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '1JHN',
+        name: '1 John',
         audios: [
           {
       id: 'adv_w231_a3450',
@@ -15961,8 +15961,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '2JHN',
+        name: '2 John',
         audios: [
            {
       id: 'adv_w236_ae552',
@@ -15976,8 +15976,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: '3JHN',
+        name: '3 John',
         audios: [
           {
       id: 'adv_w237_a603a',
@@ -15992,8 +15992,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'JUDE',
+        name: 'Jude',
         audios: [
            {
       id: 'adv_w238_a8357',
@@ -16007,8 +16007,8 @@ export const bible_curriculum = {
         ]
       },
       {
-        id: '',
-        name: '',
+        id: 'REV',
+        name: 'Revelation',
         audios: [
           {
       id: 'adv_w239_a36e3',

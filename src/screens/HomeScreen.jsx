@@ -35,8 +35,20 @@ export default function HomeScreen({ navigation }) {
   ];
 
   const bible_levels = [
-    { key: 'old_testament', name: 'Old Testament', color: '#052e16', emoji: '📙' },
-    { key: 'new_testament', name: 'New Testament', color: '#07e015', emoji: '📘' },
+    { 
+      key: 'old_testament', 
+      name: 'Old Testament', 
+      color: '#04642c', 
+      emoji: '🐑', 
+      description: 'English Standard Version (ESV)'
+    },
+    { 
+      key: 'new_testament', 
+      name: 'New Testament', 
+      color: '#067e0e', 
+      emoji: '˗ˏˋ ✞ ˎˊ˗' , 
+      description: 'English Standard Version (ESV)'
+    },
   ];
 
   const handleContinue = () => {
@@ -75,7 +87,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const handleBibleTestamentPress = (testamentData) => {
-    navigation.navigate('BibleByTestament', {
+    navigation.navigate('TestamentBooks', {
       testament: testamentData,
       title: testamentData.title,});
   };

@@ -14,7 +14,8 @@ const KEYS = {
   ONBOARDING_COMPLETED: '@glh_onboarding',
   AUDIO_FOLDER_KEY: '@glh_audio_folder_path',
   AUDIO_URI: '@glh_audio_uri',
-  PDF_URI: '@glh_pdf_uri'
+  PDF_URI: '@glh_pdf_uri',
+  PREFERRED_SPEED: '@preferred_speed'
 };
 
 // Progress tracking
