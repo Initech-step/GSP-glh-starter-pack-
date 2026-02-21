@@ -86,11 +86,12 @@ export default function HomeScreen({ navigation }) {
       title: levelData.title,});
   };
 
-  const handleBibleTestamentPress = (testamentData) => {
-    navigation.navigate('TestamentBooks', {
-      testament: testamentData,
-      title: testamentData.title,});
-  };
+  const handleBibleTestamentPress = (item) => {
+    navigation.navigate(
+      'TestamentBooks', 
+      { testament: item, title: item.name}
+    );
+  }
 
   if (loading) {
     return (

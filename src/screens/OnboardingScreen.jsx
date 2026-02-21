@@ -94,19 +94,6 @@ export default function OnboardingScreen({ navigation }) {
         return;
       }
 
-      // Verify folder structure
-      // const verification = await verifyAudioFolder(folderPath);
-
-      // if (!verification.valid) {
-      //   Alert.alert(
-      //     'Invalid Folder',
-      //     verification.message,
-      //     [{ text: 'Try Again', onPress: handleSelectFolder }]
-      //   );
-      //   setIsSelecting(false);
-      //   return;
-      // }
-
       // Success!
       setFolderSelected(true);
       Alert.alert(

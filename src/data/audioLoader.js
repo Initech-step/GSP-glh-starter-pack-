@@ -394,64 +394,6 @@ const audioMap = {
   'adv_w9_a3': 'GLH-THU05032020_AEONIAN JUDGEMENT II-Truths You Should Know About It [a].mp3', // Aionian Judgement 2
   'adv_w9_a4': 'GLH-THU05032020_AEONIAN JUDGEMENT II-Truths You Should Know About It [b].mp3', // Aionian Judgement 2
 
-};
-
-
-export const book_curriculum = {
-"bg_b1": "1. Welcome to Gods Family.pdf",
-"bg_b2": "2. Choices, key to destiny.pdf",
-"bg_b3": "3. Plans Purposes and Pursuits.pdf",
-"bg_b3b": "3b. Growing Up Spiritually.pdf",
-"bg_b4": "4. Following Gods Plan For Your Life.pdf",
-"bg_b5": "5. Needless Casualties of War.pdf",
-"bg_b6": "6. The Three Battlegrounds.pdf",
-"bg_b7": "7. Unlocking Your Dreams.pdf",
-"bg_b8": "8. Christian Dress Article Tract.pdf",
-"bg_b9": "9. I Dared To Call Him Father.pdf",
-"bg_b10": "10. So Who Will Pay For This.pdf",
-"bg_b12": "12. The Call.pdf",
-"bg_b12a": "12b. Final Quest.pdf",
-"bg_b13": "13. The Magician's Nephew (Chronicles of Narnia 1).pdf",
-"bg_b14": "14. The Lion, the Witch and the Wardrobe.pdf",
-"bg_b15": "15. The Horse and His Boy.pdf",
-"bg_b16": "16. The Pilgrim's Progress.pdf",
-"int_b14": "1. Good Morning Holy Spirit.pdf",
-"int_b15": "2. How You Can Be Led By The Spirit of God.pdf",
-"int_b16a": "3. How To Work For God.pdf",
-"int_b16b": "4. He That Believes.pdf",
-"int_b17": "5. The Woman Question.pdf",
-"int_b18a": "6. The Believers Authority.pdf",
-"int_b18b": "7. Prayer and the Demonic Realm.pdf",
-"int_b19": "8. When God Walked the Earth.pdf",
-"int_b21": "9. Hinds' Feet On High Places.pdf",
-"int_b23": "10. Compelled by Love.pdf",
-"int_b24": "11. Jesus Freaks Martyrs Stories.pdf",
-"int_b25": "12. The Path (Fire on the Mountain).pdf",
-"int_b26": "13. The Valley (Fire on the Mountain Series).pdf",
-"int_b27": "14. God's Generals The Revivalists.pdf",
-"int_b28": "15. Revival Among The Zulus.pdf",
-"int_b29": "16. God's Generals The Healing Evangelists.pdf",
-"int_b30": "17. The Heavenly Man.pdf",
-"int_b31": "18. God's Generals The Roaring Reformers.pdf",
-"int_b32": "19. Angels On Assignment.pdf",
-"int_b33": "20. God's Smugglers.pdf",
-"int_b34": "21. This Present Darkness.pdf",
-"int_b35": "22. Piercing the Darkness.pdf",
-"adv_b36": "1. Torch and the Sword.pdf",
-"adv_b37": "2. The Screwtape Letters.pdf",
-"adv_b38": "3. Foxe's Book of Martyrs.pdf",
-"adv_b39": "4. Tortured for Christ.pdf",
-"adv_b40": "5. He Came To Set The Captives Free.pdf",
-"adv_b41": "6. Prepare for War.pdf",
-"adv_b42": "7. Growing In The Prophetic.pdf",
-"adv_b43": "8. Love The Road To Victory.pdf",
-"adv_b44": "9. The Harvest (Updated and Expanded).pdf",
-"adv_b45": "10. Love Not The World.pdf",
-};
-
-
-export const bible_audioMap = {
-
   'adv_w1_a26f2': 'B01___01_Matthew_____ENGESVN2DA.mp3', // B01___01_Matthew_____ENGESVN2DA
   'adv_w2_aa8e0': 'B01___02_Matthew_____ENGESVN2DA.mp3', // B01___02_Matthew_____ENGESVN2DA
   'adv_w3_ae49f': 'B01___03_Matthew_____ENGESVN2DA.mp3', // B01___03_Matthew_____ENGESVN2DA
@@ -1910,6 +1852,60 @@ export const bible_audioMap = {
   'adv_w1456_a74f0': 'A39___04_Malachi_____ENGESVO2DA.mp3', // A39___04_Malachi_____ENGESVO2DA
 
 };
+
+
+export const book_curriculum = {
+"bg_b1": "1. Welcome to Gods Family.pdf",
+"bg_b2": "2. Choices, key to destiny.pdf",
+"bg_b3": "3. Plans Purposes and Pursuits.pdf",
+"bg_b3b": "3b. Growing Up Spiritually.pdf",
+"bg_b4": "4. Following Gods Plan For Your Life.pdf",
+"bg_b5": "5. Needless Casualties of War.pdf",
+"bg_b6": "6. The Three Battlegrounds.pdf",
+"bg_b7": "7. Unlocking Your Dreams.pdf",
+"bg_b8": "8. Christian Dress Article Tract.pdf",
+"bg_b9": "9. I Dared To Call Him Father.pdf",
+"bg_b10": "10. So Who Will Pay For This.pdf",
+"bg_b12": "12. The Call.pdf",
+"bg_b12a": "12b. Final Quest.pdf",
+"bg_b13": "13. The Magician's Nephew (Chronicles of Narnia 1).pdf",
+"bg_b14": "14. The Lion, the Witch and the Wardrobe.pdf",
+"bg_b15": "15. The Horse and His Boy.pdf",
+"bg_b16": "16. The Pilgrim's Progress.pdf",
+"int_b14": "1. Good Morning Holy Spirit.pdf",
+"int_b15": "2. How You Can Be Led By The Spirit of God.pdf",
+"int_b16a": "3. How To Work For God.pdf",
+"int_b16b": "4. He That Believes.pdf",
+"int_b17": "5. The Woman Question.pdf",
+"int_b18a": "6. The Believers Authority.pdf",
+"int_b18b": "7. Prayer and the Demonic Realm.pdf",
+"int_b19": "8. When God Walked the Earth.pdf",
+"int_b21": "9. Hinds' Feet On High Places.pdf",
+"int_b23": "10. Compelled by Love.pdf",
+"int_b24": "11. Jesus Freaks Martyrs Stories.pdf",
+"int_b25": "12. The Path (Fire on the Mountain).pdf",
+"int_b26": "13. The Valley (Fire on the Mountain Series).pdf",
+"int_b27": "14. God's Generals The Revivalists.pdf",
+"int_b28": "15. Revival Among The Zulus.pdf",
+"int_b29": "16. God's Generals The Healing Evangelists.pdf",
+"int_b30": "17. The Heavenly Man.pdf",
+"int_b31": "18. God's Generals The Roaring Reformers.pdf",
+"int_b32": "19. Angels On Assignment.pdf",
+"int_b33": "20. God's Smugglers.pdf",
+"int_b34": "21. This Present Darkness.pdf",
+"int_b35": "22. Piercing the Darkness.pdf",
+"adv_b36": "1. Torch and the Sword.pdf",
+"adv_b37": "2. The Screwtape Letters.pdf",
+"adv_b38": "3. Foxe's Book of Martyrs.pdf",
+"adv_b39": "4. Tortured for Christ.pdf",
+"adv_b40": "5. He Came To Set The Captives Free.pdf",
+"adv_b41": "6. Prepare for War.pdf",
+"adv_b42": "7. Growing In The Prophetic.pdf",
+"adv_b43": "8. Love The Road To Victory.pdf",
+"adv_b44": "9. The Harvest (Updated and Expanded).pdf",
+"adv_b45": "10. Love Not The World.pdf",
+};
+
 
 const reverseBookMap = Object.fromEntries(
   Object.entries(book_curriculum).map(([key, value]) => [value, key])

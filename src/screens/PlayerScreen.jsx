@@ -141,33 +141,6 @@ export default function PlayerScreen({ route, navigation }) {
       const handleCompletion = async () => {
         try {
           await markAudioCompleted(audio.id);
-          console.log('✅ Audio marked as completed:', audio.id);
-          releaseAudio();
-
-          // ✅ Get next audio
-          // const nextAudio = getNextAudio();
-          
-          // if (nextAudio != null) {
-          //   // ✅ Destructure the returned object correctly
-          //   navigation.replace('Player', {
-          //     level: nextAudio.level,           // Not audio.level
-          //     weekNumber: nextAudio.week,       // Not audio.week, it's 'week'
-          //     audio: nextAudio.audio,           // This is the actual audio object
-          //   });
-          // } else {
-          //   // No more audios - go back or show completion message
-          //   Alert.alert(
-          //     '🎉 Congratulations!',
-          //     'You have completed all available content!',
-          //     [
-          //       {
-          //         text: 'OK',
-          //         onPress: () => navigation.navigate('Home')
-          //       }
-          //     ]
-          //   );
-          // }
-          
         } catch (error) {
           console.error('❌ Error marking audio as completed:', error);
         }

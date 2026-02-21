@@ -18,6 +18,7 @@ import ReadBook from './src/screens/ReadBook';
 import { AudioProvider } from './src/contexts/AudioContext';
 import LoginScreen from './src/screens/LoginScreen';
 import TestamentBooks from './src/screens/TestamentBooks';
+import BookChapters from './src/screens/BookChapters'
 
 const Stack = createNativeStackNavigator();
 
@@ -110,6 +111,13 @@ export default function App() {
               name="TestamentBooks"
               component={TestamentBooks}
               options={({ route }) => ({ title:'Books' })}
+            />
+            <Stack.Screen
+              name="BookChapters"
+              component={BookChapters}
+              options={({ route }) => (
+                { title: route.params?.book?.name ?? 'Chapters' }
+              )}
             />
           </Stack.Navigator>
         </NavigationContainer>

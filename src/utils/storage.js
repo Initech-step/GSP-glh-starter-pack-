@@ -182,6 +182,7 @@ export const clearAllData = async () => {
       KEYS.ONBOARDING_COMPLETED,
       KEYS.AUDIO_FOLDER_KEY,
       KEYS.AUDIO_URI,
+      KEYS.PREFERRED_SPEED      
     ]);
   } catch (error) {
     console.error('Error clearing data:', error);
