@@ -73,7 +73,7 @@ export const isLoggedIn = async () => {
  */
 export const registerUser = async (phoneOrEmail, password) => {
   try {
-    console.log(`reg fired with ${phoneOrEmail} and ${password}`)
+    // console.log(`reg fired with ${phoneOrEmail} and ${password}`)
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
@@ -143,7 +143,7 @@ export const replaceCurrentPosition = async (level, weekNumber, audioId) => {
     if (audioId) {
       await AsyncStorage.setItem(KEYS.CURRENT_AUDIO, audioId);
     }
-    console.log('✅ Current position replaced:', { level, weekNumber, audioId });
+    // console.log('✅ Current position replaced:', { level, weekNumber, audioId });
     return true;
   } catch (error) {
     console.error('Error replacing current position:', error);
@@ -194,7 +194,7 @@ export const replaceAllProgress = async (progressData) => {
   try {
     // Directly replace the entire progress object
     await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
-    console.log('✅ All progress replaced with cloud data');
+    // console.log('✅ All progress replaced with cloud data');
     return true;
   } catch (error) {
     console.error('Error replacing progress:', error);
@@ -257,7 +257,7 @@ export const replaceAllNotes = async (notesData) => {
   try {
     // Directly replace the entire notes object
     await AsyncStorage.setItem(KEYS.NOTES, JSON.stringify(notesData));
-    console.log('✅ All notes replaced with cloud data');
+    // console.log('✅ All notes replaced with cloud data');
     return true;
   } catch (error) {
     console.error('Error replacing notes:', error);

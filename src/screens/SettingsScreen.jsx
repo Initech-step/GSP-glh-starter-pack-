@@ -30,6 +30,8 @@ import {
 } from '../utils/api';
 import { useApp } from '../contexts/AppContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { getSleepTimerEnabled, setSleepTimerEnabled } from '../utils/storage';
+import { refreshSleepTimerPreference } from '../services/audioSetup';
 
 
 export default function SettingsScreen({ navigation }) {
@@ -37,10 +39,18 @@ export default function SettingsScreen({ navigation }) {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [currentPath, setCurrentPath] = useState('Not configured');
   const [isLoading, setIsLoading] = useState(true);
+  const [sleepTimerEnabled, setSleepTimerEnabledState] = useState(false);
+
 
   useEffect(() => {
     loadCurrentPath();
+    loadSleepTimerPreference();
   }, []);
+
+  const loadSleepTimerPreference = async () => {
+    const enabled = await getSleepTimerEnabled();
+    setSleepTimerEnabledState(enabled);
+  };
 
   const loadCurrentPath = async () => {
     setIsLoading(true);
@@ -109,6 +119,13 @@ export default function SettingsScreen({ navigation }) {
         },
       ]
     );
+  };
+
+  const handleSleepTimerToggle = async (value) => {
+    setSleepTimerEnabledState(value);
+    await setSleepTimerEnabled(value);
+    // Tell audioSetup.js to arm or disarm the timer immediately
+    await refreshSleepTimerPreference();
   };
 
   const handleAbout = () => {
@@ -244,31 +261,6 @@ export default function SettingsScreen({ navigation }) {
   };
 
   const settingsSections = [
-    // {
-    //   title: 'Notifications',
-    //   items: [
-    //     {
-    //       label: 'Daily Reminders',
-    //       type: 'switch',
-    //       value: notificationsEnabled,
-    //       onToggle: setNotificationsEnabled,
-    //       description: 'Get reminded to continue your learning',
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: 'Data & Progress',
-    //   items: [
-    //     {
-    //       label: 'Reset All Progress',
-    //       type: 'button',
-    //       onPress: handleResetProgress,
-    //       icon: '🔄',
-    //       description: 'Clear all completed messages and notes',
-    //       destructive: true,
-    //     },
-    //   ],
-    // },
     {
       title: 'About',
       items: [

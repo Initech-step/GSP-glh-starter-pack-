@@ -78,11 +78,11 @@ export default function PlayerScreen({ route, navigation }) {
       try {
         const path = await loadAudioById(audio.id);
         if (mounted) {
-          console.log('📂 Audio path loaded:', path);
+          // console.log('📂 Audio path loaded:', path);
           setAudioPath(path);
         }
       } catch (error) {
-        console.error('❌ Error loading audio path:', error);
+        // console.error('❌ Error loading audio path:', error);
         if (mounted) {
           Alert.alert(
             'Error',
@@ -113,7 +113,7 @@ export default function PlayerScreen({ route, navigation }) {
     const setup = async () => {
       // Only load if this audio isn't already loaded
       if (!isAudioLoaded(audio.id)) {
-        console.log('🎵 Loading audio into player:', audio.title);
+        // console.log('🎵 Loading audio into player:', audio.title);
         await loadAudio(audioPath, audio);
       } else {
         console.log('✅ Audio already loaded:', audio.title);
@@ -132,10 +132,10 @@ export default function PlayerScreen({ route, navigation }) {
     if (!isLoaded || !duration || duration === 0) return;
 
     const progressPercentage = (position / duration) * 100;
-    console.log(progressPercentage);
+    // console.log(progressPercentage);
     
     if (progressPercentage >= 99.999) {
-      console.log("AUDIO COMPLETED!");
+      // console.log("AUDIO COMPLETED!");
       
       // ✅ Create an async function inside useEffect
       const handleCompletion = async () => {

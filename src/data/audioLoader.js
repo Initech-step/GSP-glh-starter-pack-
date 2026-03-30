@@ -47,7 +47,7 @@ const audioMap = {
 
   // Week 7: Handling Opposition from Families & The Purpose of Scriptures
   'bg_w7_a1': 'GLH-WED030118R.mp3', // Handling Opposition from Families
-  'bg_w7_a2': 'GLH-SUN030917R.MP3', // The Purpose of Scriptures
+  'bg_w7_a2': 'GLH-SUN030917R.mp3', // The Purpose of Scriptures
 
   // Week 8: Parapets-Immorality Safeguards
   'bg_w8_a1': 'Giving & Parapets 01 - (GLH-FRI19022021).mp3',
@@ -341,7 +341,6 @@ const audioMap = {
   'int_w33_a2': 'GLH-SUN221219_01.mp3', // Government
   'int_w33_a3': 'GLH-SUN221219_02.mp3', // Government
   'int_w33_a4': 'GLH-SUN221219_03.mp3', // Government
-
 
   // ========== ADVANCED ==========
   // Week 1: Children's Ministry || Get ready: A Study On Matthew 24
@@ -744,59 +743,32 @@ const audioMap = {
   'adv_w348_ad9c6': 'A02___38_Exodus______ENGESVO2DA.mp3', // A02___38_Exodus______ENGESVO2DA
   'adv_w349_ab45b': 'A02___39_Exodus______ENGESVO2DA.mp3', // A02___39_Exodus______ENGESVO2DA
   'adv_w350_ad302': 'A02___40_Exodus______ENGESVO2DA.mp3', // A02___40_Exodus______ENGESVO2DA
-  'adv_w351_a3ed9': 'A03___01_Leviticus___ENGESVO2DA.mp3', // A03___01_Leviticus___ENGESVO2DA
   'adv_w352_af362': 'A03___01_Leviticus_____ENGESVO2DA.mp3', // A03___01_Leviticus_____ENGESVO2DA
-  'adv_w353_a45a0': 'A03___02_Leviticus___ENGESVO2DA.mp3', // A03___02_Leviticus___ENGESVO2DA
   'adv_w354_a5c86': 'A03___02_Leviticus_____ENGESVO2DA.mp3', // A03___02_Leviticus_____ENGESVO2DA
-  'adv_w355_a7704': 'A03___03_Leviticus___ENGESVO2DA.mp3', // A03___03_Leviticus___ENGESVO2DA
   'adv_w356_a8e60': 'A03___03_Leviticus_____ENGESVO2DA.mp3', // A03___03_Leviticus_____ENGESVO2DA
-  'adv_w357_a79da': 'A03___04_Leviticus___ENGESVO2DA.mp3', // A03___04_Leviticus___ENGESVO2DA
   'adv_w358_a8058': 'A03___04_Leviticus_____ENGESVO2DA.mp3', // A03___04_Leviticus_____ENGESVO2DA
-  'adv_w359_a6902': 'A03___05_Leviticus___ENGESVO2DA.mp3', // A03___05_Leviticus___ENGESVO2DA
   'adv_w360_a1541': 'A03___05_Leviticus_____ENGESVO2DA.mp3', // A03___05_Leviticus_____ENGESVO2DA
-  'adv_w361_af22b': 'A03___06_Leviticus___ENGESVO2DA.mp3', // A03___06_Leviticus___ENGESVO2DA
   'adv_w362_a1d90': 'A03___06_Leviticus_____ENGESVO2DA.mp3', // A03___06_Leviticus_____ENGESVO2DA
-  'adv_w363_a3ed6': 'A03___07_Leviticus___ENGESVO2DA.mp3', // A03___07_Leviticus___ENGESVO2DA
   'adv_w364_a8954': 'A03___07_Leviticus_____ENGESVO2DA.mp3', // A03___07_Leviticus_____ENGESVO2DA
-  'adv_w365_aefc4': 'A03___08_Leviticus___ENGESVO2DA.mp3', // A03___08_Leviticus___ENGESVO2DA
   'adv_w366_a7427': 'A03___08_Leviticus_____ENGESVO2DA.mp3', // A03___08_Leviticus_____ENGESVO2DA
-  'adv_w367_a37ae': 'A03___09_Leviticus___ENGESVO2DA.mp3', // A03___09_Leviticus___ENGESVO2DA
   'adv_w368_ad8e5': 'A03___09_Leviticus_____ENGESVO2DA.mp3', // A03___09_Leviticus_____ENGESVO2DA
-  'adv_w369_a653a': 'A03___10_Leviticus___ENGESVO2DA.mp3', // A03___10_Leviticus___ENGESVO2DA
   'adv_w370_af524': 'A03___10_Leviticus_____ENGESVO2DA.mp3', // A03___10_Leviticus_____ENGESVO2DA
-  'adv_w371_a23e1': 'A03___11_Leviticus___ENGESVO2DA.mp3', // A03___11_Leviticus___ENGESVO2DA
   'adv_w372_a5a9c': 'A03___11_Leviticus_____ENGESVO2DA.mp3', // A03___11_Leviticus_____ENGESVO2DA
-  'adv_w373_a9db1': 'A03___12_Leviticus___ENGESVO2DA.mp3', // A03___12_Leviticus___ENGESVO2DA
   'adv_w374_ac059': 'A03___12_Leviticus_____ENGESVO2DA.mp3', // A03___12_Leviticus_____ENGESVO2DA
-  'adv_w375_a31b9': 'A03___13_Leviticus___ENGESVO2DA.mp3', // A03___13_Leviticus___ENGESVO2DA
   'adv_w376_ac17e': 'A03___13_Leviticus_____ENGESVO2DA.mp3', // A03___13_Leviticus_____ENGESVO2DA
-  'adv_w377_a3299': 'A03___14_Leviticus___ENGESVO2DA.mp3', // A03___14_Leviticus___ENGESVO2DA
   'adv_w378_a6c0f': 'A03___14_Leviticus_____ENGESVO2DA.mp3', // A03___14_Leviticus_____ENGESVO2DA
-  'adv_w379_a5cc4': 'A03___15_Leviticus___ENGESVO2DA.mp3', // A03___15_Leviticus___ENGESVO2DA
   'adv_w380_ad18c': 'A03___15_Leviticus_____ENGESVO2DA.mp3', // A03___15_Leviticus_____ENGESVO2DA
-  'adv_w381_aebf6': 'A03___16_Leviticus___ENGESVO2DA.mp3', // A03___16_Leviticus___ENGESVO2DA
   'adv_w382_ae11e': 'A03___16_Leviticus_____ENGESVO2DA.mp3', // A03___16_Leviticus_____ENGESVO2DA
-  'adv_w383_aae32': 'A03___17_Leviticus___ENGESVO2DA.mp3', // A03___17_Leviticus___ENGESVO2DA
   'adv_w384_a6e14': 'A03___17_Leviticus_____ENGESVO2DA.mp3', // A03___17_Leviticus_____ENGESVO2DA
-  'adv_w385_abf33': 'A03___18_Leviticus___ENGESVO2DA.mp3', // A03___18_Leviticus___ENGESVO2DA
   'adv_w386_a8f6d': 'A03___18_Leviticus_____ENGESVO2DA.mp3', // A03___18_Leviticus_____ENGESVO2DA
-  'adv_w387_a1365': 'A03___19_Leviticus___ENGESVO2DA.mp3', // A03___19_Leviticus___ENGESVO2DA
   'adv_w388_aeb79': 'A03___19_Leviticus_____ENGESVO2DA.mp3', // A03___19_Leviticus_____ENGESVO2DA
-  'adv_w389_a1281': 'A03___20_Leviticus___ENGESVO2DA.mp3', // A03___20_Leviticus___ENGESVO2DA
   'adv_w390_add28': 'A03___20_Leviticus_____ENGESVO2DA.mp3', // A03___20_Leviticus_____ENGESVO2DA
-  'adv_w391_a454f': 'A03___21_Leviticus___ENGESVO2DA.mp3', // A03___21_Leviticus___ENGESVO2DA
   'adv_w392_ad9f6': 'A03___21_Leviticus_____ENGESVO2DA.mp3', // A03___21_Leviticus_____ENGESVO2DA
-  'adv_w393_ac461': 'A03___22_Leviticus___ENGESVO2DA.mp3', // A03___22_Leviticus___ENGESVO2DA
   'adv_w394_a9bb9': 'A03___22_Leviticus_____ENGESVO2DA.mp3', // A03___22_Leviticus_____ENGESVO2DA
-  'adv_w395_a97d0': 'A03___23_Leviticus___ENGESVO2DA.mp3', // A03___23_Leviticus___ENGESVO2DA
   'adv_w396_a18b7': 'A03___23_Leviticus_____ENGESVO2DA.mp3', // A03___23_Leviticus_____ENGESVO2DA
-  'adv_w397_ae259': 'A03___24_Leviticus___ENGESVO2DA.mp3', // A03___24_Leviticus___ENGESVO2DA
   'adv_w398_a53ea': 'A03___24_Leviticus_____ENGESVO2DA.mp3', // A03___24_Leviticus_____ENGESVO2DA
-  'adv_w399_a91a0': 'A03___25_Leviticus___ENGESVO2DA.mp3', // A03___25_Leviticus___ENGESVO2DA
   'adv_w400_a4b12': 'A03___25_Leviticus_____ENGESVO2DA.mp3', // A03___25_Leviticus_____ENGESVO2DA
-  'adv_w401_af376': 'A03___26_Leviticus___ENGESVO2DA.mp3', // A03___26_Leviticus___ENGESVO2DA
   'adv_w402_a79e3': 'A03___26_Leviticus_____ENGESVO2DA.mp3', // A03___26_Leviticus_____ENGESVO2DA
-  'adv_w403_a8b82': 'A03___27_Leviticus___ENGESVO2DA.mp3', // A03___27_Leviticus___ENGESVO2DA
   'adv_w404_a5c62': 'A03___27_Leviticus_____ENGESVO2DA.mp3', // A03___27_Leviticus_____ENGESVO2DA
   'adv_w405_ae442': 'A04___01_Numbers_____ENGESVO2DA.mp3', // A04___01_Numbers_____ENGESVO2DA
   'adv_w406_ae9c5': 'A04___02_Numbers_____ENGESVO2DA.mp3', // A04___02_Numbers_____ENGESVO2DA
@@ -834,73 +806,39 @@ const audioMap = {
   'adv_w438_a4f6e': 'A04___34_Numbers_____ENGESVO2DA.mp3', // A04___34_Numbers_____ENGESVO2DA
   'adv_w439_ac8dc': 'A04___35_Numbers_____ENGESVO2DA.mp3', // A04___35_Numbers_____ENGESVO2DA
   'adv_w440_ae12c': 'A04___36_Numbers_____ENGESVO2DA.mp3', // A04___36_Numbers_____ENGESVO2DA
-  'adv_w441_a9a60': 'A05___01_Deuteronomy_ENGESVO2DA.mp3', // A05___01_Deuteronomy_ENGESVO2DA
   'adv_w442_a16de': 'A05___01_Deuteronomy___ENGESVO2DA.mp3', // A05___01_Deuteronomy___ENGESVO2DA
-  'adv_w443_ae47d': 'A05___02_Deuteronomy_ENGESVO2DA.mp3', // A05___02_Deuteronomy_ENGESVO2DA
   'adv_w444_af346': 'A05___02_Deuteronomy___ENGESVO2DA.mp3', // A05___02_Deuteronomy___ENGESVO2DA
-  'adv_w445_a10d8': 'A05___03_Deuteronomy_ENGESVO2DA.mp3', // A05___03_Deuteronomy_ENGESVO2DA
   'adv_w446_abe83': 'A05___03_Deuteronomy___ENGESVO2DA.mp3', // A05___03_Deuteronomy___ENGESVO2DA
-  'adv_w447_ad0fd': 'A05___04_Deuteronomy_ENGESVO2DA.mp3', // A05___04_Deuteronomy_ENGESVO2DA
   'adv_w448_a27f8': 'A05___04_Deuteronomy___ENGESVO2DA.mp3', // A05___04_Deuteronomy___ENGESVO2DA
-  'adv_w449_a46fe': 'A05___05_Deuteronomy_ENGESVO2DA.mp3', // A05___05_Deuteronomy_ENGESVO2DA
   'adv_w450_ae6e0': 'A05___05_Deuteronomy___ENGESVO2DA.mp3', // A05___05_Deuteronomy___ENGESVO2DA
-  'adv_w451_a7a6d': 'A05___06_Deuteronomy_ENGESVO2DA.mp3', // A05___06_Deuteronomy_ENGESVO2DA
   'adv_w452_a77a0': 'A05___06_Deuteronomy___ENGESVO2DA.mp3', // A05___06_Deuteronomy___ENGESVO2DA
-  'adv_w453_a825c': 'A05___07_Deuteronomy_ENGESVO2DA.mp3', // A05___07_Deuteronomy_ENGESVO2DA
   'adv_w454_ab583': 'A05___07_Deuteronomy___ENGESVO2DA.mp3', // A05___07_Deuteronomy___ENGESVO2DA
-  'adv_w455_a27e8': 'A05___08_Deuteronomy_ENGESVO2DA.mp3', // A05___08_Deuteronomy_ENGESVO2DA
   'adv_w456_a6cac': 'A05___08_Deuteronomy___ENGESVO2DA.mp3', // A05___08_Deuteronomy___ENGESVO2DA
-  'adv_w457_a4b0e': 'A05___09_Deuteronomy_ENGESVO2DA.mp3', // A05___09_Deuteronomy_ENGESVO2DA
   'adv_w458_a1048': 'A05___09_Deuteronomy___ENGESVO2DA.mp3', // A05___09_Deuteronomy___ENGESVO2DA
-  'adv_w459_a5545': 'A05___10_Deuteronomy_ENGESVO2DA.mp3', // A05___10_Deuteronomy_ENGESVO2DA
   'adv_w460_a76ae': 'A05___10_Deuteronomy___ENGESVO2DA.mp3', // A05___10_Deuteronomy___ENGESVO2DA
-  'adv_w461_a49f5': 'A05___11_Deuteronomy_ENGESVO2DA.mp3', // A05___11_Deuteronomy_ENGESVO2DA
   'adv_w462_a4de2': 'A05___11_Deuteronomy___ENGESVO2DA.mp3', // A05___11_Deuteronomy___ENGESVO2DA
-  'adv_w463_a1d3e': 'A05___12_Deuteronomy_ENGESVO2DA.mp3', // A05___12_Deuteronomy_ENGESVO2DA
   'adv_w464_adbd7': 'A05___12_Deuteronomy___ENGESVO2DA.mp3', // A05___12_Deuteronomy___ENGESVO2DA
-  'adv_w465_a0374': 'A05___13_Deuteronomy_ENGESVO2DA.mp3', // A05___13_Deuteronomy_ENGESVO2DA
   'adv_w466_a3eb8': 'A05___13_Deuteronomy___ENGESVO2DA.mp3', // A05___13_Deuteronomy___ENGESVO2DA
-  'adv_w467_ab3b5': 'A05___14_Deuteronomy_ENGESVO2DA.mp3', // A05___14_Deuteronomy_ENGESVO2DA
   'adv_w468_a99e5': 'A05___14_Deuteronomy___ENGESVO2DA.mp3', // A05___14_Deuteronomy___ENGESVO2DA
-  'adv_w469_aefb2': 'A05___15_Deuteronomy_ENGESVO2DA.mp3', // A05___15_Deuteronomy_ENGESVO2DA
   'adv_w470_ab4d9': 'A05___15_Deuteronomy___ENGESVO2DA.mp3', // A05___15_Deuteronomy___ENGESVO2DA
-  'adv_w471_a22df': 'A05___16_Deuteronomy_ENGESVO2DA.mp3', // A05___16_Deuteronomy_ENGESVO2DA
   'adv_w472_a7670': 'A05___16_Deuteronomy___ENGESVO2DA.mp3', // A05___16_Deuteronomy___ENGESVO2DA
-  'adv_w473_ab461': 'A05___17_Deuteronomy_ENGESVO2DA.mp3', // A05___17_Deuteronomy_ENGESVO2DA
   'adv_w474_a4e79': 'A05___17_Deuteronomy___ENGESVO2DA.mp3', // A05___17_Deuteronomy___ENGESVO2DA
-  'adv_w475_a5306': 'A05___18_Deuteronomy_ENGESVO2DA.mp3', // A05___18_Deuteronomy_ENGESVO2DA
   'adv_w476_a16fc': 'A05___18_Deuteronomy___ENGESVO2DA.mp3', // A05___18_Deuteronomy___ENGESVO2DA
-  'adv_w477_ac3bd': 'A05___19_Deuteronomy_ENGESVO2DA.mp3', // A05___19_Deuteronomy_ENGESVO2DA
   'adv_w478_accbc': 'A05___19_Deuteronomy___ENGESVO2DA.mp3', // A05___19_Deuteronomy___ENGESVO2DA
-  'adv_w479_abef6': 'A05___20_Deuteronomy_ENGESVO2DA.mp3', // A05___20_Deuteronomy_ENGESVO2DA
   'adv_w480_af864': 'A05___20_Deuteronomy___ENGESVO2DA.mp3', // A05___20_Deuteronomy___ENGESVO2DA
-  'adv_w481_af888': 'A05___21_Deuteronomy_ENGESVO2DA.mp3', // A05___21_Deuteronomy_ENGESVO2DA
   'adv_w482_a30f5': 'A05___21_Deuteronomy___ENGESVO2DA.mp3', // A05___21_Deuteronomy___ENGESVO2DA
-  'adv_w483_afa46': 'A05___22_Deuteronomy_ENGESVO2DA.mp3', // A05___22_Deuteronomy_ENGESVO2DA
   'adv_w484_a3d93': 'A05___22_Deuteronomy___ENGESVO2DA.mp3', // A05___22_Deuteronomy___ENGESVO2DA
-  'adv_w485_a257b': 'A05___23_Deuteronomy_ENGESVO2DA.mp3', // A05___23_Deuteronomy_ENGESVO2DA
   'adv_w486_adc21': 'A05___23_Deuteronomy___ENGESVO2DA.mp3', // A05___23_Deuteronomy___ENGESVO2DA
-  'adv_w487_a3603': 'A05___24_Deuteronomy_ENGESVO2DA.mp3', // A05___24_Deuteronomy_ENGESVO2DA
   'adv_w488_afe39': 'A05___24_Deuteronomy___ENGESVO2DA.mp3', // A05___24_Deuteronomy___ENGESVO2DA
-  'adv_w489_a5c1a': 'A05___25_Deuteronomy_ENGESVO2DA.mp3', // A05___25_Deuteronomy_ENGESVO2DA
   'adv_w490_a47be': 'A05___25_Deuteronomy___ENGESVO2DA.mp3', // A05___25_Deuteronomy___ENGESVO2DA
-  'adv_w491_a58ce': 'A05___26_Deuteronomy_ENGESVO2DA.mp3', // A05___26_Deuteronomy_ENGESVO2DA
   'adv_w492_a6177': 'A05___26_Deuteronomy___ENGESVO2DA.mp3', // A05___26_Deuteronomy___ENGESVO2DA
-  'adv_w493_a81cc': 'A05___27_Deuteronomy_ENGESVO2DA.mp3', // A05___27_Deuteronomy_ENGESVO2DA
   'adv_w494_a37e3': 'A05___27_Deuteronomy___ENGESVO2DA.mp3', // A05___27_Deuteronomy___ENGESVO2DA
-  'adv_w495_a1430': 'A05___28_Deuteronomy_ENGESVO2DA.mp3', // A05___28_Deuteronomy_ENGESVO2DA
   'adv_w496_ab68a': 'A05___28_Deuteronomy___ENGESVO2DA.mp3', // A05___28_Deuteronomy___ENGESVO2DA
-  'adv_w497_a0b62': 'A05___29_Deuteronomy_ENGESVO2DA.mp3', // A05___29_Deuteronomy_ENGESVO2DA
   'adv_w498_a6374': 'A05___29_Deuteronomy___ENGESVO2DA.mp3', // A05___29_Deuteronomy___ENGESVO2DA
-  'adv_w499_a9dfe': 'A05___30_Deuteronomy_ENGESVO2DA.mp3', // A05___30_Deuteronomy_ENGESVO2DA
   'adv_w500_a202b': 'A05___30_Deuteronomy___ENGESVO2DA.mp3', // A05___30_Deuteronomy___ENGESVO2DA
-  'adv_w501_a2a5a': 'A05___31_Deuteronomy_ENGESVO2DA.mp3', // A05___31_Deuteronomy_ENGESVO2DA
   'adv_w502_a281d': 'A05___31_Deuteronomy___ENGESVO2DA.mp3', // A05___31_Deuteronomy___ENGESVO2DA
-  'adv_w503_ad91d': 'A05___32_Deuteronomy_ENGESVO2DA.mp3', // A05___32_Deuteronomy_ENGESVO2DA
   'adv_w504_a4c53': 'A05___32_Deuteronomy___ENGESVO2DA.mp3', // A05___32_Deuteronomy___ENGESVO2DA
-  'adv_w505_a32cf': 'A05___33_Deuteronomy_ENGESVO2DA.mp3', // A05___33_Deuteronomy_ENGESVO2DA
   'adv_w506_aa21c': 'A05___33_Deuteronomy___ENGESVO2DA.mp3', // A05___33_Deuteronomy___ENGESVO2DA
-  'adv_w507_a3713': 'A05___34_Deuteronomy_ENGESVO2DA.mp3', // A05___34_Deuteronomy_ENGESVO2DA
   'adv_w508_ad3ba': 'A05___34_Deuteronomy___ENGESVO2DA.mp3', // A05___34_Deuteronomy___ENGESVO2DA
   'adv_w509_ae119': 'A06___01_Joshua______ENGESVO2DA.mp3', // A06___01_Joshua______ENGESVO2DA
   'adv_w510_a87ee': 'A06___02_Joshua______ENGESVO2DA.mp3', // A06___02_Joshua______ENGESVO2DA
@@ -1053,136 +991,71 @@ const audioMap = {
   'adv_w657_a1636': 'A12___23_2Kings______ENGESVO2DA.mp3', // A12___23_2Kings______ENGESVO2DA
   'adv_w658_a595b': 'A12___24_2Kings______ENGESVO2DA.mp3', // A12___24_2Kings______ENGESVO2DA
   'adv_w659_a3a29': 'A12___25_2Kings______ENGESVO2DA.mp3', // A12___25_2Kings______ENGESVO2DA
-  'adv_w660_a4e96': 'A13___01_1Chronicles_ENGESVO2DA.mp3', // A13___01_1Chronicles_ENGESVO2DA
   'adv_w661_afad9': 'A13___01_1Chronicles___ENGESVO2DA.mp3', // A13___01_1Chronicles___ENGESVO2DA
-  'adv_w662_a392b': 'A13___02_1Chronicles_ENGESVO2DA.mp3', // A13___02_1Chronicles_ENGESVO2DA
   'adv_w663_ab3e9': 'A13___02_1Chronicles___ENGESVO2DA.mp3', // A13___02_1Chronicles___ENGESVO2DA
-  'adv_w664_a38e0': 'A13___03_1Chronicles_ENGESVO2DA.mp3', // A13___03_1Chronicles_ENGESVO2DA
   'adv_w665_ae256': 'A13___03_1Chronicles___ENGESVO2DA.mp3', // A13___03_1Chronicles___ENGESVO2DA
-  'adv_w666_ac44f': 'A13___04_1Chronicles_ENGESVO2DA.mp3', // A13___04_1Chronicles_ENGESVO2DA
   'adv_w667_a4177': 'A13___04_1Chronicles___ENGESVO2DA.mp3', // A13___04_1Chronicles___ENGESVO2DA
-  'adv_w668_a9654': 'A13___05_1Chronicles_ENGESVO2DA.mp3', // A13___05_1Chronicles_ENGESVO2DA
   'adv_w669_ab4a9': 'A13___05_1Chronicles___ENGESVO2DA.mp3', // A13___05_1Chronicles___ENGESVO2DA
-  'adv_w670_a54bb': 'A13___06_1Chronicles_ENGESVO2DA.mp3', // A13___06_1Chronicles_ENGESVO2DA
   'adv_w671_abe99': 'A13___06_1Chronicles___ENGESVO2DA.mp3', // A13___06_1Chronicles___ENGESVO2DA
-  'adv_w672_a6d8a': 'A13___07_1Chronicles_ENGESVO2DA.mp3', // A13___07_1Chronicles_ENGESVO2DA
   'adv_w673_aeebe': 'A13___07_1Chronicles___ENGESVO2DA.mp3', // A13___07_1Chronicles___ENGESVO2DA
-  'adv_w674_a2178': 'A13___08_1Chronicles_ENGESVO2DA.mp3', // A13___08_1Chronicles_ENGESVO2DA
   'adv_w675_a9811': 'A13___08_1Chronicles___ENGESVO2DA.mp3', // A13___08_1Chronicles___ENGESVO2DA
-  'adv_w676_ac40d': 'A13___09_1Chronicles_ENGESVO2DA.mp3', // A13___09_1Chronicles_ENGESVO2DA
   'adv_w677_a2c36': 'A13___09_1Chronicles___ENGESVO2DA.mp3', // A13___09_1Chronicles___ENGESVO2DA
-  'adv_w678_a284c': 'A13___10_1Chronicles_ENGESVO2DA.mp3', // A13___10_1Chronicles_ENGESVO2DA
   'adv_w679_a0731': 'A13___10_1Chronicles___ENGESVO2DA.mp3', // A13___10_1Chronicles___ENGESVO2DA
-  'adv_w680_ac68d': 'A13___11_1Chronicles_ENGESVO2DA.mp3', // A13___11_1Chronicles_ENGESVO2DA
   'adv_w681_a8268': 'A13___11_1Chronicles___ENGESVO2DA.mp3', // A13___11_1Chronicles___ENGESVO2DA
-  'adv_w682_a2a80': 'A13___12_1Chronicles_ENGESVO2DA.mp3', // A13___12_1Chronicles_ENGESVO2DA
   'adv_w683_a5429': 'A13___12_1Chronicles___ENGESVO2DA.mp3', // A13___12_1Chronicles___ENGESVO2DA
-  'adv_w684_ada1b': 'A13___13_1Chronicles_ENGESVO2DA.mp3', // A13___13_1Chronicles_ENGESVO2DA
   'adv_w685_a6502': 'A13___13_1Chronicles___ENGESVO2DA.mp3', // A13___13_1Chronicles___ENGESVO2DA
-  'adv_w686_aaa8a': 'A13___14_1Chronicles_ENGESVO2DA.mp3', // A13___14_1Chronicles_ENGESVO2DA
   'adv_w687_a3bc3': 'A13___14_1Chronicles___ENGESVO2DA.mp3', // A13___14_1Chronicles___ENGESVO2DA
-  'adv_w688_a2e32': 'A13___15_1Chronicles_ENGESVO2DA.mp3', // A13___15_1Chronicles_ENGESVO2DA
   'adv_w689_aee5c': 'A13___15_1Chronicles___ENGESVO2DA.mp3', // A13___15_1Chronicles___ENGESVO2DA
-  'adv_w690_a2ce0': 'A13___16_1Chronicles_ENGESVO2DA.mp3', // A13___16_1Chronicles_ENGESVO2DA
   'adv_w691_a172b': 'A13___16_1Chronicles___ENGESVO2DA.mp3', // A13___16_1Chronicles___ENGESVO2DA
-  'adv_w692_a5d01': 'A13___17_1Chronicles_ENGESVO2DA.mp3', // A13___17_1Chronicles_ENGESVO2DA
   'adv_w693_abf97': 'A13___17_1Chronicles___ENGESVO2DA.mp3', // A13___17_1Chronicles___ENGESVO2DA
-  'adv_w694_ab57d': 'A13___18_1Chronicles_ENGESVO2DA.mp3', // A13___18_1Chronicles_ENGESVO2DA
   'adv_w695_a9169': 'A13___18_1Chronicles___ENGESVO2DA.mp3', // A13___18_1Chronicles___ENGESVO2DA
-  'adv_w696_afda6': 'A13___19_1Chronicles_ENGESVO2DA.mp3', // A13___19_1Chronicles_ENGESVO2DA
   'adv_w697_a047c': 'A13___19_1Chronicles___ENGESVO2DA.mp3', // A13___19_1Chronicles___ENGESVO2DA
-  'adv_w698_aea6c': 'A13___20_1Chronicles_ENGESVO2DA.mp3', // A13___20_1Chronicles_ENGESVO2DA
   'adv_w699_a2b04': 'A13___20_1Chronicles___ENGESVO2DA.mp3', // A13___20_1Chronicles___ENGESVO2DA
-  'adv_w700_ac05f': 'A13___21_1Chronicles_ENGESVO2DA.mp3', // A13___21_1Chronicles_ENGESVO2DA
   'adv_w701_af24a': 'A13___21_1Chronicles___ENGESVO2DA.mp3', // A13___21_1Chronicles___ENGESVO2DA
-  'adv_w702_ab5aa': 'A13___22_1Chronicles_ENGESVO2DA.mp3', // A13___22_1Chronicles_ENGESVO2DA
   'adv_w703_a874a': 'A13___22_1Chronicles___ENGESVO2DA.mp3', // A13___22_1Chronicles___ENGESVO2DA
-  'adv_w704_a3643': 'A13___23_1Chronicles_ENGESVO2DA.mp3', // A13___23_1Chronicles_ENGESVO2DA
   'adv_w705_a1532': 'A13___23_1Chronicles___ENGESVO2DA.mp3', // A13___23_1Chronicles___ENGESVO2DA
-  'adv_w706_a643e': 'A13___24_1Chronicles_ENGESVO2DA.mp3', // A13___24_1Chronicles_ENGESVO2DA
   'adv_w707_a32f4': 'A13___24_1Chronicles___ENGESVO2DA.mp3', // A13___24_1Chronicles___ENGESVO2DA
-  'adv_w708_a70a9': 'A13___25_1Chronicles_ENGESVO2DA.mp3', // A13___25_1Chronicles_ENGESVO2DA
   'adv_w709_a3e7a': 'A13___25_1Chronicles___ENGESVO2DA.mp3', // A13___25_1Chronicles___ENGESVO2DA
-  'adv_w710_a04fe': 'A13___26_1Chronicles_ENGESVO2DA.mp3', // A13___26_1Chronicles_ENGESVO2DA
   'adv_w711_a7393': 'A13___26_1Chronicles___ENGESVO2DA.mp3', // A13___26_1Chronicles___ENGESVO2DA
-  'adv_w712_afb92': 'A13___27_1Chronicles_ENGESVO2DA.mp3', // A13___27_1Chronicles_ENGESVO2DA
   'adv_w713_a057c': 'A13___27_1Chronicles___ENGESVO2DA.mp3', // A13___27_1Chronicles___ENGESVO2DA
-  'adv_w714_af432': 'A13___28_1Chronicles_ENGESVO2DA.mp3', // A13___28_1Chronicles_ENGESVO2DA
   'adv_w715_a7b47': 'A13___28_1Chronicles___ENGESVO2DA.mp3', // A13___28_1Chronicles___ENGESVO2DA
-  'adv_w716_a5c5b': 'A13___29_1Chronicles_ENGESVO2DA.mp3', // A13___29_1Chronicles_ENGESVO2DA
   'adv_w717_a37f5': 'A13___29_1Chronicles___ENGESVO2DA.mp3', // A13___29_1Chronicles___ENGESVO2DA
-  'adv_w718_a71b9': 'A14___01_2Chronicles_ENGESVO2DA.mp3', // A14___01_2Chronicles_ENGESVO2DA
-  'adv_w719_a0f71': 'A14___01_2Chronicles___ENGESVO2DA.mp3', // A14___01_2Chronicles___ENGESVO2DA
-  'adv_w720_a0337': 'A14___02_2Chronicles_ENGESVO2DA.mp3', // A14___02_2Chronicles_ENGESVO2DA
-  'adv_w721_a7985': 'A14___02_2Chronicles___ENGESVO2DA.mp3', // A14___02_2Chronicles___ENGESVO2DA
-  'adv_w722_ac167': 'A14___03_2Chronicles_ENGESVO2DA.mp3', // A14___03_2Chronicles_ENGESVO2DA
-  'adv_w723_a5996': 'A14___03_2Chronicles___ENGESVO2DA.mp3', // A14___03_2Chronicles___ENGESVO2DA
-  'adv_w724_a8697': 'A14___04_2Chronicles_ENGESVO2DA.mp3', // A14___04_2Chronicles_ENGESVO2DA
-  'adv_w725_a6495': 'A14___04_2Chronicles___ENGESVO2DA.mp3', // A14___04_2Chronicles___ENGESVO2DA
+  'adv_w719_a0f71': 'A14___01_2Chronicles_ENGESVO2DA.mp3', // A14___01_2Chronicles___ENGESVO2DA
+  'adv_w721_a7985': 'A14___02_2Chronicles_ENGESVO2DA.mp3', // A14___02_2Chronicles___ENGESVO2DA
+  'adv_w723_a5996': 'A14___03_2Chronicles_ENGESVO2DA.mp3', // A14___03_2Chronicles___ENGESVO2DA
+  'adv_w725_a6495': 'A14___04_2Chronicles_ENGESVO2DA.mp3', // A14___04_2Chronicles___ENGESVO2DA
   'adv_w726_a449c': 'A14___05_2Chronicles_ENGESVO2DA.mp3', // A14___05_2Chronicles_ENGESVO2DA
-  'adv_w727_ab3a8': 'A14___05_2Chronicles___ENGESVO2DA.mp3', // A14___05_2Chronicles___ENGESVO2DA
   'adv_w728_ab6cb': 'A14___06_2Chronicles_ENGESVO2DA.mp3', // A14___06_2Chronicles_ENGESVO2DA
-  'adv_w729_a7a00': 'A14___06_2Chronicles___ENGESVO2DA.mp3', // A14___06_2Chronicles___ENGESVO2DA
   'adv_w730_a9b73': 'A14___07_2Chronicles_ENGESVO2DA.mp3', // A14___07_2Chronicles_ENGESVO2DA
-  'adv_w731_a7eca': 'A14___07_2Chronicles___ENGESVO2DA.mp3', // A14___07_2Chronicles___ENGESVO2DA
   'adv_w732_af5b1': 'A14___08_2Chronicles_ENGESVO2DA.mp3', // A14___08_2Chronicles_ENGESVO2DA
-  'adv_w733_ada6f': 'A14___08_2Chronicles___ENGESVO2DA.mp3', // A14___08_2Chronicles___ENGESVO2DA
   'adv_w734_a200f': 'A14___09_2Chronicles_ENGESVO2DA.mp3', // A14___09_2Chronicles_ENGESVO2DA
-  'adv_w735_a3616': 'A14___09_2Chronicles___ENGESVO2DA.mp3', // A14___09_2Chronicles___ENGESVO2DA
   'adv_w736_a2fd7': 'A14___10_2Chronicles_ENGESVO2DA.mp3', // A14___10_2Chronicles_ENGESVO2DA
-  'adv_w737_a9954': 'A14___10_2Chronicles___ENGESVO2DA.mp3', // A14___10_2Chronicles___ENGESVO2DA
   'adv_w738_aae32': 'A14___11_2Chronicles_ENGESVO2DA.mp3', // A14___11_2Chronicles_ENGESVO2DA
-  'adv_w739_a8bd4': 'A14___11_2Chronicles___ENGESVO2DA.mp3', // A14___11_2Chronicles___ENGESVO2DA
   'adv_w740_a710d': 'A14___12_2Chronicles_ENGESVO2DA.mp3', // A14___12_2Chronicles_ENGESVO2DA
-  'adv_w741_a7565': 'A14___12_2Chronicles___ENGESVO2DA.mp3', // A14___12_2Chronicles___ENGESVO2DA
   'adv_w742_a755c': 'A14___13_2Chronicles_ENGESVO2DA.mp3', // A14___13_2Chronicles_ENGESVO2DA
-  'adv_w743_a66c5': 'A14___13_2Chronicles___ENGESVO2DA.mp3', // A14___13_2Chronicles___ENGESVO2DA
   'adv_w744_a8cbe': 'A14___14_2Chronicles_ENGESVO2DA.mp3', // A14___14_2Chronicles_ENGESVO2DA
-  'adv_w745_a7a1c': 'A14___14_2Chronicles___ENGESVO2DA.mp3', // A14___14_2Chronicles___ENGESVO2DA
   'adv_w746_aabc4': 'A14___15_2Chronicles_ENGESVO2DA.mp3', // A14___15_2Chronicles_ENGESVO2DA
-  'adv_w747_a84cb': 'A14___15_2Chronicles___ENGESVO2DA.mp3', // A14___15_2Chronicles___ENGESVO2DA
   'adv_w748_a10c7': 'A14___16_2Chronicles_ENGESVO2DA.mp3', // A14___16_2Chronicles_ENGESVO2DA
-  'adv_w749_a6463': 'A14___16_2Chronicles___ENGESVO2DA.mp3', // A14___16_2Chronicles___ENGESVO2DA
   'adv_w750_ab9e4': 'A14___17_2Chronicles_ENGESVO2DA.mp3', // A14___17_2Chronicles_ENGESVO2DA
-  'adv_w751_a25bf': 'A14___17_2Chronicles___ENGESVO2DA.mp3', // A14___17_2Chronicles___ENGESVO2DA
   'adv_w752_ac4a2': 'A14___18_2Chronicles_ENGESVO2DA.mp3', // A14___18_2Chronicles_ENGESVO2DA
-  'adv_w753_a344d': 'A14___18_2Chronicles___ENGESVO2DA.mp3', // A14___18_2Chronicles___ENGESVO2DA
   'adv_w754_ad83d': 'A14___19_2Chronicles_ENGESVO2DA.mp3', // A14___19_2Chronicles_ENGESVO2DA
-  'adv_w755_ab3b5': 'A14___19_2Chronicles___ENGESVO2DA.mp3', // A14___19_2Chronicles___ENGESVO2DA
   'adv_w756_aadc7': 'A14___20_2Chronicles_ENGESVO2DA.mp3', // A14___20_2Chronicles_ENGESVO2DA
-  'adv_w757_a56fc': 'A14___20_2Chronicles___ENGESVO2DA.mp3', // A14___20_2Chronicles___ENGESVO2DA
   'adv_w758_a635d': 'A14___21_2Chronicles_ENGESVO2DA.mp3', // A14___21_2Chronicles_ENGESVO2DA
-  'adv_w759_a3579': 'A14___21_2Chronicles___ENGESVO2DA.mp3', // A14___21_2Chronicles___ENGESVO2DA
   'adv_w760_a9117': 'A14___22_2Chronicles_ENGESVO2DA.mp3', // A14___22_2Chronicles_ENGESVO2DA
-  'adv_w761_adce0': 'A14___22_2Chronicles___ENGESVO2DA.mp3', // A14___22_2Chronicles___ENGESVO2DA
   'adv_w762_a3bba': 'A14___23_2Chronicles_ENGESVO2DA.mp3', // A14___23_2Chronicles_ENGESVO2DA
-  'adv_w763_a7b19': 'A14___23_2Chronicles___ENGESVO2DA.mp3', // A14___23_2Chronicles___ENGESVO2DA
   'adv_w764_af347': 'A14___24_2Chronicles_ENGESVO2DA.mp3', // A14___24_2Chronicles_ENGESVO2DA
-  'adv_w765_a4ad6': 'A14___24_2Chronicles___ENGESVO2DA.mp3', // A14___24_2Chronicles___ENGESVO2DA
   'adv_w766_a8bd1': 'A14___25_2Chronicles_ENGESVO2DA.mp3', // A14___25_2Chronicles_ENGESVO2DA
-  'adv_w767_a2ead': 'A14___25_2Chronicles___ENGESVO2DA.mp3', // A14___25_2Chronicles___ENGESVO2DA
   'adv_w768_abf62': 'A14___26_2Chronicles_ENGESVO2DA.mp3', // A14___26_2Chronicles_ENGESVO2DA
-  'adv_w769_a25ff': 'A14___26_2Chronicles___ENGESVO2DA.mp3', // A14___26_2Chronicles___ENGESVO2DA
   'adv_w770_aa8dc': 'A14___27_2Chronicles_ENGESVO2DA.mp3', // A14___27_2Chronicles_ENGESVO2DA
-  'adv_w771_a1278': 'A14___27_2Chronicles___ENGESVO2DA.mp3', // A14___27_2Chronicles___ENGESVO2DA
   'adv_w772_a4ac4': 'A14___28_2Chronicles_ENGESVO2DA.mp3', // A14___28_2Chronicles_ENGESVO2DA
-  'adv_w773_a041a': 'A14___28_2Chronicles___ENGESVO2DA.mp3', // A14___28_2Chronicles___ENGESVO2DA
   'adv_w774_a3131': 'A14___29_2Chronicles_ENGESVO2DA.mp3', // A14___29_2Chronicles_ENGESVO2DA
-  'adv_w775_a57d3': 'A14___29_2Chronicles___ENGESVO2DA.mp3', // A14___29_2Chronicles___ENGESVO2DA
   'adv_w776_ac245': 'A14___30_2Chronicles_ENGESVO2DA.mp3', // A14___30_2Chronicles_ENGESVO2DA
-  'adv_w777_a39db': 'A14___30_2Chronicles___ENGESVO2DA.mp3', // A14___30_2Chronicles___ENGESVO2DA
   'adv_w778_aa636': 'A14___31_2Chronicles_ENGESVO2DA.mp3', // A14___31_2Chronicles_ENGESVO2DA
-  'adv_w779_a73db': 'A14___31_2Chronicles___ENGESVO2DA.mp3', // A14___31_2Chronicles___ENGESVO2DA
   'adv_w780_a0a12': 'A14___32_2Chronicles_ENGESVO2DA.mp3', // A14___32_2Chronicles_ENGESVO2DA
-  'adv_w781_af3bc': 'A14___32_2Chronicles___ENGESVO2DA.mp3', // A14___32_2Chronicles___ENGESVO2DA
   'adv_w782_a2435': 'A14___33_2Chronicles_ENGESVO2DA.mp3', // A14___33_2Chronicles_ENGESVO2DA
-  'adv_w783_aaf9b': 'A14___33_2Chronicles___ENGESVO2DA.mp3', // A14___33_2Chronicles___ENGESVO2DA
   'adv_w784_a62db': 'A14___34_2Chronicles_ENGESVO2DA.mp3', // A14___34_2Chronicles_ENGESVO2DA
-  'adv_w785_ad500': 'A14___34_2Chronicles___ENGESVO2DA.mp3', // A14___34_2Chronicles___ENGESVO2DA
   'adv_w786_a56a1': 'A14___35_2Chronicles_ENGESVO2DA.mp3', // A14___35_2Chronicles_ENGESVO2DA
-  'adv_w787_a6a94': 'A14___35_2Chronicles___ENGESVO2DA.mp3', // A14___35_2Chronicles___ENGESVO2DA
   'adv_w788_aa579': 'A14___36_2Chronicles_ENGESVO2DA.mp3', // A14___36_2Chronicles_ENGESVO2DA
-  'adv_w789_ab7a5': 'A14___36_2Chronicles___ENGESVO2DA.mp3', // A14___36_2Chronicles___ENGESVO2DA
   'adv_w790_ac979': 'A15___01_Ezra________ENGESVO2DA.mp3', // A15___01_Ezra________ENGESVO2DA
   'adv_w791_a00a1': 'A15___02_Ezra________ENGESVO2DA.mp3', // A15___02_Ezra________ENGESVO2DA
   'adv_w792_af764': 'A15___03_Ezra________ENGESVO2DA.mp3', // A15___03_Ezra________ENGESVO2DA
@@ -1194,31 +1067,18 @@ const audioMap = {
   'adv_w798_ae483': 'A15___09_Ezra________ENGESVO2DA.mp3', // A15___09_Ezra________ENGESVO2DA
   'adv_w799_ad0d3': 'A15___10_Ezra________ENGESVO2DA.mp3', // A15___10_Ezra________ENGESVO2DA
   'adv_w800_a6227': 'A16___01_Nehemiah____ENGESVO2DA.mp3', // A16___01_Nehemiah____ENGESVO2DA
-  'adv_w801_a719f': 'A16___01_Nehemiah______ENGESVO2DA.mp3', // A16___01_Nehemiah______ENGESVO2DA
   'adv_w802_ac1e7': 'A16___02_Nehemiah____ENGESVO2DA.mp3', // A16___02_Nehemiah____ENGESVO2DA
-  'adv_w803_a054e': 'A16___02_Nehemiah______ENGESVO2DA.mp3', // A16___02_Nehemiah______ENGESVO2DA
   'adv_w804_a74bb': 'A16___03_Nehemiah____ENGESVO2DA.mp3', // A16___03_Nehemiah____ENGESVO2DA
-  'adv_w805_abbe7': 'A16___03_Nehemiah______ENGESVO2DA.mp3', // A16___03_Nehemiah______ENGESVO2DA
   'adv_w806_ae3c4': 'A16___04_Nehemiah____ENGESVO2DA.mp3', // A16___04_Nehemiah____ENGESVO2DA
-  'adv_w807_abbbd': 'A16___04_Nehemiah______ENGESVO2DA.mp3', // A16___04_Nehemiah______ENGESVO2DA
   'adv_w808_a715c': 'A16___05_Nehemiah____ENGESVO2DA.mp3', // A16___05_Nehemiah____ENGESVO2DA
-  'adv_w809_ab4d9': 'A16___05_Nehemiah______ENGESVO2DA.mp3', // A16___05_Nehemiah______ENGESVO2DA
   'adv_w810_a52fc': 'A16___06_Nehemiah____ENGESVO2DA.mp3', // A16___06_Nehemiah____ENGESVO2DA
-  'adv_w811_a1f65': 'A16___06_Nehemiah______ENGESVO2DA.mp3', // A16___06_Nehemiah______ENGESVO2DA
   'adv_w812_a575a': 'A16___07_Nehemiah____ENGESVO2DA.mp3', // A16___07_Nehemiah____ENGESVO2DA
-  'adv_w813_af47f': 'A16___07_Nehemiah______ENGESVO2DA.mp3', // A16___07_Nehemiah______ENGESVO2DA
   'adv_w814_acdc4': 'A16___08_Nehemiah____ENGESVO2DA.mp3', // A16___08_Nehemiah____ENGESVO2DA
-  'adv_w815_abd04': 'A16___08_Nehemiah______ENGESVO2DA.mp3', // A16___08_Nehemiah______ENGESVO2DA
   'adv_w816_af741': 'A16___09_Nehemiah____ENGESVO2DA.mp3', // A16___09_Nehemiah____ENGESVO2DA
-  'adv_w817_af29d': 'A16___09_Nehemiah______ENGESVO2DA.mp3', // A16___09_Nehemiah______ENGESVO2DA
   'adv_w818_ab0d6': 'A16___10_Nehemiah____ENGESVO2DA.mp3', // A16___10_Nehemiah____ENGESVO2DA
-  'adv_w819_addaa': 'A16___10_Nehemiah______ENGESVO2DA.mp3', // A16___10_Nehemiah______ENGESVO2DA
   'adv_w820_a9c89': 'A16___11_Nehemiah____ENGESVO2DA.mp3', // A16___11_Nehemiah____ENGESVO2DA
-  'adv_w821_afc7a': 'A16___11_Nehemiah______ENGESVO2DA.mp3', // A16___11_Nehemiah______ENGESVO2DA
   'adv_w822_ab52f': 'A16___12_Nehemiah____ENGESVO2DA.mp3', // A16___12_Nehemiah____ENGESVO2DA
-  'adv_w823_a78e8': 'A16___12_Nehemiah______ENGESVO2DA.mp3', // A16___12_Nehemiah______ENGESVO2DA
   'adv_w824_aa77f': 'A16___13_Nehemiah____ENGESVO2DA.mp3', // A16___13_Nehemiah____ENGESVO2DA
-  'adv_w825_a0527': 'A16___13_Nehemiah______ENGESVO2DA.mp3', // A16___13_Nehemiah______ENGESVO2DA
   'adv_w826_a1279': 'A17___01_Esther______ENGESVO2DA.mp3', // A17___01_Esther______ENGESVO2DA
   'adv_w827_a573b': 'A17___02_Esther______ENGESVO2DA.mp3', // A17___02_Esther______ENGESVO2DA
   'adv_w828_a6979': 'A17___03_Esther______ENGESVO2DA.mp3', // A17___03_Esther______ENGESVO2DA
@@ -1421,108 +1281,57 @@ const audioMap = {
   'adv_w1025_a8067': 'A19__148_Psalms______ENGESVO2DA.mp3', // A19__148_Psalms______ENGESVO2DA
   'adv_w1026_ac0c8': 'A19__149_Psalms______ENGESVO2DA.mp3', // A19__149_Psalms______ENGESVO2DA
   'adv_w1027_a64ff': 'A19__150_Psalms______ENGESVO2DA.mp3', // A19__150_Psalms______ENGESVO2DA
-  'adv_w1028_a87fc': 'A20___01_Proverbs____ENGESVO2DA.mp3', // A20___01_Proverbs____ENGESVO2DA
   'adv_w1029_a5eea': 'A20___01_Proverbs______ENGESVO2DA.mp3', // A20___01_Proverbs______ENGESVO2DA
-  'adv_w1030_a6cc0': 'A20___02_Proverbs____ENGESVO2DA.mp3', // A20___02_Proverbs____ENGESVO2DA
   'adv_w1031_a7f44': 'A20___02_Proverbs______ENGESVO2DA.mp3', // A20___02_Proverbs______ENGESVO2DA
-  'adv_w1032_a3a6b': 'A20___03_Proverbs____ENGESVO2DA.mp3', // A20___03_Proverbs____ENGESVO2DA
   'adv_w1033_a6ca9': 'A20___03_Proverbs______ENGESVO2DA.mp3', // A20___03_Proverbs______ENGESVO2DA
-  'adv_w1034_ae2d5': 'A20___04_Proverbs____ENGESVO2DA.mp3', // A20___04_Proverbs____ENGESVO2DA
   'adv_w1035_aff8f': 'A20___04_Proverbs______ENGESVO2DA.mp3', // A20___04_Proverbs______ENGESVO2DA
-  'adv_w1036_a7e62': 'A20___05_Proverbs____ENGESVO2DA.mp3', // A20___05_Proverbs____ENGESVO2DA
   'adv_w1037_a5eb5': 'A20___05_Proverbs______ENGESVO2DA.mp3', // A20___05_Proverbs______ENGESVO2DA
-  'adv_w1038_a9f27': 'A20___06_Proverbs____ENGESVO2DA.mp3', // A20___06_Proverbs____ENGESVO2DA
   'adv_w1039_adac8': 'A20___06_Proverbs______ENGESVO2DA.mp3', // A20___06_Proverbs______ENGESVO2DA
-  'adv_w1040_a31c2': 'A20___07_Proverbs____ENGESVO2DA.mp3', // A20___07_Proverbs____ENGESVO2DA
   'adv_w1041_a1a96': 'A20___07_Proverbs______ENGESVO2DA.mp3', // A20___07_Proverbs______ENGESVO2DA
-  'adv_w1042_a8c3c': 'A20___08_Proverbs____ENGESVO2DA.mp3', // A20___08_Proverbs____ENGESVO2DA
   'adv_w1043_a9d78': 'A20___08_Proverbs______ENGESVO2DA.mp3', // A20___08_Proverbs______ENGESVO2DA
-  'adv_w1044_a527b': 'A20___09_Proverbs____ENGESVO2DA.mp3', // A20___09_Proverbs____ENGESVO2DA
   'adv_w1045_a2376': 'A20___09_Proverbs______ENGESVO2DA.mp3', // A20___09_Proverbs______ENGESVO2DA
-  'adv_w1046_ae248': 'A20___10_Proverbs____ENGESVO2DA.mp3', // A20___10_Proverbs____ENGESVO2DA
   'adv_w1047_aa189': 'A20___10_Proverbs______ENGESVO2DA.mp3', // A20___10_Proverbs______ENGESVO2DA
-  'adv_w1048_ad9d0': 'A20___11_Proverbs____ENGESVO2DA.mp3', // A20___11_Proverbs____ENGESVO2DA
   'adv_w1049_a3aa7': 'A20___11_Proverbs______ENGESVO2DA.mp3', // A20___11_Proverbs______ENGESVO2DA
-  'adv_w1050_aca9c': 'A20___12_Proverbs____ENGESVO2DA.mp3', // A20___12_Proverbs____ENGESVO2DA
   'adv_w1051_a780b': 'A20___12_Proverbs______ENGESVO2DA.mp3', // A20___12_Proverbs______ENGESVO2DA
-  'adv_w1052_af3df': 'A20___13_Proverbs____ENGESVO2DA.mp3', // A20___13_Proverbs____ENGESVO2DA
   'adv_w1053_a4dcb': 'A20___13_Proverbs______ENGESVO2DA.mp3', // A20___13_Proverbs______ENGESVO2DA
-  'adv_w1054_ad7b7': 'A20___14_Proverbs____ENGESVO2DA.mp3', // A20___14_Proverbs____ENGESVO2DA
   'adv_w1055_ac3d7': 'A20___14_Proverbs______ENGESVO2DA.mp3', // A20___14_Proverbs______ENGESVO2DA
-  'adv_w1056_ae976': 'A20___15_Proverbs____ENGESVO2DA.mp3', // A20___15_Proverbs____ENGESVO2DA
   'adv_w1057_a9074': 'A20___15_Proverbs______ENGESVO2DA.mp3', // A20___15_Proverbs______ENGESVO2DA
-  'adv_w1058_a7925': 'A20___16_Proverbs____ENGESVO2DA.mp3', // A20___16_Proverbs____ENGESVO2DA
   'adv_w1059_ac4bc': 'A20___16_Proverbs______ENGESVO2DA.mp3', // A20___16_Proverbs______ENGESVO2DA
-  'adv_w1060_a4466': 'A20___17_Proverbs____ENGESVO2DA.mp3', // A20___17_Proverbs____ENGESVO2DA
   'adv_w1061_a1a3c': 'A20___17_Proverbs______ENGESVO2DA.mp3', // A20___17_Proverbs______ENGESVO2DA
-  'adv_w1062_a9c42': 'A20___18_Proverbs____ENGESVO2DA.mp3', // A20___18_Proverbs____ENGESVO2DA
   'adv_w1063_a04fa': 'A20___18_Proverbs______ENGESVO2DA.mp3', // A20___18_Proverbs______ENGESVO2DA
-  'adv_w1064_ad795': 'A20___19_Proverbs____ENGESVO2DA.mp3', // A20___19_Proverbs____ENGESVO2DA
   'adv_w1065_ab352': 'A20___19_Proverbs______ENGESVO2DA.mp3', // A20___19_Proverbs______ENGESVO2DA
-  'adv_w1066_af9aa': 'A20___20_Proverbs____ENGESVO2DA.mp3', // A20___20_Proverbs____ENGESVO2DA
   'adv_w1067_a3ab7': 'A20___20_Proverbs______ENGESVO2DA.mp3', // A20___20_Proverbs______ENGESVO2DA
-  'adv_w1068_a3a97': 'A20___21_Proverbs____ENGESVO2DA.mp3', // A20___21_Proverbs____ENGESVO2DA
   'adv_w1069_a09c6': 'A20___21_Proverbs______ENGESVO2DA.mp3', // A20___21_Proverbs______ENGESVO2DA
-  'adv_w1070_a9a47': 'A20___22_Proverbs____ENGESVO2DA.mp3', // A20___22_Proverbs____ENGESVO2DA
   'adv_w1071_a5dba': 'A20___22_Proverbs______ENGESVO2DA.mp3', // A20___22_Proverbs______ENGESVO2DA
-  'adv_w1072_a4466': 'A20___23_Proverbs____ENGESVO2DA.mp3', // A20___23_Proverbs____ENGESVO2DA
   'adv_w1073_a6535': 'A20___23_Proverbs______ENGESVO2DA.mp3', // A20___23_Proverbs______ENGESVO2DA
-  'adv_w1074_a8bbd': 'A20___24_Proverbs____ENGESVO2DA.mp3', // A20___24_Proverbs____ENGESVO2DA
   'adv_w1075_ac138': 'A20___24_Proverbs______ENGESVO2DA.mp3', // A20___24_Proverbs______ENGESVO2DA
-  'adv_w1076_a2394': 'A20___25_Proverbs____ENGESVO2DA.mp3', // A20___25_Proverbs____ENGESVO2DA
   'adv_w1077_a44de': 'A20___25_Proverbs______ENGESVO2DA.mp3', // A20___25_Proverbs______ENGESVO2DA
-  'adv_w1078_abcc3': 'A20___26_Proverbs____ENGESVO2DA.mp3', // A20___26_Proverbs____ENGESVO2DA
   'adv_w1079_a2ac9': 'A20___26_Proverbs______ENGESVO2DA.mp3', // A20___26_Proverbs______ENGESVO2DA
-  'adv_w1080_abadd': 'A20___27_Proverbs____ENGESVO2DA.mp3', // A20___27_Proverbs____ENGESVO2DA
   'adv_w1081_a682a': 'A20___27_Proverbs______ENGESVO2DA.mp3', // A20___27_Proverbs______ENGESVO2DA
-  'adv_w1082_a9d61': 'A20___28_Proverbs____ENGESVO2DA.mp3', // A20___28_Proverbs____ENGESVO2DA
   'adv_w1083_a4dc7': 'A20___28_Proverbs______ENGESVO2DA.mp3', // A20___28_Proverbs______ENGESVO2DA
-  'adv_w1084_a7517': 'A20___29_Proverbs____ENGESVO2DA.mp3', // A20___29_Proverbs____ENGESVO2DA
   'adv_w1085_acfb1': 'A20___29_Proverbs______ENGESVO2DA.mp3', // A20___29_Proverbs______ENGESVO2DA
-  'adv_w1086_a1eba': 'A20___30_Proverbs____ENGESVO2DA.mp3', // A20___30_Proverbs____ENGESVO2DA
   'adv_w1087_a158f': 'A20___30_Proverbs______ENGESVO2DA.mp3', // A20___30_Proverbs______ENGESVO2DA
-  'adv_w1088_a8147': 'A20___31_Proverbs____ENGESVO2DA.mp3', // A20___31_Proverbs____ENGESVO2DA
   'adv_w1089_ac390': 'A20___31_Proverbs______ENGESVO2DA.mp3', // A20___31_Proverbs______ENGESVO2DA
-  'adv_w1090_ad24f': 'A21___01_EcclesiastesENGESVO2DA.mp3', // A21___01_EcclesiastesENGESVO2DA
   'adv_w1091_ae24d': 'A21___01_Ecclesiastes__ENGESVO2DA.mp3', // A21___01_Ecclesiastes__ENGESVO2DA
-  'adv_w1092_a9a36': 'A21___02_EcclesiastesENGESVO2DA.mp3', // A21___02_EcclesiastesENGESVO2DA
   'adv_w1093_adcef': 'A21___02_Ecclesiastes__ENGESVO2DA.mp3', // A21___02_Ecclesiastes__ENGESVO2DA
-  'adv_w1094_a0f79': 'A21___03_EcclesiastesENGESVO2DA.mp3', // A21___03_EcclesiastesENGESVO2DA
   'adv_w1095_a44c1': 'A21___03_Ecclesiastes__ENGESVO2DA.mp3', // A21___03_Ecclesiastes__ENGESVO2DA
-  'adv_w1096_a919d': 'A21___04_EcclesiastesENGESVO2DA.mp3', // A21___04_EcclesiastesENGESVO2DA
   'adv_w1097_a78a7': 'A21___04_Ecclesiastes__ENGESVO2DA.mp3', // A21___04_Ecclesiastes__ENGESVO2DA
-  'adv_w1098_ab018': 'A21___05_EcclesiastesENGESVO2DA.mp3', // A21___05_EcclesiastesENGESVO2DA
   'adv_w1099_a6d75': 'A21___05_Ecclesiastes__ENGESVO2DA.mp3', // A21___05_Ecclesiastes__ENGESVO2DA
-  'adv_w1100_af7d8': 'A21___06_EcclesiastesENGESVO2DA.mp3', // A21___06_EcclesiastesENGESVO2DA
   'adv_w1101_a30b7': 'A21___06_Ecclesiastes__ENGESVO2DA.mp3', // A21___06_Ecclesiastes__ENGESVO2DA
-  'adv_w1102_afe30': 'A21___07_EcclesiastesENGESVO2DA.mp3', // A21___07_EcclesiastesENGESVO2DA
   'adv_w1103_a48d9': 'A21___07_Ecclesiastes__ENGESVO2DA.mp3', // A21___07_Ecclesiastes__ENGESVO2DA
-  'adv_w1104_ab850': 'A21___08_EcclesiastesENGESVO2DA.mp3', // A21___08_EcclesiastesENGESVO2DA
   'adv_w1105_a92e3': 'A21___08_Ecclesiastes__ENGESVO2DA.mp3', // A21___08_Ecclesiastes__ENGESVO2DA
-  'adv_w1106_a5668': 'A21___09_EcclesiastesENGESVO2DA.mp3', // A21___09_EcclesiastesENGESVO2DA
   'adv_w1107_a45b5': 'A21___09_Ecclesiastes__ENGESVO2DA.mp3', // A21___09_Ecclesiastes__ENGESVO2DA
-  'adv_w1108_aa83c': 'A21___10_EcclesiastesENGESVO2DA.mp3', // A21___10_EcclesiastesENGESVO2DA
   'adv_w1109_a95d1': 'A21___10_Ecclesiastes__ENGESVO2DA.mp3', // A21___10_Ecclesiastes__ENGESVO2DA
-  'adv_w1110_a5baf': 'A21___11_EcclesiastesENGESVO2DA.mp3', // A21___11_EcclesiastesENGESVO2DA
   'adv_w1111_aef28': 'A21___11_Ecclesiastes__ENGESVO2DA.mp3', // A21___11_Ecclesiastes__ENGESVO2DA
-  'adv_w1112_a94c5': 'A21___12_EcclesiastesENGESVO2DA.mp3', // A21___12_EcclesiastesENGESVO2DA
   'adv_w1113_a7fd3': 'A21___12_Ecclesiastes__ENGESVO2DA.mp3', // A21___12_Ecclesiastes__ENGESVO2DA
   'adv_w1114_aa077': 'A22___01_SongofSongs_ENGESVO2DA.mp3', // A22___01_SongofSongs_ENGESVO2DA
-  'adv_w1115_a4cff': 'A22___01_SongofSongs___ENGESVO2DA.mp3', // A22___01_SongofSongs___ENGESVO2DA
   'adv_w1116_ad331': 'A22___02_SongofSongs_ENGESVO2DA.mp3', // A22___02_SongofSongs_ENGESVO2DA
-  'adv_w1117_a5ae8': 'A22___02_SongofSongs___ENGESVO2DA.mp3', // A22___02_SongofSongs___ENGESVO2DA
   'adv_w1118_ac1aa': 'A22___03_SongofSongs_ENGESVO2DA.mp3', // A22___03_SongofSongs_ENGESVO2DA
-  'adv_w1119_a962d': 'A22___03_SongofSongs___ENGESVO2DA.mp3', // A22___03_SongofSongs___ENGESVO2DA
   'adv_w1120_a87ae': 'A22___04_SongofSongs_ENGESVO2DA.mp3', // A22___04_SongofSongs_ENGESVO2DA
-  'adv_w1121_ab53e': 'A22___04_SongofSongs___ENGESVO2DA.mp3', // A22___04_SongofSongs___ENGESVO2DA
   'adv_w1122_a235d': 'A22___05_SongofSongs_ENGESVO2DA.mp3', // A22___05_SongofSongs_ENGESVO2DA
-  'adv_w1123_a76f0': 'A22___05_SongofSongs___ENGESVO2DA.mp3', // A22___05_SongofSongs___ENGESVO2DA
   'adv_w1124_af82b': 'A22___06_SongofSongs_ENGESVO2DA.mp3', // A22___06_SongofSongs_ENGESVO2DA
-  'adv_w1125_aa910': 'A22___06_SongofSongs___ENGESVO2DA.mp3', // A22___06_SongofSongs___ENGESVO2DA
   'adv_w1126_a611e': 'A22___07_SongofSongs_ENGESVO2DA.mp3', // A22___07_SongofSongs_ENGESVO2DA
-  'adv_w1127_a367d': 'A22___07_SongofSongs___ENGESVO2DA.mp3', // A22___07_SongofSongs___ENGESVO2DA
   'adv_w1128_a7d3d': 'A22___08_SongofSongs_ENGESVO2DA.mp3', // A22___08_SongofSongs_ENGESVO2DA
-  'adv_w1129_a3729': 'A22___08_SongofSongs___ENGESVO2DA.mp3', // A22___08_SongofSongs___ENGESVO2DA
   'adv_w1130_a28ac': 'A23___01_Isaiah______ENGESVO2DA.mp3', // A23___01_Isaiah______ENGESVO2DA
   'adv_w1131_a10ae': 'A23___02_Isaiah______ENGESVO2DA.mp3', // A23___02_Isaiah______ENGESVO2DA
   'adv_w1132_a38e9': 'A23___03_Isaiah______ENGESVO2DA.mp3', // A23___03_Isaiah______ENGESVO2DA
@@ -1589,120 +1398,63 @@ const audioMap = {
   'adv_w1193_af424': 'A23___64_Isaiah______ENGESVO2DA.mp3', // A23___64_Isaiah______ENGESVO2DA
   'adv_w1194_adc15': 'A23___65_Isaiah______ENGESVO2DA.mp3', // A23___65_Isaiah______ENGESVO2DA
   'adv_w1195_a31a3': 'A23___66_Isaiah______ENGESVO2DA.mp3', // A23___66_Isaiah______ENGESVO2DA
-  'adv_w1196_a4f9b': 'A24___01_Jeremiah____ENGESVO2DA.mp3', // A24___01_Jeremiah____ENGESVO2DA
   'adv_w1197_a4b0a': 'A24___01_Jeremiah______ENGESVO2DA.mp3', // A24___01_Jeremiah______ENGESVO2DA
-  'adv_w1198_aea37': 'A24___02_Jeremiah____ENGESVO2DA.mp3', // A24___02_Jeremiah____ENGESVO2DA
   'adv_w1199_a938f': 'A24___02_Jeremiah______ENGESVO2DA.mp3', // A24___02_Jeremiah______ENGESVO2DA
-  'adv_w1200_a1846': 'A24___03_Jeremiah____ENGESVO2DA.mp3', // A24___03_Jeremiah____ENGESVO2DA
   'adv_w1201_a2877': 'A24___03_Jeremiah______ENGESVO2DA.mp3', // A24___03_Jeremiah______ENGESVO2DA
-  'adv_w1202_a3fe6': 'A24___04_Jeremiah____ENGESVO2DA.mp3', // A24___04_Jeremiah____ENGESVO2DA
   'adv_w1203_adaad': 'A24___04_Jeremiah______ENGESVO2DA.mp3', // A24___04_Jeremiah______ENGESVO2DA
-  'adv_w1204_ab2da': 'A24___05_Jeremiah____ENGESVO2DA.mp3', // A24___05_Jeremiah____ENGESVO2DA
   'adv_w1205_a723e': 'A24___05_Jeremiah______ENGESVO2DA.mp3', // A24___05_Jeremiah______ENGESVO2DA
-  'adv_w1206_a9329': 'A24___06_Jeremiah____ENGESVO2DA.mp3', // A24___06_Jeremiah____ENGESVO2DA
   'adv_w1207_a1fea': 'A24___06_Jeremiah______ENGESVO2DA.mp3', // A24___06_Jeremiah______ENGESVO2DA
-  'adv_w1208_a2329': 'A24___07_Jeremiah____ENGESVO2DA.mp3', // A24___07_Jeremiah____ENGESVO2DA
   'adv_w1209_a2921': 'A24___07_Jeremiah______ENGESVO2DA.mp3', // A24___07_Jeremiah______ENGESVO2DA
-  'adv_w1210_ada84': 'A24___08_Jeremiah____ENGESVO2DA.mp3', // A24___08_Jeremiah____ENGESVO2DA
   'adv_w1211_abfb1': 'A24___08_Jeremiah______ENGESVO2DA.mp3', // A24___08_Jeremiah______ENGESVO2DA
-  'adv_w1212_af127': 'A24___09_Jeremiah____ENGESVO2DA.mp3', // A24___09_Jeremiah____ENGESVO2DA
   'adv_w1213_a330e': 'A24___09_Jeremiah______ENGESVO2DA.mp3', // A24___09_Jeremiah______ENGESVO2DA
-  'adv_w1214_a0d4b': 'A24___10_Jeremiah____ENGESVO2DA.mp3', // A24___10_Jeremiah____ENGESVO2DA
   'adv_w1215_a4dd3': 'A24___10_Jeremiah______ENGESVO2DA.mp3', // A24___10_Jeremiah______ENGESVO2DA
-  'adv_w1216_a941d': 'A24___11_Jeremiah____ENGESVO2DA.mp3', // A24___11_Jeremiah____ENGESVO2DA
   'adv_w1217_ac8ad': 'A24___11_Jeremiah______ENGESVO2DA.mp3', // A24___11_Jeremiah______ENGESVO2DA
-  'adv_w1218_aa55f': 'A24___12_Jeremiah____ENGESVO2DA.mp3', // A24___12_Jeremiah____ENGESVO2DA
   'adv_w1219_a7773': 'A24___12_Jeremiah______ENGESVO2DA.mp3', // A24___12_Jeremiah______ENGESVO2DA
-  'adv_w1220_ac45b': 'A24___13_Jeremiah____ENGESVO2DA.mp3', // A24___13_Jeremiah____ENGESVO2DA
   'adv_w1221_a4f1b': 'A24___13_Jeremiah______ENGESVO2DA.mp3', // A24___13_Jeremiah______ENGESVO2DA
-  'adv_w1222_a0982': 'A24___14_Jeremiah____ENGESVO2DA.mp3', // A24___14_Jeremiah____ENGESVO2DA
   'adv_w1223_a04ee': 'A24___14_Jeremiah______ENGESVO2DA.mp3', // A24___14_Jeremiah______ENGESVO2DA
-  'adv_w1224_a2f7d': 'A24___15_Jeremiah____ENGESVO2DA.mp3', // A24___15_Jeremiah____ENGESVO2DA
   'adv_w1225_afe64': 'A24___15_Jeremiah______ENGESVO2DA.mp3', // A24___15_Jeremiah______ENGESVO2DA
-  'adv_w1226_a5279': 'A24___16_Jeremiah____ENGESVO2DA.mp3', // A24___16_Jeremiah____ENGESVO2DA
   'adv_w1227_a9946': 'A24___16_Jeremiah______ENGESVO2DA.mp3', // A24___16_Jeremiah______ENGESVO2DA
-  'adv_w1228_a2225': 'A24___17_Jeremiah____ENGESVO2DA.mp3', // A24___17_Jeremiah____ENGESVO2DA
   'adv_w1229_ae4bb': 'A24___17_Jeremiah______ENGESVO2DA.mp3', // A24___17_Jeremiah______ENGESVO2DA
-  'adv_w1230_a5636': 'A24___18_Jeremiah____ENGESVO2DA.mp3', // A24___18_Jeremiah____ENGESVO2DA
   'adv_w1231_a1a97': 'A24___18_Jeremiah______ENGESVO2DA.mp3', // A24___18_Jeremiah______ENGESVO2DA
-  'adv_w1232_a046f': 'A24___19_Jeremiah____ENGESVO2DA.mp3', // A24___19_Jeremiah____ENGESVO2DA
   'adv_w1233_afc68': 'A24___19_Jeremiah______ENGESVO2DA.mp3', // A24___19_Jeremiah______ENGESVO2DA
-  'adv_w1234_a7f2b': 'A24___20_Jeremiah____ENGESVO2DA.mp3', // A24___20_Jeremiah____ENGESVO2DA
   'adv_w1235_ada15': 'A24___20_Jeremiah______ENGESVO2DA.mp3', // A24___20_Jeremiah______ENGESVO2DA
-  'adv_w1236_a87d8': 'A24___21_Jeremiah____ENGESVO2DA.mp3', // A24___21_Jeremiah____ENGESVO2DA
   'adv_w1237_ac5c4': 'A24___21_Jeremiah______ENGESVO2DA.mp3', // A24___21_Jeremiah______ENGESVO2DA
-  'adv_w1238_a7e8b': 'A24___22_Jeremiah____ENGESVO2DA.mp3', // A24___22_Jeremiah____ENGESVO2DA
   'adv_w1239_a071d': 'A24___22_Jeremiah______ENGESVO2DA.mp3', // A24___22_Jeremiah______ENGESVO2DA
-  'adv_w1240_ac26e': 'A24___23_Jeremiah____ENGESVO2DA.mp3', // A24___23_Jeremiah____ENGESVO2DA
   'adv_w1241_adf8c': 'A24___23_Jeremiah______ENGESVO2DA.mp3', // A24___23_Jeremiah______ENGESVO2DA
-  'adv_w1242_a8558': 'A24___24_Jeremiah____ENGESVO2DA.mp3', // A24___24_Jeremiah____ENGESVO2DA
   'adv_w1243_a9dfa': 'A24___24_Jeremiah______ENGESVO2DA.mp3', // A24___24_Jeremiah______ENGESVO2DA
-  'adv_w1244_a0d17': 'A24___25_Jeremiah____ENGESVO2DA.mp3', // A24___25_Jeremiah____ENGESVO2DA
   'adv_w1245_acbd5': 'A24___25_Jeremiah______ENGESVO2DA.mp3', // A24___25_Jeremiah______ENGESVO2DA
-  'adv_w1246_a729d': 'A24___26_Jeremiah____ENGESVO2DA.mp3', // A24___26_Jeremiah____ENGESVO2DA
   'adv_w1247_a885c': 'A24___26_Jeremiah______ENGESVO2DA.mp3', // A24___26_Jeremiah______ENGESVO2DA
-  'adv_w1248_afd5b': 'A24___27_Jeremiah____ENGESVO2DA.mp3', // A24___27_Jeremiah____ENGESVO2DA
   'adv_w1249_ac746': 'A24___27_Jeremiah______ENGESVO2DA.mp3', // A24___27_Jeremiah______ENGESVO2DA
-  'adv_w1250_aa87f': 'A24___28_Jeremiah____ENGESVO2DA.mp3', // A24___28_Jeremiah____ENGESVO2DA
   'adv_w1251_a7753': 'A24___28_Jeremiah______ENGESVO2DA.mp3', // A24___28_Jeremiah______ENGESVO2DA
-  'adv_w1252_a354e': 'A24___29_Jeremiah____ENGESVO2DA.mp3', // A24___29_Jeremiah____ENGESVO2DA
   'adv_w1253_af9dd': 'A24___29_Jeremiah______ENGESVO2DA.mp3', // A24___29_Jeremiah______ENGESVO2DA
-  'adv_w1254_a8882': 'A24___30_Jeremiah____ENGESVO2DA.mp3', // A24___30_Jeremiah____ENGESVO2DA
   'adv_w1255_a01a0': 'A24___30_Jeremiah______ENGESVO2DA.mp3', // A24___30_Jeremiah______ENGESVO2DA
-  'adv_w1256_a2229': 'A24___31_Jeremiah____ENGESVO2DA.mp3', // A24___31_Jeremiah____ENGESVO2DA
   'adv_w1257_ab09a': 'A24___31_Jeremiah______ENGESVO2DA.mp3', // A24___31_Jeremiah______ENGESVO2DA
-  'adv_w1258_a0003': 'A24___32_Jeremiah____ENGESVO2DA.mp3', // A24___32_Jeremiah____ENGESVO2DA
   'adv_w1259_a200b': 'A24___32_Jeremiah______ENGESVO2DA.mp3', // A24___32_Jeremiah______ENGESVO2DA
-  'adv_w1260_a6197': 'A24___33_Jeremiah____ENGESVO2DA.mp3', // A24___33_Jeremiah____ENGESVO2DA
   'adv_w1261_abdea': 'A24___33_Jeremiah______ENGESVO2DA.mp3', // A24___33_Jeremiah______ENGESVO2DA
-  'adv_w1262_a4b0b': 'A24___34_Jeremiah____ENGESVO2DA.mp3', // A24___34_Jeremiah____ENGESVO2DA
   'adv_w1263_ad14a': 'A24___34_Jeremiah______ENGESVO2DA.mp3', // A24___34_Jeremiah______ENGESVO2DA
-  'adv_w1264_a9a75': 'A24___35_Jeremiah____ENGESVO2DA.mp3', // A24___35_Jeremiah____ENGESVO2DA
   'adv_w1265_a5d56': 'A24___35_Jeremiah______ENGESVO2DA.mp3', // A24___35_Jeremiah______ENGESVO2DA
-  'adv_w1266_ac978': 'A24___36_Jeremiah____ENGESVO2DA.mp3', // A24___36_Jeremiah____ENGESVO2DA
   'adv_w1267_a199c': 'A24___36_Jeremiah______ENGESVO2DA.mp3', // A24___36_Jeremiah______ENGESVO2DA
-  'adv_w1268_a8ee7': 'A24___37_Jeremiah____ENGESVO2DA.mp3', // A24___37_Jeremiah____ENGESVO2DA
   'adv_w1269_a7111': 'A24___37_Jeremiah______ENGESVO2DA.mp3', // A24___37_Jeremiah______ENGESVO2DA
-  'adv_w1270_a15df': 'A24___38_Jeremiah____ENGESVO2DA.mp3', // A24___38_Jeremiah____ENGESVO2DA
   'adv_w1271_ad949': 'A24___38_Jeremiah______ENGESVO2DA.mp3', // A24___38_Jeremiah______ENGESVO2DA
-  'adv_w1272_a5645': 'A24___39_Jeremiah____ENGESVO2DA.mp3', // A24___39_Jeremiah____ENGESVO2DA
   'adv_w1273_a06e7': 'A24___39_Jeremiah______ENGESVO2DA.mp3', // A24___39_Jeremiah______ENGESVO2DA
-  'adv_w1274_aeb74': 'A24___40_Jeremiah____ENGESVO2DA.mp3', // A24___40_Jeremiah____ENGESVO2DA
   'adv_w1275_a2f19': 'A24___40_Jeremiah______ENGESVO2DA.mp3', // A24___40_Jeremiah______ENGESVO2DA
-  'adv_w1276_a8696': 'A24___41_Jeremiah____ENGESVO2DA.mp3', // A24___41_Jeremiah____ENGESVO2DA
   'adv_w1277_a1336': 'A24___41_Jeremiah______ENGESVO2DA.mp3', // A24___41_Jeremiah______ENGESVO2DA
-  'adv_w1278_a6444': 'A24___42_Jeremiah____ENGESVO2DA.mp3', // A24___42_Jeremiah____ENGESVO2DA
   'adv_w1279_aa8e5': 'A24___42_Jeremiah______ENGESVO2DA.mp3', // A24___42_Jeremiah______ENGESVO2DA
-  'adv_w1280_a61ea': 'A24___43_Jeremiah____ENGESVO2DA.mp3', // A24___43_Jeremiah____ENGESVO2DA
   'adv_w1281_a1d21': 'A24___43_Jeremiah______ENGESVO2DA.mp3', // A24___43_Jeremiah______ENGESVO2DA
-  'adv_w1282_ab4b2': 'A24___44_Jeremiah____ENGESVO2DA.mp3', // A24___44_Jeremiah____ENGESVO2DA
   'adv_w1283_ad1a7': 'A24___44_Jeremiah______ENGESVO2DA.mp3', // A24___44_Jeremiah______ENGESVO2DA
-  'adv_w1284_a15da': 'A24___45_Jeremiah____ENGESVO2DA.mp3', // A24___45_Jeremiah____ENGESVO2DA
   'adv_w1285_a405d': 'A24___45_Jeremiah______ENGESVO2DA.mp3', // A24___45_Jeremiah______ENGESVO2DA
-  'adv_w1286_abcc2': 'A24___46_Jeremiah____ENGESVO2DA.mp3', // A24___46_Jeremiah____ENGESVO2DA
   'adv_w1287_adfc6': 'A24___46_Jeremiah______ENGESVO2DA.mp3', // A24___46_Jeremiah______ENGESVO2DA
-  'adv_w1288_adfbb': 'A24___47_Jeremiah____ENGESVO2DA.mp3', // A24___47_Jeremiah____ENGESVO2DA
   'adv_w1289_ad01e': 'A24___47_Jeremiah______ENGESVO2DA.mp3', // A24___47_Jeremiah______ENGESVO2DA
-  'adv_w1290_ae876': 'A24___48_Jeremiah____ENGESVO2DA.mp3', // A24___48_Jeremiah____ENGESVO2DA
   'adv_w1291_a5e0c': 'A24___48_Jeremiah______ENGESVO2DA.mp3', // A24___48_Jeremiah______ENGESVO2DA
-  'adv_w1292_a4e3f': 'A24___49_Jeremiah____ENGESVO2DA.mp3', // A24___49_Jeremiah____ENGESVO2DA
   'adv_w1293_af19a': 'A24___49_Jeremiah______ENGESVO2DA.mp3', // A24___49_Jeremiah______ENGESVO2DA
-  'adv_w1294_a8a7e': 'A24___50_Jeremiah____ENGESVO2DA.mp3', // A24___50_Jeremiah____ENGESVO2DA
   'adv_w1295_af76c': 'A24___50_Jeremiah______ENGESVO2DA.mp3', // A24___50_Jeremiah______ENGESVO2DA
-  'adv_w1296_a873f': 'A24___51_Jeremiah____ENGESVO2DA.mp3', // A24___51_Jeremiah____ENGESVO2DA
   'adv_w1297_a58d3': 'A24___51_Jeremiah______ENGESVO2DA.mp3', // A24___51_Jeremiah______ENGESVO2DA
-  'adv_w1298_aa84c': 'A24___52_Jeremiah____ENGESVO2DA.mp3', // A24___52_Jeremiah____ENGESVO2DA
   'adv_w1299_ade69': 'A24___52_Jeremiah______ENGESVO2DA.mp3', // A24___52_Jeremiah______ENGESVO2DA
   'adv_w1300_a9eb4': 'A25___01_LamentationsENGESVO2DA.mp3', // A25___01_LamentationsENGESVO2DA
-  'adv_w1301_a5b82': 'A25___01_Lamentations__ENGESVO2DA.mp3', // A25___01_Lamentations__ENGESVO2DA
   'adv_w1302_a0168': 'A25___02_LamentationsENGESVO2DA.mp3', // A25___02_LamentationsENGESVO2DA
-  'adv_w1303_ab960': 'A25___02_Lamentations__ENGESVO2DA.mp3', // A25___02_Lamentations__ENGESVO2DA
   'adv_w1304_a683d': 'A25___03_LamentationsENGESVO2DA.mp3', // A25___03_LamentationsENGESVO2DA
-  'adv_w1305_ac98d': 'A25___03_Lamentations__ENGESVO2DA.mp3', // A25___03_Lamentations__ENGESVO2DA
   'adv_w1306_a6df1': 'A25___04_LamentationsENGESVO2DA.mp3', // A25___04_LamentationsENGESVO2DA
-  'adv_w1307_aa161': 'A25___04_Lamentations__ENGESVO2DA.mp3', // A25___04_Lamentations__ENGESVO2DA
   'adv_w1308_aa9e5': 'A25___05_LamentationsENGESVO2DA.mp3', // A25___05_LamentationsENGESVO2DA
-  'adv_w1309_a3b7d': 'A25___05_Lamentations__ENGESVO2DA.mp3', // A25___05_Lamentations__ENGESVO2DA
   'adv_w1310_a0b69': 'A26___01_Ezekiel_____ENGESVO2DA.mp3', // A26___01_Ezekiel_____ENGESVO2DA
   'adv_w1311_a8848': 'A26___02_Ezekiel_____ENGESVO2DA.mp3', // A26___02_Ezekiel_____ENGESVO2DA
   'adv_w1312_a6df2': 'A26___03_Ezekiel_____ENGESVO2DA.mp3', // A26___03_Ezekiel_____ENGESVO2DA
@@ -1804,47 +1556,27 @@ const audioMap = {
   'adv_w1408_aeb0b': 'A34___01_Nahum_______ENGESVO2DA.mp3', // A34___01_Nahum_______ENGESVO2DA
   'adv_w1409_ae606': 'A34___02_Nahum_______ENGESVO2DA.mp3', // A34___02_Nahum_______ENGESVO2DA
   'adv_w1410_afce9': 'A34___03_Nahum_______ENGESVO2DA.mp3', // A34___03_Nahum_______ENGESVO2DA
-  'adv_w1411_a8237': 'A35___01_Habakkuk____ENGESVO2DA.mp3', // A35___01_Habakkuk____ENGESVO2DA
   'adv_w1412_a7f47': 'A35___01_Habakkuk______ENGESVO2DA.mp3', // A35___01_Habakkuk______ENGESVO2DA
-  'adv_w1413_ab69b': 'A35___02_Habakkuk____ENGESVO2DA.mp3', // A35___02_Habakkuk____ENGESVO2DA
   'adv_w1414_a1ea6': 'A35___02_Habakkuk______ENGESVO2DA.mp3', // A35___02_Habakkuk______ENGESVO2DA
-  'adv_w1415_abe96': 'A35___03_Habakkuk____ENGESVO2DA.mp3', // A35___03_Habakkuk____ENGESVO2DA
   'adv_w1416_aa057': 'A35___03_Habakkuk______ENGESVO2DA.mp3', // A35___03_Habakkuk______ENGESVO2DA
   'adv_w1417_aeb3b': 'A36___01_Zephaniah___ENGESVO2DA.mp3', // A36___01_Zephaniah___ENGESVO2DA
-  'adv_w1418_af7c6': 'A36___01_Zephaniah_____ENGESVO2DA.mp3', // A36___01_Zephaniah_____ENGESVO2DA
   'adv_w1419_a3fcf': 'A36___02_Zephaniah___ENGESVO2DA.mp3', // A36___02_Zephaniah___ENGESVO2DA
-  'adv_w1420_a37ae': 'A36___02_Zephaniah_____ENGESVO2DA.mp3', // A36___02_Zephaniah_____ENGESVO2DA
   'adv_w1421_ad62c': 'A36___03_Zephaniah___ENGESVO2DA.mp3', // A36___03_Zephaniah___ENGESVO2DA
-  'adv_w1422_aea21': 'A36___03_Zephaniah_____ENGESVO2DA.mp3', // A36___03_Zephaniah_____ENGESVO2DA
   'adv_w1423_a705b': 'A37___01_Haggai______ENGESVO2DA.mp3', // A37___01_Haggai______ENGESVO2DA
   'adv_w1424_adccc': 'A37___02_Haggai______ENGESVO2DA.mp3', // A37___02_Haggai______ENGESVO2DA
-  'adv_w1425_a631b': 'A38___01_Zechariah___ENGESVO2DA.mp3', // A38___01_Zechariah___ENGESVO2DA
   'adv_w1426_a3573': 'A38___01_Zechariah_____ENGESVO2DA.mp3', // A38___01_Zechariah_____ENGESVO2DA
-  'adv_w1427_a0cef': 'A38___02_Zechariah___ENGESVO2DA.mp3', // A38___02_Zechariah___ENGESVO2DA
   'adv_w1428_a3592': 'A38___02_Zechariah_____ENGESVO2DA.mp3', // A38___02_Zechariah_____ENGESVO2DA
-  'adv_w1429_a0937': 'A38___03_Zechariah___ENGESVO2DA.mp3', // A38___03_Zechariah___ENGESVO2DA
   'adv_w1430_a4a71': 'A38___03_Zechariah_____ENGESVO2DA.mp3', // A38___03_Zechariah_____ENGESVO2DA
-  'adv_w1431_aab5e': 'A38___04_Zechariah___ENGESVO2DA.mp3', // A38___04_Zechariah___ENGESVO2DA
   'adv_w1432_a7d66': 'A38___04_Zechariah_____ENGESVO2DA.mp3', // A38___04_Zechariah_____ENGESVO2DA
-  'adv_w1433_a73d9': 'A38___05_Zechariah___ENGESVO2DA.mp3', // A38___05_Zechariah___ENGESVO2DA
   'adv_w1434_a8a27': 'A38___05_Zechariah_____ENGESVO2DA.mp3', // A38___05_Zechariah_____ENGESVO2DA
-  'adv_w1435_a482b': 'A38___06_Zechariah___ENGESVO2DA.mp3', // A38___06_Zechariah___ENGESVO2DA
   'adv_w1436_a5e41': 'A38___06_Zechariah_____ENGESVO2DA.mp3', // A38___06_Zechariah_____ENGESVO2DA
-  'adv_w1437_a7eb7': 'A38___07_Zechariah___ENGESVO2DA.mp3', // A38___07_Zechariah___ENGESVO2DA
   'adv_w1438_a84e6': 'A38___07_Zechariah_____ENGESVO2DA.mp3', // A38___07_Zechariah_____ENGESVO2DA
-  'adv_w1439_ae473': 'A38___08_Zechariah___ENGESVO2DA.mp3', // A38___08_Zechariah___ENGESVO2DA
   'adv_w1440_a9a88': 'A38___08_Zechariah_____ENGESVO2DA.mp3', // A38___08_Zechariah_____ENGESVO2DA
-  'adv_w1441_aab4b': 'A38___09_Zechariah___ENGESVO2DA.mp3', // A38___09_Zechariah___ENGESVO2DA
   'adv_w1442_a1459': 'A38___09_Zechariah_____ENGESVO2DA.mp3', // A38___09_Zechariah_____ENGESVO2DA
-  'adv_w1443_ac84f': 'A38___10_Zechariah___ENGESVO2DA.mp3', // A38___10_Zechariah___ENGESVO2DA
   'adv_w1444_a7233': 'A38___10_Zechariah_____ENGESVO2DA.mp3', // A38___10_Zechariah_____ENGESVO2DA
-  'adv_w1445_a7d87': 'A38___11_Zechariah___ENGESVO2DA.mp3', // A38___11_Zechariah___ENGESVO2DA
   'adv_w1446_ac020': 'A38___11_Zechariah_____ENGESVO2DA.mp3', // A38___11_Zechariah_____ENGESVO2DA
-  'adv_w1447_a2f83': 'A38___12_Zechariah___ENGESVO2DA.mp3', // A38___12_Zechariah___ENGESVO2DA
   'adv_w1448_ae3e1': 'A38___12_Zechariah_____ENGESVO2DA.mp3', // A38___12_Zechariah_____ENGESVO2DA
-  'adv_w1449_a7739': 'A38___13_Zechariah___ENGESVO2DA.mp3', // A38___13_Zechariah___ENGESVO2DA
   'adv_w1450_a15c6': 'A38___13_Zechariah_____ENGESVO2DA.mp3', // A38___13_Zechariah_____ENGESVO2DA
-  'adv_w1451_a9570': 'A38___14_Zechariah___ENGESVO2DA.mp3', // A38___14_Zechariah___ENGESVO2DA
   'adv_w1452_a36d8': 'A38___14_Zechariah_____ENGESVO2DA.mp3', // A38___14_Zechariah_____ENGESVO2DA
   'adv_w1453_a90be': 'A39___01_Malachi_____ENGESVO2DA.mp3', // A39___01_Malachi_____ENGESVO2DA
   'adv_w1454_a2a9b': 'A39___02_Malachi_____ENGESVO2DA.mp3', // A39___02_Malachi_____ENGESVO2DA
@@ -1855,55 +1587,55 @@ const audioMap = {
 
 
 export const book_curriculum = {
-"bg_b1": "1. Welcome to Gods Family.pdf",
-"bg_b2": "2. Choices, key to destiny.pdf",
-"bg_b3": "3. Plans Purposes and Pursuits.pdf",
-"bg_b3b": "3b. Growing Up Spiritually.pdf",
-"bg_b4": "4. Following Gods Plan For Your Life.pdf",
-"bg_b5": "5. Needless Casualties of War.pdf",
-"bg_b6": "6. The Three Battlegrounds.pdf",
-"bg_b7": "7. Unlocking Your Dreams.pdf",
-"bg_b8": "8. Christian Dress Article Tract.pdf",
-"bg_b9": "9. I Dared To Call Him Father.pdf",
-"bg_b10": "10. So Who Will Pay For This.pdf",
-"bg_b12": "12. The Call.pdf",
-"bg_b12a": "12b. Final Quest.pdf",
-"bg_b13": "13. The Magician's Nephew (Chronicles of Narnia 1).pdf",
-"bg_b14": "14. The Lion, the Witch and the Wardrobe.pdf",
-"bg_b15": "15. The Horse and His Boy.pdf",
-"bg_b16": "16. The Pilgrim's Progress.pdf",
-"int_b14": "1. Good Morning Holy Spirit.pdf",
-"int_b15": "2. How You Can Be Led By The Spirit of God.pdf",
-"int_b16a": "3. How To Work For God.pdf",
-"int_b16b": "4. He That Believes.pdf",
-"int_b17": "5. The Woman Question.pdf",
-"int_b18a": "6. The Believers Authority.pdf",
-"int_b18b": "7. Prayer and the Demonic Realm.pdf",
-"int_b19": "8. When God Walked the Earth.pdf",
-"int_b21": "9. Hinds' Feet On High Places.pdf",
-"int_b23": "10. Compelled by Love.pdf",
-"int_b24": "11. Jesus Freaks Martyrs Stories.pdf",
-"int_b25": "12. The Path (Fire on the Mountain).pdf",
-"int_b26": "13. The Valley (Fire on the Mountain Series).pdf",
-"int_b27": "14. God's Generals The Revivalists.pdf",
-"int_b28": "15. Revival Among The Zulus.pdf",
-"int_b29": "16. God's Generals The Healing Evangelists.pdf",
-"int_b30": "17. The Heavenly Man.pdf",
-"int_b31": "18. God's Generals The Roaring Reformers.pdf",
-"int_b32": "19. Angels On Assignment.pdf",
-"int_b33": "20. God's Smugglers.pdf",
-"int_b34": "21. This Present Darkness.pdf",
-"int_b35": "22. Piercing the Darkness.pdf",
-"adv_b36": "1. Torch and the Sword.pdf",
-"adv_b37": "2. The Screwtape Letters.pdf",
-"adv_b38": "3. Foxe's Book of Martyrs.pdf",
-"adv_b39": "4. Tortured for Christ.pdf",
-"adv_b40": "5. He Came To Set The Captives Free.pdf",
-"adv_b41": "6. Prepare for War.pdf",
-"adv_b42": "7. Growing In The Prophetic.pdf",
-"adv_b43": "8. Love The Road To Victory.pdf",
-"adv_b44": "9. The Harvest (Updated and Expanded).pdf",
-"adv_b45": "10. Love Not The World.pdf",
+  "bg_b1": "1. Welcome to Gods Family.pdf",
+  "bg_b2": "2. Choices, key to destiny.pdf",
+  "bg_b3": "3. Plans Purposes and Pursuits.pdf",
+  "bg_b3b": "3b. Growing Up Spiritually.pdf",
+  "bg_b4": "4. Following Gods Plan For Your Life.pdf",
+  "bg_b5": "5. Needless Casualties of War.pdf",
+  "bg_b6": "6. The Three Battlegrounds.pdf",
+  "bg_b7": "7. Unlocking Your Dreams.pdf",
+  "bg_b8": "8. Christian Dress Article Tract.pdf",
+  "bg_b9": "9. I Dared To Call Him Father.pdf",
+  "bg_b10": "10. So Who Will Pay For This.pdf",
+  "bg_b12": "12. The Call.pdf",
+  "bg_b12a": "12b. Final Quest.pdf",
+  "bg_b13": "13. The Magician's Nephew (Chronicles of Narnia 1).pdf",
+  "bg_b14": "14. The Lion, the Witch and the Wardrobe.pdf",
+  "bg_b15": "15. The Horse and His Boy.pdf",
+  "bg_b16": "16. The Pilgrim's Progress.pdf",
+  "int_b14": "1. Good Morning Holy Spirit.pdf",
+  "int_b15": "2. How You Can Be Led By The Spirit of God.pdf",
+  "int_b16a": "3. How To Work For God.pdf",
+  "int_b16b": "4. He That Believes.pdf",
+  "int_b17": "5. The Woman Question.pdf",
+  "int_b18a": "6. The Believers Authority.pdf",
+  "int_b18b": "7. Prayer and the Demonic Realm.pdf",
+  "int_b19": "8. When God Walked the Earth.pdf",
+  "int_b21": "9. Hinds' Feet On High Places.pdf",
+  "int_b23": "10. Compelled by Love.pdf",
+  "int_b24": "11. Jesus Freaks Martyrs Stories.pdf",
+  "int_b25": "12. The Path (Fire on the Mountain).pdf",
+  "int_b26": "13. The Valley (Fire on the Mountain Series).pdf",
+  "int_b27": "14. God's Generals The Revivalists.pdf",
+  "int_b28": "15. Revival Among The Zulus.pdf",
+  "int_b29": "16. God's Generals The Healing Evangelists.pdf",
+  "int_b30": "17. The Heavenly Man.pdf",
+  "int_b31": "18. God's Generals The Roaring Reformers.pdf",
+  "int_b32": "19. Angels On Assignment.pdf",
+  "int_b33": "20. God's Smugglers.pdf",
+  "int_b34": "21. This Present Darkness.pdf",
+  "int_b35": "22. Piercing the Darkness.pdf",
+  "adv_b36": "1. Torch and the Sword.pdf",
+  "adv_b37": "2. The Screwtape Letters.pdf",
+  "adv_b38": "3. Foxe's Book of Martyrs.pdf",
+  "adv_b39": "4. Tortured for Christ.pdf",
+  "adv_b40": "5. He Came To Set The Captives Free.pdf",
+  "adv_b41": "6. Prepare for War.pdf",
+  "adv_b42": "7. Growing In The Prophetic.pdf",
+  "adv_b43": "8. Love The Road To Victory.pdf",
+  "adv_b44": "9. The Harvest (Updated and Expanded).pdf",
+  "adv_b45": "10. Love Not The World.pdf",
 };
 
 
@@ -1924,7 +1656,7 @@ export const loadAudioIdByName = (audioName) => {
       console.error('❌ Audio name not found:', audioName);
       return null;
     }
-    console.log('audioId found:', audioId);
+    // console.log('audioId found:', audioId);
     return audioId;
   } catch (error) {
     console.error('❌ Error loading audio by name:', error);
@@ -1936,13 +1668,12 @@ export const loadPDFIdByName = (PDFName) => {
   try {
     const PDFID = reverseBookMap[PDFName];
     if (!PDFID) {
-      console.error('❌ PDF name not found:', PDFName);
+      // console.error('❌ PDF name not found:', PDFName);
       return null;
     }
-    console.log('PDF ID found:', PDFID);
     return PDFID;
   } catch (error) {
-    console.error('❌ Error loading PDF by name:', error);
+    // console.error('❌ Error loading PDF by name:', error);
     return null;
   }
 };

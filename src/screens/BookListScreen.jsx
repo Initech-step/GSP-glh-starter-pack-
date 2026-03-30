@@ -14,7 +14,7 @@ export default function BookListScreen({ route, navigation }) {
   const { level, title } = route.params;
 
   const handleBookPress = async (book) => {
-    console.log("Book clicked from list page", book);
+    // console.log("Book clicked from list page", book);
     navigation.navigate('ReadBook', {
       book,
       title: book.title

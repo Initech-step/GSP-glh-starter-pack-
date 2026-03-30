@@ -32,18 +32,6 @@ export default function ReadBook({ route, navigation }) {
                 }
             }
             style={{ flex: 1, width, height }}
-            onLoadComplete={(numberOfPages, filePath) => {
-                console.log(`Number of pages: ${numberOfPages}`);
-            }}
-            onPageChanged={(page, numberOfPages) => {
-                console.log(`Current page: ${page}`);
-            }}
-            onError={(error) => {
-                console.log('error here', error);
-            }}
-            onPressLink={(uri) => {
-                console.log(`Link pressed: ${uri}`);
-            }}
         />
         </View>
     );

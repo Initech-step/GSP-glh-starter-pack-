@@ -34,9 +34,7 @@ export const AudioProvider = ({ children }) => {
   // Note: AudioPro.configure() is called in audioSetup.js
   // We only need to set up Context-specific listeners here
   // ============================================
-  useEffect(() => {
-    console.log('🎵 AudioContext: Setting up context-specific listeners');
-    
+  useEffect(() => {    
     // Set up event listeners for this Context
     setupContextListeners();
     
@@ -66,14 +64,12 @@ export const AudioProvider = ({ children }) => {
       saveProgress();
     }, 30000); // 30 seconds
 
-    console.log('💾 Progress saving interval started (every 30 seconds)');
   };
 
   const stopProgressSavingInterval = () => {
     if (saveProgressIntervalRef.current) {
       clearInterval(saveProgressIntervalRef.current);
       saveProgressIntervalRef.current = null;
-      console.log('💾 Progress saving interval stopped');
     }
   };
 
@@ -93,7 +89,6 @@ export const AudioProvider = ({ children }) => {
         
         if (posSeconds > 0) {
           await savePlaybackPosition(audioId, posSeconds);
-          console.log(`💾 Progress saved: ${audioId} at ${posSeconds.toFixed(2)}s`);
         }
       }
     } catch (error) {
@@ -124,7 +119,6 @@ export const AudioProvider = ({ children }) => {
 
         case AudioProEventType.TRACK_ENDED:
           // Audio finished playing - update state
-          console.log('✅ Track ended in Context');
           setIsPlaying(false); 
           // Save final progress
           saveProgress();
@@ -153,7 +147,6 @@ export const AudioProvider = ({ children }) => {
   // Maps AudioPro states to our React state
   // ============================================
   const handleStateChange = (state) => {
-    console.log('🔄 AudioContext: State changed to:', state);
     
     switch (state) {
       case AudioProState.PLAYING:
@@ -197,10 +190,8 @@ export const AudioProvider = ({ children }) => {
   // ============================================
   const handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('📱 App came to foreground - syncing state');
       syncStateWithAudioPro();
     } else if (nextAppState.match(/inactive|background/)) {
-      console.log('📱 App went to background - saving progress');
       saveProgress();
     }
     appState.current = nextAppState;
@@ -226,7 +217,6 @@ export const AudioProvider = ({ children }) => {
         currentAudioIdRef.current = track.id;
       }
 
-      console.log('✅ State synced with AudioPro');
     } catch (error) {
       console.error('❌ Error syncing state:', error);
     }
@@ -238,7 +228,6 @@ export const AudioProvider = ({ children }) => {
   // ============================================
   const loadAudio = async (audioSource, audioMetadata) => {
     try {
-      console.log('🎵 Loading new audio:', audioMetadata.title);
       setIsLoading(true);
 
       // Update current audio metadata
@@ -269,11 +258,6 @@ export const AudioProvider = ({ children }) => {
         startTimeMs, // Start from saved position if available
       });
 
-      if (savedPosition && savedPosition > 0) {
-        console.log(`✅ Resuming from saved position: ${savedPosition.toFixed(2)}s`);
-      }
-
-      console.log('✅ Audio loaded successfully:', audioMetadata.title);
       return true;
     } catch (error) {
       console.error('❌ Error loading audio:', error);
@@ -290,7 +274,6 @@ export const AudioProvider = ({ children }) => {
   const play = () => {
     try {
       AudioPro.resume();
-      console.log('▶️ Resuming playback');
     } catch (error) {
       console.error('❌ Error playing:', error);
     }
@@ -299,7 +282,6 @@ export const AudioProvider = ({ children }) => {
   const pause = () => {
     try {
       AudioPro.pause();
-      console.log('⏸️ Paused audio');
       // Save progress when pausing
       saveProgress();
     } catch (error) {
@@ -311,7 +293,6 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro.seekTo expects milliseconds
       AudioPro.seekTo(timeInSeconds * 1000);
-      console.log('⏩ Seeked to:', timeInSeconds.toFixed(2), 'seconds');
     } catch (error) {
       console.error('❌ Error seeking:', error);
     }
@@ -320,7 +301,6 @@ export const AudioProvider = ({ children }) => {
   const setPlaybackRate = (rate) => {
     try {
       AudioPro.setPlaybackSpeed(rate);
-      console.log('⚡ Playback rate set to:', rate);
     } catch (error) {
       console.error('❌ Error setting rate:', error);
     }
@@ -330,7 +310,6 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekForward method
       AudioPro.seekForward(seconds * 1000);
-      console.log('⏩ Seeked forward:', seconds, 'seconds');
     } catch (error) {
       console.error('❌ Error seeking forward:', error);
     }
@@ -340,7 +319,6 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekBack method
       AudioPro.seekBack(seconds * 1000);
-      console.log('⏪ Seeked backward:', seconds, 'seconds');
     } catch (error) {
       console.error('❌ Error seeking backward:', error);
     }
@@ -370,7 +348,6 @@ export const AudioProvider = ({ children }) => {
       // stop progress saving:
       stopProgressSavingInterval()
       
-      console.log('✅ Audio released');
     } catch (error) {
       console.error('❌ Error releasing audio:', error);
     }

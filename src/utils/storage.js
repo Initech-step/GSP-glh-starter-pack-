@@ -15,7 +15,7 @@ const KEYS = {
   AUDIO_FOLDER_KEY: '@glh_audio_folder_path',
   AUDIO_URI: '@glh_audio_uri',
   PDF_URI: '@glh_pdf_uri',
-  PREFERRED_SPEED: '@preferred_speed'
+  PREFERRED_SPEED: '@preferred_speed',
 };
 
 // Progress tracking
@@ -182,7 +182,7 @@ export const clearAllData = async () => {
       KEYS.ONBOARDING_COMPLETED,
       KEYS.AUDIO_FOLDER_KEY,
       KEYS.AUDIO_URI,
-      KEYS.PREFERRED_SPEED      
+      KEYS.PREFERRED_SPEED,
     ]);
   } catch (error) {
     console.error('Error clearing data:', error);
@@ -195,7 +195,7 @@ export const clearAllData = async () => {
 export const saveAudioFolderPath = async (folderUri) => {
   try {
     await AsyncStorage.setItem(KEYS.AUDIO_FOLDER_KEY, folderUri);
-    console.log('✅ Audio folder path saved:', folderUri);
+    // console.log('✅ Audio folder path saved:', folderUri);
     return true;
   } catch (error) {
     console.error('❌ Error saving folder path:', error);
@@ -209,7 +209,7 @@ export const saveAudioFolderPath = async (folderUri) => {
 export const getAudioFolderPath = async () => {
   try {
     const path = await AsyncStorage.getItem(KEYS.AUDIO_FOLDER_KEY);
-    console.log('📂 Audio folder path:', path);
+    // console.log('📂 Audio folder path:', path);
     return path;
   } catch (error) {
     console.error('❌ Error getting folder path:', error);
@@ -249,7 +249,7 @@ export const getPDFUris = async () => {
 export const saveAudioUris = async (uri, audioID) => {
   const audioUris = await getAudioUris();
   audioUris[audioID] = uri;
-  console.log('Saving audio URI:', audioID, uri);
+  // console.log('Saving audio URI:', audioID, uri);
   try{
     await AsyncStorage.setItem(KEYS.AUDIO_URI, JSON.stringify(audioUris));
   } catch (error) {
@@ -260,7 +260,7 @@ export const saveAudioUris = async (uri, audioID) => {
 export const SavePDFUris = async (uri, pdfID) => {
   const PDFUris = await getPDFUris();
   PDFUris[pdfID] = uri;
-  console.log('Saving pdf URI:', pdfID, uri);
+  // console.log('Saving pdf URI:', pdfID, uri);
   try{
     await AsyncStorage.setItem(KEYS.PDF_URI, JSON.stringify(PDFUris));
   } catch (error) {
@@ -284,20 +284,18 @@ async function saveURIItem(directory, indent = 0) {
     if (item instanceof Directory) {
       await saveURIItem(item, indent + 2);
     } else {
-      console.log(' '.repeat(indent) + '- ' + item.name + ' (' + item.extension + ')');
+      // console.log(' '.repeat(indent) + '- ' + item.name + ' (' + item.extension + ')');
       if (item.extension === '.mp3') {
         const audioID = loadAudioIdByName(item.name);
         await saveAudioUris(item.uri, audioID);
       }
       else if(item.extension === ".pdf"){
-        console.log('Found PDF file:', item.name);
-        console.log('File URI:', item.uri);
+        // console.log('Found PDF file:', item.name);
+        // console.log('File URI:', item.uri);
         const pdfID = loadPDFIdByName(item.name);
         await SavePDFUris(item.uri, pdfID);
       }
-      else{
-        console.log('Ignoring file (not audio/pdf):', item.name);
-      }
+      
     }
   }
 }
@@ -314,11 +312,11 @@ export const pickAudioFolder = async () => {
 
     // On iOS Directory.pickDirectoryAsync will grant temporary access for the session.
     // On Android this is the preferred way to get a content-uri backed Directory.
-    console.log('📁 Opening directory picker...');
+    // console.log('📁 Opening directory picker...');
     const directory = await Directory.pickDirectoryAsync();
 
     if (!directory) {
-      console.log('User cancelled directory selection or no directory returned.');
+      // console.log('User cancelled directory selection or no directory returned.');
       return null;
     }
 
@@ -337,7 +335,7 @@ export const pickAudioFolder = async () => {
 export const loadAudioById = async (audioId) => {
   try {
     const audioURI = await getAudioUri(audioId);
-    console.log('Loaded audio URI for ID', audioId, ':', audioURI);
+    // console.log('Loaded audio URI for ID', audioId, ':', audioURI);
     return audioURI; 
   } catch (error) {
     console.error('❌ Error loading audio:', error);
@@ -358,8 +356,7 @@ export const getPDFUri = async (audioID) => {
 export const loadPDFById = async (pdfId) => {
   try {
     const pdfURI = await getPDFUri(pdfId);
-    console.log('Loaded PDF URI for ID', pdfId, ':', pdfURI);
-
+    // console.log('Loaded PDF URI for ID', pdfId, ':', pdfURI);
     // spot to cache the uri into app cache
     const cachePath = `${FileSystem.cacheDirectory}pdf_${pdfId}.pdf`;
     await FileSystem.copyAsync({
