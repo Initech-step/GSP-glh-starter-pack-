@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.glh.gspbeginners"
+      "bundleIdentifier": "com.glh.bsk"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.glh.gspbeginners",
+      "package": "com.glh.bsk",
       "permissions": [
         "NOTIFICATIONS",
         "READ_EXTERNAL_STORAGE",
