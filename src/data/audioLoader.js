@@ -1425,7 +1425,7 @@ export const loadAudioIdByName = (audioName) => {
       console.error('❌ Audio name not found:', audioName);
       return null;
     }
-    // console.log('audioId found:', audioId);
+    console.log('audioId found:', audioId);
     return audioId;
   } catch (error) {
     console.error('❌ Error loading audio by name:', error);
@@ -1437,12 +1437,12 @@ export const loadPDFIdByName = (PDFName) => {
   try {
     const PDFID = reverseBookMap[PDFName];
     if (!PDFID) {
-      // console.error('❌ PDF name not found:', PDFName);
+      console.error('❌ PDF name not found:', PDFName);
       return null;
     }
     return PDFID;
   } catch (error) {
-    // console.error('❌ Error loading PDF by name:', error);
+    console.error('❌ Error loading PDF by name:', error);
     return null;
   }
 };

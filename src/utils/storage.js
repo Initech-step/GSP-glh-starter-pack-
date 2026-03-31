@@ -273,6 +273,7 @@ export const getAudioUri = async (audioID) => {
     const audioUris = await getAudioUris();
     return audioUris[audioID] || null;
   } catch (error) {
+    console.error('Error getting audio URI:', error);
     return null;
   }
 }
