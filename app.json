@@ -1,20 +1,20 @@
 {
   "expo": {
-    "name": "GSP",
-    "slug": "GSP",
+    "name": "GSP Beginners",
+    "slug": "gsp-beginners",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-screen-1.png",
+      "image": "./assets/splash-screen-2.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.glh.bsk"
+      "bundleIdentifier": "com.glh.gspbeginners"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.glh.bsk",
+      "package": "com.glh.gspbeginners",
       "permissions": [
         "NOTIFICATIONS",
         "READ_EXTERNAL_STORAGE",

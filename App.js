@@ -65,7 +65,7 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: "God's Lighthouse" }}
+              options={{ title: "GSP Beginners" }}
             />
             <Stack.Screen
               name="Level"

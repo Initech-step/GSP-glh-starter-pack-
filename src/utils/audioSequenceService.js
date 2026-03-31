@@ -14,7 +14,7 @@ function buildUnifiedSequentialList() {
   // ============================================
   // PART 1: CURRICULUM AUDIOS (beginners, intermediary, advanced)
   // ============================================
-  const curriculumLevels = ['beginners', 'intermediary', 'advanced'];
+  const curriculumLevels = ['beginners'];
   
   for (const levelKey of curriculumLevels) {
     const level = curriculum[levelKey];
@@ -135,7 +135,7 @@ export function getAudioMetadataById(audioId) {
     // ============================================
     // SEARCH 1: CURRICULUM AUDIOS
     // ============================================
-    const curriculumLevels = ['beginners', 'intermediary', 'advanced'];
+    const curriculumLevels = ['beginners'];
     
     for (const levelKey of curriculumLevels) {
       const level = curriculum[levelKey];

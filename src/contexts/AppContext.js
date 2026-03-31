@@ -88,7 +88,7 @@ export const AppProvider = ({ children }) => {
     }
 
     // Next level
-    const levelOrder = ['beginners', 'intermediary', 'advanced'];
+    const levelOrder = ['beginners'];
     const currentLevelIndex = levelOrder.indexOf(currentLevel);
     
     if (currentLevelIndex < levelOrder.length - 1) {
@@ -124,7 +124,7 @@ export const AppProvider = ({ children }) => {
     }
 
     // If no previous week, check if previous level is completed
-    const levelOrder = ['beginners', 'intermediary', 'advanced'];
+    const levelOrder = ['beginners'];
     const currentLevelIndex = levelOrder.indexOf(level);
     
     if (currentLevelIndex > 0 && weekNumber === 1) {

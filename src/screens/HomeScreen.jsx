@@ -24,8 +24,6 @@ export default function HomeScreen({ navigation }) {
 
   const levels = [
     { key: 'beginners', color: '#360f5a', emoji: '🌱' },
-    { key: 'intermediary', color: '#360f5a', emoji: '🌿' },
-    { key: 'advanced', color: '#360f5a', emoji: '🌳' },
   ];
   
   const book_levels = [
