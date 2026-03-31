@@ -3510,7 +3510,7 @@ export const bible_curriculum = {
       },
       {
         id: 'LEV',
-        name: 'Levitius',
+        name: 'Leviticus',
         audios: [
     {
       id: 'adv_w352_af362',
