@@ -18,6 +18,7 @@ import {
   deleteNote,
 } from '../utils/storage';
 import { curriculum } from '../data/curriculum';
+import { getAudioMetadataById } from '../utils/audioSequenceService';
 
 export default function NotesScreen({ route, navigation }) {
   const audioId = route.params?.audioId;
@@ -56,17 +57,34 @@ export default function NotesScreen({ route, navigation }) {
     setNoteText(note);
   };
 
-  const findAudioTitle = () => {
-    // Search through curriculum to find audio title
+  const resolveAudioTitle = (targetAudioId) => {
     for (const level of Object.values(curriculum)) {
       for (const week of level.weeks) {
-        const audio = week.audios.find(a => a.id === audioId);
+        const audio = week.audios.find(a => a.id === targetAudioId);
         if (audio) {
-          setCurrentAudioTitle(audio.title);
-          return;
+          return audio.title;
         }
       }
     }
+
+    const audioMetadata = getAudioMetadataById(targetAudioId);
+    if (!audioMetadata) {
+      return 'Unknown Message';
+    }
+
+    if (audioMetadata.type === 'bible') {
+      if (audioMetadata.bookName && audioMetadata.chapterNumber) {
+        return `${audioMetadata.bookName} - Chapter ${audioMetadata.chapterNumber}`;
+      }
+
+      return audioMetadata.title || 'Bible Audio';
+    }
+
+    return audioMetadata.title || 'Unknown Message';
+  };
+
+  const findAudioTitle = () => {
+    setCurrentAudioTitle(resolveAudioTitle(audioId));
   };
 
   const handleSaveNote = async () => {
@@ -115,16 +133,7 @@ export default function NotesScreen({ route, navigation }) {
 
   const handleViewNote = (note) => {
     setNoteText(note.text);
-    // Find and display audio title
-    for (const level of Object.values(curriculum)) {
-      for (const week of level.weeks) {
-        const audio = week.audios.find(a => a.id === note.audioId);
-        if (audio) {
-          setCurrentAudioTitle(audio.title);
-          return;
-        }
-      }
-    }
+    setCurrentAudioTitle(resolveAudioTitle(note.audioId));
   };
 
   const formatDate = (dateString) => {
@@ -189,17 +198,7 @@ export default function NotesScreen({ route, navigation }) {
             </View>
           ) : (
             allNotes.map((note) => {
-              // Find audio title for this note
-              let audioTitle = 'Unknown Message';
-              for (const level of Object.values(curriculum)) {
-                for (const week of level.weeks) {
-                  const audio = week.audios.find(a => a.id === note.audioId);
-                  if (audio) {
-                    audioTitle = audio.title;
-                    break;
-                  }
-                }
-              }
+              const audioTitle = resolveAudioTitle(note.audioId);
 
               return (
                 <View key={note.audioId} style={styles.noteCard}>

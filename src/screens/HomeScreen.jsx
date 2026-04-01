@@ -23,9 +23,7 @@ export default function HomeScreen({ navigation }) {
   } = useApp();
 
   const levels = [
-    { key: 'beginners', color: '#360f5a', emoji: '🌱' },
     { key: 'intermediary', color: '#360f5a', emoji: '🌿' },
-    { key: 'advanced', color: '#360f5a', emoji: '🌳' },
   ];
   
   const book_levels = [
@@ -67,8 +65,8 @@ export default function HomeScreen({ navigation }) {
     } else {
       // Navigate to first audio if no current audio
       navigation.navigate('Level', {
-        level: 'beginners',
-        title: curriculum.beginners.title,
+        level: 'intermediary',
+        title: curriculum.intermediary.title,
       });
     }
   };

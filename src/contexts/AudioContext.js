@@ -7,6 +7,7 @@ import {
   getPlaybackPosition,
 } from '../utils/storage';
 import { getPlayableAudioUri } from '../utils/audioCacheManager';
+import { registerSleepTimerInteraction } from '../services/audioSetup';
 
 const AudioContext = createContext();
 
@@ -103,6 +104,14 @@ export const AudioProvider = ({ children }) => {
   // ============================================
   const setupContextListeners = () => {
     const subscription = AudioPro.addEventListener((event) => {
+      if (event.track) {
+        setCurrentAudio(event.track);
+        currentAudioIdRef.current = event.track.id;
+      } else if (event.track === null) {
+        setCurrentAudio(null);
+        currentAudioIdRef.current = null;
+      }
+
       switch (event.type) {
         case AudioProEventType.STATE_CHANGED:
           // Update our React state when AudioPro state changes
@@ -122,6 +131,9 @@ export const AudioProvider = ({ children }) => {
           setIsPlaying(false); 
           // Save final progress
           saveProgress();
+          setTimeout(() => {
+            syncStateWithAudioPro();
+          }, 0);
           break;
 
         case AudioProEventType.PLAYBACK_ERROR:
@@ -215,6 +227,9 @@ export const AudioProvider = ({ children }) => {
       if (track) {
         setCurrentAudio(track);
         currentAudioIdRef.current = track.id;
+      } else {
+        setCurrentAudio(null);
+        currentAudioIdRef.current = null;
       }
 
     } catch (error) {
@@ -274,6 +289,7 @@ export const AudioProvider = ({ children }) => {
   const play = () => {
     try {
       AudioPro.resume();
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error playing:', error);
     }
@@ -282,6 +298,7 @@ export const AudioProvider = ({ children }) => {
   const pause = () => {
     try {
       AudioPro.pause();
+      registerSleepTimerInteraction();
       // Save progress when pausing
       saveProgress();
     } catch (error) {
@@ -293,6 +310,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro.seekTo expects milliseconds
       AudioPro.seekTo(timeInSeconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking:', error);
     }
@@ -310,6 +328,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekForward method
       AudioPro.seekForward(seconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking forward:', error);
     }
@@ -319,6 +338,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekBack method
       AudioPro.seekBack(seconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking backward:', error);
     }
@@ -417,4 +437,3 @@ export const useAudio = () => {
   }
   return context;
 };
-

@@ -1,8 +1,15 @@
 import { AudioPro, AudioProEventType, AudioProState } from 'react-native-audio-pro';
 import { prepareNextAudioTrack, preparePreviousAudioTrack } from '../utils/audioSequenceService';
-import { saveProgress } from '../utils/storage';
+import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
 
 // OFFICIAL AUDIO SETUP
+
+const SLEEP_TIMER_MS = 60 * 60 * 1000;
+let sleepTimerTimeout = null;
+let sleepTimerDeadline = null;
+let sleepTimerEnabledCache = false;
+let lastKnownState = AudioProState.IDLE;
+let lastKnownTrackId = null;
 
 export function setupAudio() {
   AudioPro.configure({
@@ -14,11 +21,70 @@ export function setupAudio() {
   });
 
   setupPersistentListeners();
+  refreshSleepTimerPreference();
+}
+
+function getTimeRemainingMs() {
+  if (!sleepTimerDeadline) {
+    return null;
+  }
+
+  return Math.max(0, sleepTimerDeadline - Date.now());
+}
+
+function clearSleepTimer() {
+  if (sleepTimerTimeout) {
+    clearTimeout(sleepTimerTimeout);
+    sleepTimerTimeout = null;
+  }
+}
+
+async function scheduleSleepTimerFromDeadline() {
+  const enabled = sleepTimerEnabledCache;
+
+  clearSleepTimer();
+
+  if (!enabled || !sleepTimerDeadline || AudioPro.getState() !== AudioProState.PLAYING) {
+    return;
+  }
+
+  const remainingMs = getTimeRemainingMs();
+
+  if (remainingMs == null) {
+    return;
+  }
+
+  if (remainingMs <= 0) {
+    AudioPro.pause();
+    clearSleepTimer();
+    return;
+  }
+
+  sleepTimerTimeout = setTimeout(() => {
+    AudioPro.pause();
+    clearSleepTimer();
+  }, remainingMs);
+}
+
+export async function registerSleepTimerInteraction() {
+  clearSleepTimer();
+
+  if (!sleepTimerEnabledCache) {
+    sleepTimerDeadline = null;
+    return;
+  }
+
+  sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  await scheduleSleepTimerFromDeadline();
 }
 
 function setupPersistentListeners() {
   const subscription = AudioPro.addEventListener((event) => {
     switch (event.type) {
+      case AudioProEventType.PROGRESS:
+        handleProgress(event);
+        break;
+
       case AudioProEventType.TRACK_ENDED:
         handleTrackEnded(event);
         break;
@@ -102,6 +168,7 @@ async function handleTrackEnded(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await scheduleSleepTimerFromDeadline();
       // console.log('✅ Successfully transitioned to next audio');
     } 
     // else {
@@ -131,6 +198,7 @@ async function handleRemoteNext(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await registerSleepTimerInteraction();
     } else {
       console.log('📭 No next audio available');
     }
@@ -158,6 +226,7 @@ async function handleRemotePrev(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await registerSleepTimerInteraction();
     }
   } catch (error) {
     console.error('❌ Error handling remote previous:', error);
@@ -165,21 +234,30 @@ async function handleRemotePrev(event) {
 }
 
 function handleRemotePlay(event) {
-  // console.log('▶️ Remote Play button pressed');
+  // console.log('??????? Remote Play button pressed');
+  if (sleepTimerEnabledCache) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
   AudioPro.resume();
+  scheduleSleepTimerFromDeadline();
 }
 
 function handleRemotePause(event) {
-  // console.log('⏸️ Remote Pause button pressed');
+  // console.log('??????? Remote Pause button pressed');
+  if (sleepTimerEnabledCache) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
   AudioPro.pause();
+  clearSleepTimer();
 }
 
 function handleRemoteSeek(event) {
-  // console.log('⏩ Remote Seek:', event.payload);
+  // console.log('??? Remote Seek:', event.payload);
+  registerSleepTimerInteraction();
 }
 
 function handlePlaybackError(event) {
-  console.error('❌ Playback error:', event.payload);
+  console.error('??? Playback error:', event.payload);
   const error = event.payload;
   if (error) {
     console.error('Error code:', error.errorCode);
@@ -187,10 +265,66 @@ function handlePlaybackError(event) {
   }
 }
 
+function handleProgress(event) {
+  enforceSleepTimerDeadline();
+}
+
 function handleStateChange(event) {
   const state = event.payload?.state;
+  const trackId = event.track?.id ?? AudioPro.getPlayingTrack()?.id ?? null;
+  const resumedSameTrack =
+    state === AudioProState.PLAYING &&
+    lastKnownState === AudioProState.PAUSED &&
+    trackId != null &&
+    trackId === lastKnownTrackId;
 
-  // if (__DEV__) {
-  //   console.log('🔄 Player state changed to:', state);
-  // }
+  if (resumedSameTrack) {
+    registerSleepTimerInteraction();
+  } else if (state === AudioProState.PLAYING) {
+    scheduleSleepTimerFromDeadline();
+  } else if (
+    state === AudioProState.PAUSED ||
+    state === AudioProState.STOPPED ||
+    state === AudioProState.IDLE ||
+    state === AudioProState.ERROR
+  ) {
+    clearSleepTimer();
+  }
+
+  lastKnownState = state ?? lastKnownState;
+  lastKnownTrackId = trackId;
+}
+
+export async function refreshSleepTimerPreference() {
+  const enabled = await getSleepTimerEnabled();
+  sleepTimerEnabledCache = enabled;
+
+  if (!enabled) {
+    sleepTimerDeadline = null;
+    clearSleepTimer();
+    return;
+  }
+
+  if (!sleepTimerDeadline && AudioPro.getState() === AudioProState.PLAYING) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
+
+  await scheduleSleepTimerFromDeadline();
+}
+
+function enforceSleepTimerDeadline() {
+  if (!sleepTimerDeadline) {
+    return;
+  }
+
+  if (AudioPro.getState() !== AudioProState.PLAYING) {
+    return;
+  }
+
+  const remainingMs = getTimeRemainingMs();
+
+  if (remainingMs != null && remainingMs <= 0) {
+    AudioPro.pause();
+    clearSleepTimer();
+  }
 }

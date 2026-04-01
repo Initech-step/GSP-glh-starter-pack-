@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "GSP",
+    "name": "GSP Intermediate",
     "slug": "GSP",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-screen-1.png",
+      "image": "./assets/splash-screen-3.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },

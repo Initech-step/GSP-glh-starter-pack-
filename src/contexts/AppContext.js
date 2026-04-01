@@ -1,5 +1,6 @@
 // src/contexts/AppContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AppState } from 'react-native';
 import { curriculum } from '../data/curriculum';
 import {
   getProgress,
@@ -9,11 +10,12 @@ import {
 } from '../utils/storage';
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import { subscribeToProgressChanges } from '../utils/progressEvents';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [currentLevel, setCurrentLevel] = useState('beginners');
+  const [currentLevel, setCurrentLevel] = useState('intermediary');
   const [currentWeek, setCurrentWeek] = useState(1);
   const [currentAudioId, setCurrentAudioId] = useState(null);
   const [progress, setProgress] = useState({});
@@ -23,6 +25,21 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     loadSavedState();
     setupSixHourlyNotification();
+
+    const unsubscribe = subscribeToProgressChanges(() => {
+      loadSavedState();
+    });
+
+    const appStateSubscription = AppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active') {
+        loadSavedState();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      appStateSubscription.remove();
+    };
   }, []);
 
   const loadSavedState = async () => {
@@ -88,7 +105,7 @@ export const AppProvider = ({ children }) => {
     }
 
     // Next level
-    const levelOrder = ['beginners', 'intermediary', 'advanced'];
+    const levelOrder = ['intermediary'];
     const currentLevelIndex = levelOrder.indexOf(currentLevel);
     
     if (currentLevelIndex < levelOrder.length - 1) {
@@ -109,8 +126,8 @@ export const AppProvider = ({ children }) => {
 
   // Check if week is unlocked (sequential progression)
   const isWeekUnlocked = (level, weekNumber) => {
-    // Week 1 of beginners is always unlocked
-    if (level === 'beginners' && weekNumber === 1) return true;
+    // Week 1 of intermediary is always unlocked
+    if (level === 'intermediary' && weekNumber === 1) return true;
 
     const levelData = curriculum[level];
     const previousWeek = levelData.weeks.find(w => w.weekNumber === weekNumber - 1);
@@ -124,7 +141,7 @@ export const AppProvider = ({ children }) => {
     }
 
     // If no previous week, check if previous level is completed
-    const levelOrder = ['beginners', 'intermediary', 'advanced'];
+    const levelOrder = ['intermediary'];
     const currentLevelIndex = levelOrder.indexOf(level);
     
     if (currentLevelIndex > 0 && weekNumber === 1) {
@@ -231,3 +248,4 @@ async function setupSixHourlyNotification() {
     },
   });
 }
+

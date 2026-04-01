@@ -9,16 +9,13 @@ import {
   Alert,
   Switch,
 } from 'react-native';
+import { AudioPro } from 'react-native-audio-pro';
 import { 
   clearAllData,
   getAudioFolderPath,
   pickAudioFolder,
-  verifyAudioFolder,
-  resetAudioFolder,
   getProgress,
   getNotes,
-  saveProgress,
-  saveNote,
   getCurrentPosition
 } from '../utils/storage';
 import {
@@ -115,6 +112,37 @@ export default function SettingsScreen({ navigation }) {
               'All progress has been reset',
               [{ text: 'OK', onPress: () => navigation.navigate('Home') }]
             );
+          },
+        },
+      ]
+    );
+  };
+
+  const handleResetAllData = () => {
+    Alert.alert(
+      'Reset App Data',
+      'This will clear progress, notes, cached audio files, saved audio and PDF URIs, folder selection, sleep timer preference, onboarding state, and other local app data.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              AudioPro.clear();
+              await clearAllData();
+              await refreshSleepTimerPreference();
+              await refreshProgress();
+              await loadCurrentPath();
+              await loadSleepTimerPreference();
+              Alert.alert(
+                'Reset Complete',
+                'All local app data has been cleared.',
+                [{ text: 'OK', onPress: () => navigation.navigate('Home') }]
+              );
+            } catch (error) {
+              Alert.alert('Error', 'Failed to clear app data.');
+            }
           },
         },
       ]
@@ -262,6 +290,18 @@ export default function SettingsScreen({ navigation }) {
 
   const settingsSections = [
     {
+      title: 'Audio',
+      items: [
+        {
+          label: 'Sleep Timer',
+          type: 'switch',
+          value: sleepTimerEnabled,
+          onToggle: handleSleepTimerToggle,
+          description: 'Pause playback automatically after 60 minutes of listening.',
+        },
+      ],
+    },
+    {
       title: 'About',
       items: [
         {
@@ -308,6 +348,19 @@ export default function SettingsScreen({ navigation }) {
           onPress: handleRestoreNotes,
           icon: '📥',
           description: 'Restore notes from cloud',
+        },
+      ],
+    },
+    {
+      title: 'Data',
+      items: [
+        {
+          label: 'Reset App Data',
+          type: 'button',
+          onPress: handleResetAllData,
+          icon: '🗑️',
+          description: 'Clear local progress, notes, cache, onboarding, and saved media paths.',
+          destructive: true,
         },
       ],
     }

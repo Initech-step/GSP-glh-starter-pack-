@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AppProvider } from './src/contexts/AppContext';
-import { hasCompletedOnboarding } from './src/utils/storage';
+import { hasCompletedOnboarding, clearAllData } from './src/utils/storage';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import LevelScreen from './src/screens/LevelScreen';
@@ -19,6 +19,7 @@ import { AudioProvider } from './src/contexts/AudioContext';
 import LoginScreen from './src/screens/LoginScreen';
 import TestamentBooks from './src/screens/TestamentBooks';
 import BookChapters from './src/screens/BookChapters'
+import { clearAudioCache } from './src/utils/audioCacheManager';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,10 @@ export default function App() {
   }, []);
 
   const checkOnboarding = async () => {
+    // await clearAllData()
+    // await clearAudioCache();
     const completed = await hasCompletedOnboarding();
+    console.log('🔍 Onboarding completed value:', completed);
     setShowOnboarding(!completed);
   };
 
@@ -65,7 +69,7 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: "God's Lighthouse" }}
+              options={{ title: "GSP Intermediate" }}
             />
             <Stack.Screen
               name="Level"

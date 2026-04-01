@@ -4,164 +4,6 @@
 // ============================================================
 
 const audioMap = {
-
-  // ========== BEGINNERS ==========
-  // Week 1: Elementary Principles Of Christ: Overview and Repentance from Dead Works.
-  'bg_w1_a1': '1a. Overview I.mp3', // Elementary Principles Of Christ: Overview I
-  'bg_w1_a2': '1b. Overview I.mp3', // Elementary Principles Of Christ: Overview II
-  'bg_w1_a3': '2a. Stages of Christian Growth-Discipleship.mp3', // Stages of Christian Growth: Discipleship
-  'bg_w1_a4': '2b. Stages of Christian Growth- Servants & Friends.mp3', // Stages of Christian Growth: Servant and Friends
-  'bg_w1_a5': '2c. Stages of Christian Growth- Sons of God.mp3', // Stages of Christian Growth: Sons of God
-  'bg_w1_a6': '3a. Repentance From Dead Works.mp3', // Repentance From Dead Works
-  'bg_w1_a7': '3b. Repentance From Dead Works.mp3', // Repentance From Dead Works
-  'bg_w1_a8': '3c. The Concept of Dead Works.mp3', // Repentance From Dead Works
-
-  // Week 2: Elementary Principles Of Christ: Faith Towards God and Water Baptism
-  'bg_w2_a1': '4a. Faith Towards God.mp3', // Elementary Principles Of Christ: Faith Towards God
-  'bg_w2_a2': '4b. Faith Towards God.mp3', // Elementary Principles Of Christ: Faith Towards God
-  'bg_w2_a3': '5a. Water Baptism.mp3', // Elementary Principles Of Christ: Water Baptism
-  'bg_w2_a4': '5b. Water Baptism.mp3', // Elementary Principles Of Christ: Water Baptism
-
-  // Week 3: Elementary Principles Of Christ: Fire Baptism and Holy Spirit Baptism
-  'bg_w3_a1': '6a. Baptism of The Holy Spirit.mp3', // Elementary Principles Of Christ: Holy Spirit Baptism
-  'bg_w3_a2': '6b. Baptism of The Holy Spirit.mp3', // Elementary Principles Of Christ: Holy Spirit Baptism
-  'bg_w3_a3': '7a. Baptism of Fire.mp3', // Elementary Principles Of Christ: Baptism of Fire
-  'bg_w3_a4': '7b. Baptism of Fire.mp3', // Elementary Principles Of Christ: Baptism of Fire
-
-  // Week 4: Elementary Principles Of Christ: Laying On Of Hands and Ressurection Of The Dead
-  'bg_w4_a1': '8a. Laying on of Hands.mp3', // Elementary Principles Of Christ: Laying On Of Hands
-  'bg_w4_a2': '8b. Laying on of Hands.mp3', // Elementary Principles Of Christ: Laying On Of Hands
-  'bg_w4_a3': '9a. Resurrection of the Dead.mp3', // Elementary Principles Of Christ: Laying On Of Hands
-  'bg_w4_a4': '9b. Resurrection of the Dead.mp3', // Elementary Principles Of Christ: Laying On Of Hands
-
-  // Week 5: Elementary Principles Of Christ: Eonian Judgement. | Natural vs Godly Wisdom
-  'bg_w5_a1': '10a. Eternal Judgment I.mp3', // Elementary Principles Of Christ: Eternal Judgement
-  'bg_w5_a2': '10b. Eternal Judgment I.mp3', // Elementary Principles Of Christ: Eternal Judgement
-  'bg_w5_a3': '11a. Eternal Judgment II (HELL).mp3', // Elementary Principles Of Christ: Eternal Judgement
-  'bg_w5_a4': '11b. Eternal Judgment II (HELL).mp3', // Elementary Principles Of Christ: Eternal Judgement
-  'bg_w5_a5': 'GLH-WED011117R.mp3', // Natural vs Godly Wisdom
-
-  // Week 6: Hearing God & Praying Against Principalities
-  'bg_w6_a1': 'GLH-WED061217R.mp3', // Hearing God
-  'bg_w6_a2': 'GLH-THU141119R.mp3', // Praying Against Principalities
-
-  // Week 7: Handling Opposition from Families & The Purpose of Scriptures
-  'bg_w7_a1': 'GLH-WED030118R.mp3', // Handling Opposition from Families
-  'bg_w7_a2': 'GLH-SUN030917R.mp3', // The Purpose of Scriptures
-
-  // Week 8: Parapets-Immorality Safeguards
-  'bg_w8_a1': 'Giving & Parapets 01 - (GLH-FRI19022021).mp3',
-  'bg_w8_a2': 'Giving & Parapets 02 - (GLH-FRI19022021).mp3',
-  'bg_w8_a3': 'Giving & Parapets 03 - (GLH-FRI19022021).mp3',
-  'bg_w8_a4': 'Giving & Parapets 04 - (GLH-FRI19022021).mp3',
-  'bg_w8_a5': 'Giving & Parapets 05 - (GLH-FRI19022021).mp3',
-  'bg_w8_a6': 'GLH-SUN01012023.mp3',
-
-  // Week 9: Prayer & Three Battlegrounds
-  'bg_w9_a1': '[a] Keys to Effective Prayer and Much, Much More! (Wed 19 04 2023).mp3', // Keys to Effective Prayer
-  'bg_w9_a2': '[b] Keys to Effective Prayer and Much, Much More! (Wed 19 04 2023).mp3', // Keys to Effective Prayer
-  'bg_w9_a3': 'GLH-FRI050719R.mp3', // Three Battlegrounds
-
-  // Week 10: Interpretations of Dreams-Revelations & Backsliding-No return to Egypt
-  'bg_w10_a1': 'GLH-WED29072020.mp3', // Interpretations of Dreams-Revelations
-  'bg_w10_a2': 'GLH-SUN031119R.mp3', // Backsliding: No Return To Egypt
-
-  // Week 11: 8 Steps in Christian Growth & True Gospel of the Kingdom
-  'bg_w11_a1': 'GLH-SUN040318R.mp3', // 8 Steps in Christian Growth
-  'bg_w11_a2': '[a] True Gospel of the Kingdom (Wed 21 07 2021).mp3', // True Gospel of the Kingdom
-  'bg_w11_a3': '[b] True Gospel of the Kingdom (Wed 21 07 2021).mp3',
-
-  // Week 12: Traditions of Men vs God & Evangelism
-  'bg_w12_a1': 'GLH-WED010818M.mp3', // Traditions of Men vs God
-  'bg_w12_a2': 'GLH-WED100118F-Evangelism.mp3', // Evangelism
-
-  // Week 13: Tests, Temptations and Trees | Overcoming Evil Thoughts
-  'bg_w13_a1': 'GLH-SUN190818R.mp3', // Overcoming Evil Thoughts
-  'bg_w13_a2': 'GLH-SUN110318R.mp3',
-
-  // Week 14: Forgiveness And Trespass. & Unbelievers vs Believers
-  'bg_w14_a1': 'GLH-SUN090717R.mp3', // Forgiveness And Trespass
-  'bg_w14_a2': "GLH-TUES15092020[a].mp3", 
-  'bg_w14_a3': 'GLH-TUES15092020[b].mp3', 
-
-  // Week 15: Giants In The Land & Giving/Tithing
-  'bg_w15_a1': 'GLH-WED101018R.mp3', // Giants In The Land
-  'bg_w15_a2': 'GLH-SUN291017R.mp3', // Giving/Tithing 
-
-  // Week 16: Praise:New Songs || Shepherd and Sheep
-  'bg_w16_a1': 'GLH-THU071119R_01.mp3', // Praise:New Songs
-  'bg_w16_a2': '7.1 GLH-SUN180819 - 01.mp3', // Shepherd and Sheep
-  'bg_w16_a3': '7.2 GLH-SUN180819 - 02.mp3', // Shepherd and Sheep
-  'bg_w16_a4': '7.3 GLH-SUN180819 - 03.mp3', // Shepherd and Sheep
-
-  // Week 17: Prayer&Praise Over worry 
-  'bg_w17_a1': 'GLH-SUN220418R.mp3', // Prayer&Praise Over worry
-
-  // Week 18: Armour Of God & Christian Dressing
-  'bg_w18_a1': 'GLH-SUN121117R_01.mp3', // Armour Of God
-  'bg_w18_a2': '05 GLH-TUE250717R.mp3', // Christian Dressing
-
-  // Week 19: Refiner's Fire (woes of the greedy) || Power Of Scriptures
-  'bg_w19_a1': 'GLH-SUN221017RMP3.mp3', // Refiner's Fire (woes of the greedy)
-  'bg_w19_a2': 'GLH-FRI140717R.mp3',
-
-  // Week 20: False Spirits-Testing The Spirits || Walking in the light-authorities
-  'bg_w20_a1': 'GLH-WED021019R.mp3', // False Spirits-Testing The Spirits
-  'bg_w20_a2': 'TAR-FRI14052021-A.mp3', // Walking in the light-authorities
-  'bg_w20_a3': 'TAR-FRI14052021-B.mp3', // Walking in the light-authorities
-  'bg_w20_a4': 'TAR-FRI14052021-C.mp3', // Walking in the light-authorities
-  'bg_w20_a5': 'TAR-FRI14052021-D.mp3', // Walking in the light-authorities
-
-  // Week 21: Pride and Humility || Battle Strategies: David and Goliath.
-  'bg_w21_a1': 'GLH-WED120717R.mp3', // Pride and Humility
-
-  // Week 22: Fasting || The Lord's Table
-  'bg_w22_a1': 'GLH-SUN070118R.mp3', // The Lord's Table
-
-  // Week 23: Understanding the Spirit Realm || Natural Man vs Spiritual Man
-  'bg_w23_a1': 'GLH-WED170118R.mp3', // Understanding the Spirit Realm
-  'bg_w23_a2': 'GLH-SUN221017R.mp3', // Natural Man vs Spiritual Man
-
-  // Week 24: God's Will vs God's Plans || Greed/First fruits
-  'bg_w24_a1': '01 - GLH-SUN28032021.mp3',
-  'bg_w24_a2': '02 - GLH-SUN28032021.mp3', // God's Will vs God's Plans
-  'bg_w24_a3': 'GLH-FRI02042021 - 01.mp3', // Greed/First fruits
-  'bg_w24_a4': 'GLH-FRI02042021 - 02.mp3', // Greed/First fruits
-  'bg_w24_a5': 'GLH-FRI02042021 - 03.mp3', // Greed/First fruits
-
-  // Week 25: Fear God And The Devil's Strategy || Incense And Thanksgiving
-  'bg_w25_a1': '01 GLH-FRI18062021.mp3', // Incense And Thanksgiving
-  'bg_w25_a2': '02 GLH-FRI18062021.mp3', // Incense And Thanksgiving
-
-  // Week 26: The Study On John 8 & Crossing The Jordan
-  'bg_w26_a1': 'GLH-SUN210118R.mp3', // The Study On John
-  'bg_w26_a2': '4.1 GLH-MON280518R1.mp3', // Crossing The Jordan
-  'bg_w26_a3': '4.2 GLH-MON280518R2.mp3', // Crossing The Jordan
-  'bg_w26_a4': '4.3 GLH-MON280518R3.mp3', // Crossing The Jordan
-  'bg_w26_a5': '4.5 GLH-MON280518R5.mp3', // Crossing The Jordan
-  'bg_w26_a6': '4.6 GLH-MON280518R6.mp3', // Crossing The Jordan
-  'bg_w26_a7': '4.7 GLH-MON280518R7.mp3', // Crossing The Jordan
-
-  // Week 27: The 3 feasts: Passover || The 3 feasts: Pentecost
-  'bg_w27_a1': 'GLH-SUN29032020_01.mp3',
-  'bg_w27_a2': 'GLH-SUN29032020_02.mp3',
-  'bg_w27_a3': 'GLH-SUN29032020_03.mp3',
-  'bg_w27_a4': 'GLH-SUN05072020 [a].mp3',
-  'bg_w27_a5': 'GLH-SUN05072020 [b].mp3',
-  'bg_w27_a6': 'GLH-SUN05072020 [c].mp3',
-  'bg_w27_a7': 'GLH-SUN05072020 [d].mp3',
-
-  // Week 28: The 3 feasts: Tabernacles || Greater works: Feet washing
-  'bg_w28_a1': '[a] Greater Works - Something Beyond Miracles (Fri 14 04 2023).mp3', // Feet washing
-  'bg_w28_a2': '[b] Greater Works - Something Beyond Miracles (Fri 14 04 2023).mp3', // Feet washing
-  'bg_w28_a3': 'GLH-SUN13092020_Tabernacles, Preparing The Way [a].mp3',
-  'bg_w28_a4': 'GLH-SUN13092020_Tabernacles, Preparing The Way [b].mp3',
-  'bg_w28_a5': 'GLH-SUN13092020_Tabernacles, Preparing The Way [c].mp3',
-  'bg_w28_a6': 'GLH-SUN13092020_Tabernacles, Preparing The Way [d].mp3',
-
-  // Week 29: The 3 Harvests: Barley, Wheat, Grapes || False Accusations Against GLH
-  'bg_w29_a1': 'Copy of GLH-FRI02102020mp3.mp3', // False Accusations Against GLH
-
   // ========== INTERMEDIARY ==========
   // Week 1: Suffering and the Christian || Martyrdom
   'int_w1_a1': 'GLH-WED280218.mp3', // Suffering And The Christian
@@ -341,57 +183,6 @@ const audioMap = {
   'int_w33_a2': 'GLH-SUN221219_01.mp3', // Government
   'int_w33_a3': 'GLH-SUN221219_02.mp3', // Government
   'int_w33_a4': 'GLH-SUN221219_03.mp3', // Government
-
-  // ========== ADVANCED ==========
-  // Week 1: Children's Ministry || Get ready: A Study On Matthew 24
-  'adv_w1_a1': 'Children - Made For War [a] 10_09_2020.mp3', // Children's Ministry
-  'adv_w1_a2': 'Children - Made For War [b] 10_09_2020.mp3', // Children's Ministry
-  'adv_w1_a3': 'GLH-WED01072020_Get Ready! [a].mp3',
-  'adv_w1_a4': 'GLH-WED01072020_Get Ready! [b].mp3',
-
-  // Week 2: Discipleship: A Teaching on Lords And Gods. || Music Ministry
-  'adv_w2_a1': '05. GLH-SAT08022020R_01.mp3', // Discipleship: A Teaching on Lords And Gods
-  'adv_w2_a2': 'GLH-SUN291219R_01.mp3', // Music Ministry
-
-  // Week 3: Sabbath Seasons || Ministry Of Angels
-  'adv_w3_a1': "8.1 GLH-FRI260719-Don't Love The World [a].mp3", // Sabbath Seasons
-  'adv_w3_a2': "8.2 GLH-FRI260719-Don't Love The World [b].mp3", // Sabbath Seasons
-  'adv_w3_a3': 'GLH-FRI050118R.mp3', // Ministry Of Angels
-
-  // Week 4: Marrying In Your Tribe || Understanding  Predestination.
-  'adv_w4_a1': 'GLH-FRI220319-Warfare Through The Eyes of God [a].mp3', // Marrying In Your Tribe
-  'adv_w4_a2': 'GLH-FRI220319-Warfare Through The Eyes of God [b].mp3', // Marrying In Your Tribe
-
-  // Week 5: Lords Many And gods Many || Inventions Of Nephilim
-  'adv_w5_a1': 'GLH-SUN07112021 [MIXLR] First Service.mp3', // Lords Many And gods Many
-  'adv_w5_a2': 'GLH-SUN07112021 [MIXLR] Second Service.mp3', // Lords Many And gods Many
-  'adv_w5_a3': 'GLH-SUN07112021 [MIXLR] Evening Meeting.mp3', // Lords Many And gods Many
-  'adv_w5_a4': 'GLH-WED150519R.mp3', // Inventions Of Nephilim
-
-  // Week 6: River Of Life, Tree Of Life || The Beginning And The End
-  'adv_w6_a1': 'GLH-FRI26062020.mp3',
-  'adv_w6_a2': 'GLH-SUN14062020_1st Service.mp3',
-  'adv_w6_a3': 'GLH-SUN14062020_2nd & 3rd Service [a].mp3',
-  'adv_w6_a4': 'GLH-SUN14062020_2nd & 3rd Service [b].mp3',
-
-  // Week 7: Free Will And Sovereignty || Significance Of '3 Days'
-  'adv_w7_a1': 'GLH-FRI170818R.mp3', // Significance Of '3 Days'
-  'adv_w7_a2': '10 GLH-THU260718R[AM].mp3',
-  'adv_w7_a3': '11 GLH-THU260718R[PM].mp3',
-
-  // Week 8: Jubilee, The Principle Of Seed || Glorious Beings
-  'adv_w8_a1': 'GLH-SUN300619R.mp3', // Jubilee, The Principle Of Seed
-  'adv_w8_a2': 'RET-SAT27022021.S3A.mp3',
-  'adv_w8_a3': 'RET-SAT27022021.S3B.mp3',
-  'adv_w8_a4': 'RET-SAT27022021.S3C.mp3',
-  'adv_w8_a5': 'RET-SAT27022021.S3D.mp3',
-  'adv_w8_a7': 'RET-SAT27022021.S3E.mp3',
-
-  // Week 9: Aionian Judgement 1 || Aionian Judgement 2
-  'adv_w9_a1': 'GLH-WED04032020 _AEONIAN JUDGEMENT I-Understanding The Judgements of God [a].mp3', // Aionian Judgement 1
-  'adv_w9_a2': 'GLH-WED04032020 _AEONIAN JUDGEMENT I-Understanding The Judgements of God [b].mp3', // Aionian Judgement 1
-  'adv_w9_a3': 'GLH-THU05032020_AEONIAN JUDGEMENT II-Truths You Should Know About It [a].mp3', // Aionian Judgement 2
-  'adv_w9_a4': 'GLH-THU05032020_AEONIAN JUDGEMENT II-Truths You Should Know About It [b].mp3', // Aionian Judgement 2
 
   'adv_w1_a26f2': 'B01___01_Matthew_____ENGESVN2DA.mp3', // B01___01_Matthew_____ENGESVN2DA
   'adv_w2_aa8e0': 'B01___02_Matthew_____ENGESVN2DA.mp3', // B01___02_Matthew_____ENGESVN2DA
@@ -1656,7 +1447,7 @@ export const loadAudioIdByName = (audioName) => {
       console.error('❌ Audio name not found:', audioName);
       return null;
     }
-    // console.log('audioId found:', audioId);
+    console.log('audioId found:', audioId);
     return audioId;
   } catch (error) {
     console.error('❌ Error loading audio by name:', error);
@@ -1668,13 +1459,12 @@ export const loadPDFIdByName = (PDFName) => {
   try {
     const PDFID = reverseBookMap[PDFName];
     if (!PDFID) {
-      // console.error('❌ PDF name not found:', PDFName);
+      console.error('❌ PDF name not found:', PDFName);
       return null;
     }
     return PDFID;
   } catch (error) {
-    // console.error('❌ Error loading PDF by name:', error);
+    console.error('❌ Error loading PDF by name:', error);
     return null;
   }
 };
-

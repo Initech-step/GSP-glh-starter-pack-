@@ -48,10 +48,11 @@ export default function PlayerScreen({ route, navigation }) {
     setPlaybackRate
   } = useAudio();
 
-  const { 
-    markAudioCompleted,
-    getNextAudio
-  } = useApp();
+  const { markAudioCompleted } = useApp();
+
+  const activeAudio = currentAudio?.metadata ?? currentAudio ?? audio;
+  const activeAudioId = activeAudio?.id ?? audio.id;
+  const activeWeekNumber = activeAudio?.weekNumber ?? weekNumber;
 
   // ============================================
   // LOCAL STATE
@@ -66,6 +67,8 @@ export default function PlayerScreen({ route, navigation }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragPosition, setDragPosition] = useState(0);
   const progressBarWidth = width - 40; // Account for padding
+  const completionHandledRef = useRef(null);
+  const lastLoadedRouteAudioRef = useRef(null);
 
   // ============================================
   // LOAD AUDIO PATH ON MOUNT
@@ -94,12 +97,15 @@ export default function PlayerScreen({ route, navigation }) {
     };
 
     loadPath();
-    setPlaybackSpeed(1.0);
-    setPlaybackRate(1.0);
 
     return () => {
       mounted = false;
     };
+  }, [audio.id, navigation]);
+
+  useEffect(() => {
+    setPlaybackSpeed(1.0);
+    setPlaybackRate(1.0);
   }, [audio.id]);
 
   // ============================================
@@ -111,17 +117,25 @@ export default function PlayerScreen({ route, navigation }) {
     if (!audioPath) return;
 
     const setup = async () => {
+      if (lastLoadedRouteAudioRef.current === audio.id) {
+        return;
+      }
+
+      const alreadyLoaded = currentAudio?.id === audio.id;
+
       // Only load if this audio isn't already loaded
-      if (!isAudioLoaded(audio.id)) {
-        // console.log('🎵 Loading audio into player:', audio.title);
+      if (!alreadyLoaded) {
+        // console.log('???? Loading audio into player:', audio.title);
         await loadAudio(audioPath, audio);
       } else {
-        console.log('✅ Audio already loaded:', audio.title);
+        console.log('??? Audio already loaded:', audio.title);
       }
+
+      lastLoadedRouteAudioRef.current = audio.id;
     };
 
     setup();
-  }, [audioPath]);
+  }, [audio.id, audioPath]);
 
   // ============================================
   // MONITOR COMPLETION (95% THRESHOLD)
@@ -129,18 +143,23 @@ export default function PlayerScreen({ route, navigation }) {
   // Show completion dialog at 98%
   // ============================================
   useEffect(() => {
+    completionHandledRef.current = null;
+  }, [activeAudioId]);
+
+  useEffect(() => {
     if (!isLoaded || !duration || duration === 0) return;
 
     const progressPercentage = (position / duration) * 100;
     // console.log(progressPercentage);
     
-    if (progressPercentage >= 99.999) {
+    if (progressPercentage >= 99.999 && completionHandledRef.current !== activeAudioId) {
+      completionHandledRef.current = activeAudioId;
       // console.log("AUDIO COMPLETED!");
       
       // ✅ Create an async function inside useEffect
       const handleCompletion = async () => {
         try {
-          await markAudioCompleted(audio.id);
+          await markAudioCompleted(activeAudioId);
         } catch (error) {
           console.error('❌ Error marking audio as completed:', error);
         }
@@ -149,14 +168,14 @@ export default function PlayerScreen({ route, navigation }) {
       // ✅ Call the async function
       handleCompletion();
     }
-  }, [position, duration]);
+  }, [activeAudioId, duration, isLoaded, markAudioCompleted, position]);
 
   // ============================================
   // PLAYBACK CONTROLS
   // ============================================
 
   const togglePlayPause = () => {
-    if (!isAudioLoaded(audio.id)) {
+    if (!isAudioLoaded(activeAudioId)) {
       Alert.alert(
         'Audio Changed',
         'Another audio is currently loaded. Load this audio first.',
@@ -174,7 +193,7 @@ export default function PlayerScreen({ route, navigation }) {
 
   // Use the new seekBackward method from AudioContext
   const handleBackward = () => {
-    if (!isAudioLoaded(audio.id)) return;
+    if (!isAudioLoaded(activeAudioId)) return;
     seekBackward(30); // 30 seconds backward
   };
 
@@ -199,7 +218,7 @@ export default function PlayerScreen({ route, navigation }) {
 
   // Use the new seekForward method from AudioContext
   const handleForward = () => {
-    if (!isAudioLoaded(audio.id)) return;
+    if (!isAudioLoaded(activeAudioId)) return;
     seekForward(30); // 30 seconds forward
   };
 
@@ -246,18 +265,18 @@ export default function PlayerScreen({ route, navigation }) {
         <View style={styles.infoCard}>
           <View style={styles.levelBadge}>
             <Text style={styles.levelBadgeText}>
-              Week {weekNumber}
+              Week {activeWeekNumber}
             </Text>
           </View>
           
-          <Text style={styles.audioTitle}>{audio.title}</Text>
+          <Text style={styles.audioTitle}>{activeAudio?.title ?? audio.title}</Text>
           
-          {audio.date && (
-            <Text style={styles.audioDate}>{audio.date}</Text>
+          {activeAudio?.date && (
+            <Text style={styles.audioDate}>{activeAudio.date}</Text>
           )}
           
           {/* Active Indicator - shows when this audio is loaded */}
-          {isAudioLoaded(audio.id) && (
+          {isAudioLoaded(activeAudioId) && (
             <View style={styles.activeIndicator}>
               <View style={styles.activeDot} />
               <Text style={styles.activeText}>Active Audio</Text>
@@ -368,7 +387,7 @@ export default function PlayerScreen({ route, navigation }) {
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.notesButton}
-            onPress={() => navigation.navigate('Notes', { audioId: audio.id })}
+            onPress={() => navigation.navigate('Notes', { audioId: activeAudioId })}
             activeOpacity={0.7}
           >
             <MaterialIcons name="notes" size={24} color="#360f5a" />
@@ -790,4 +809,3 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
 });
-

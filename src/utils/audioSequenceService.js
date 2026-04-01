@@ -5,16 +5,16 @@ import { getPlayableAudioUri } from './audioCacheManager';
 
 /**
  * Builds a unified sequential list from ALL audio sources:
- * 1. Curriculum: beginners → intermediary → advanced (with weeks)
+ * 1. Curriculum:  intermediary 
  * 2. Bible: old_testament → new_testament (testament → book → chapter)
  */
 function buildUnifiedSequentialList() {
   const sequentialList = [];
   
   // ============================================
-  // PART 1: CURRICULUM AUDIOS (beginners, intermediary, advanced)
+  // PART 1: CURRICULUM AUDIOS (intermediary)
   // ============================================
-  const curriculumLevels = ['beginners', 'intermediary', 'advanced'];
+  const curriculumLevels = ['intermediary'];
   
   for (const levelKey of curriculumLevels) {
     const level = curriculum[levelKey];
@@ -135,7 +135,7 @@ export function getAudioMetadataById(audioId) {
     // ============================================
     // SEARCH 1: CURRICULUM AUDIOS
     // ============================================
-    const curriculumLevels = ['beginners', 'intermediary', 'advanced'];
+    const curriculumLevels = ['intermediary'];
     
     for (const levelKey of curriculumLevels) {
       const level = curriculum[levelKey];
