@@ -48,10 +48,11 @@ export default function PlayerScreen({ route, navigation }) {
     setPlaybackRate
   } = useAudio();
 
-  const { 
-    markAudioCompleted,
-    getNextAudio
-  } = useApp();
+  const { markAudioCompleted } = useApp();
+
+  const activeAudio = currentAudio?.metadata ?? currentAudio ?? audio;
+  const activeAudioId = activeAudio?.id ?? audio.id;
+  const activeWeekNumber = activeAudio?.weekNumber ?? weekNumber;
 
   // ============================================
   // LOCAL STATE
@@ -100,7 +101,7 @@ export default function PlayerScreen({ route, navigation }) {
     return () => {
       mounted = false;
     };
-  }, [audio.id]);
+  }, [audio.id, navigation, setPlaybackRate]);
 
   // ============================================
   // LOAD AUDIO INTO PLAYER
@@ -121,7 +122,7 @@ export default function PlayerScreen({ route, navigation }) {
     };
 
     setup();
-  }, [audioPath]);
+  }, [audio.id, audio.title, audioPath, isAudioLoaded, loadAudio]);
 
   // ============================================
   // MONITOR COMPLETION (95% THRESHOLD)
@@ -140,7 +141,7 @@ export default function PlayerScreen({ route, navigation }) {
       // ✅ Create an async function inside useEffect
       const handleCompletion = async () => {
         try {
-          await markAudioCompleted(audio.id);
+          await markAudioCompleted(activeAudioId);
         } catch (error) {
           console.error('❌ Error marking audio as completed:', error);
         }
@@ -149,14 +150,14 @@ export default function PlayerScreen({ route, navigation }) {
       // ✅ Call the async function
       handleCompletion();
     }
-  }, [position, duration]);
+  }, [activeAudioId, duration, isLoaded, markAudioCompleted, position]);
 
   // ============================================
   // PLAYBACK CONTROLS
   // ============================================
 
   const togglePlayPause = () => {
-    if (!isAudioLoaded(audio.id)) {
+    if (!isAudioLoaded(activeAudioId)) {
       Alert.alert(
         'Audio Changed',
         'Another audio is currently loaded. Load this audio first.',
@@ -174,7 +175,7 @@ export default function PlayerScreen({ route, navigation }) {
 
   // Use the new seekBackward method from AudioContext
   const handleBackward = () => {
-    if (!isAudioLoaded(audio.id)) return;
+    if (!isAudioLoaded(activeAudioId)) return;
     seekBackward(30); // 30 seconds backward
   };
 
@@ -199,7 +200,7 @@ export default function PlayerScreen({ route, navigation }) {
 
   // Use the new seekForward method from AudioContext
   const handleForward = () => {
-    if (!isAudioLoaded(audio.id)) return;
+    if (!isAudioLoaded(activeAudioId)) return;
     seekForward(30); // 30 seconds forward
   };
 
@@ -246,18 +247,18 @@ export default function PlayerScreen({ route, navigation }) {
         <View style={styles.infoCard}>
           <View style={styles.levelBadge}>
             <Text style={styles.levelBadgeText}>
-              Week {weekNumber}
+              Week {activeWeekNumber}
             </Text>
           </View>
           
-          <Text style={styles.audioTitle}>{audio.title}</Text>
+          <Text style={styles.audioTitle}>{activeAudio?.title ?? audio.title}</Text>
           
-          {audio.date && (
-            <Text style={styles.audioDate}>{audio.date}</Text>
+          {activeAudio?.date && (
+            <Text style={styles.audioDate}>{activeAudio.date}</Text>
           )}
           
           {/* Active Indicator - shows when this audio is loaded */}
-          {isAudioLoaded(audio.id) && (
+          {isAudioLoaded(activeAudioId) && (
             <View style={styles.activeIndicator}>
               <View style={styles.activeDot} />
               <Text style={styles.activeText}>Active Audio</Text>
@@ -368,7 +369,7 @@ export default function PlayerScreen({ route, navigation }) {
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.notesButton}
-            onPress={() => navigation.navigate('Notes', { audioId: audio.id })}
+            onPress={() => navigation.navigate('Notes', { audioId: activeAudioId })}
             activeOpacity={0.7}
           >
             <MaterialIcons name="notes" size={24} color="#360f5a" />

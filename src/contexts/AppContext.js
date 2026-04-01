@@ -1,5 +1,6 @@
 // src/contexts/AppContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AppState } from 'react-native';
 import { curriculum } from '../data/curriculum';
 import {
   getProgress,
@@ -9,6 +10,7 @@ import {
 } from '../utils/storage';
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import { subscribeToProgressChanges } from '../utils/progressEvents';
 
 const AppContext = createContext();
 
@@ -23,6 +25,21 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     loadSavedState();
     setupSixHourlyNotification();
+
+    const unsubscribe = subscribeToProgressChanges(() => {
+      loadSavedState();
+    });
+
+    const appStateSubscription = AppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active') {
+        loadSavedState();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      appStateSubscription.remove();
+    };
   }, []);
 
   const loadSavedState = async () => {

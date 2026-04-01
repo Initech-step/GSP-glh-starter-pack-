@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { File, Directory, Paths } from 'expo-file-system';
 import { loadAudioIdByName, loadPDFIdByName } from '../data/audioLoader';
 import * as FileSystem from 'expo-file-system/legacy';
+import { emitProgressChanged } from './progressEvents';
 
 const KEYS = {
   PROGRESS: '@glh_progress', //stores progress level, week and audios
@@ -22,12 +23,15 @@ const KEYS = {
 export const saveProgress = async (audioId, completed = false, position = 0) => {
   try {
     const progressData = await getProgress();
+    const existingProgress = progressData[audioId] || {};
+
     progressData[audioId] = {
-      completed,
-      position,
+      completed: completed || existingProgress.completed || false,
+      position: position || existingProgress.position || 0,
       lastPlayed: new Date().toISOString(),
     };
     await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
+    emitProgressChanged('saveProgress');
   } catch (error) {
     console.error('Error saving progress:', error);
   }
@@ -86,6 +90,16 @@ export const savePlaybackPosition = async (audioId, position) => {
     const positions = await getPlaybackPositions();
     positions[audioId] = position;
     await AsyncStorage.setItem(KEYS.PLAYBACK_POSITION, JSON.stringify(positions));
+
+    const progressData = await getProgress();
+    const existingProgress = progressData[audioId] || {};
+    progressData[audioId] = {
+      completed: existingProgress.completed || false,
+      position,
+      lastPlayed: new Date().toISOString(),
+    };
+    await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
+    emitProgressChanged('savePlaybackPosition');
   } catch (error) {
     console.error('Error saving playback position:', error);
   }

@@ -103,6 +103,14 @@ export const AudioProvider = ({ children }) => {
   // ============================================
   const setupContextListeners = () => {
     const subscription = AudioPro.addEventListener((event) => {
+      if (event.track) {
+        setCurrentAudio(event.track);
+        currentAudioIdRef.current = event.track.id;
+      } else if (event.track === null) {
+        setCurrentAudio(null);
+        currentAudioIdRef.current = null;
+      }
+
       switch (event.type) {
         case AudioProEventType.STATE_CHANGED:
           // Update our React state when AudioPro state changes
@@ -122,6 +130,9 @@ export const AudioProvider = ({ children }) => {
           setIsPlaying(false); 
           // Save final progress
           saveProgress();
+          setTimeout(() => {
+            syncStateWithAudioPro();
+          }, 0);
           break;
 
         case AudioProEventType.PLAYBACK_ERROR:
@@ -215,6 +226,9 @@ export const AudioProvider = ({ children }) => {
       if (track) {
         setCurrentAudio(track);
         currentAudioIdRef.current = track.id;
+      } else {
+        setCurrentAudio(null);
+        currentAudioIdRef.current = null;
       }
 
     } catch (error) {
