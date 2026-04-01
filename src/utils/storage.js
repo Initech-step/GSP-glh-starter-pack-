@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { File, Directory, Paths } from 'expo-file-system';
 import { loadAudioIdByName, loadPDFIdByName } from '../data/audioLoader';
 import * as FileSystem from 'expo-file-system/legacy';
+import { emitProgressChanged } from './progressEvents';
+import { clearAudioCache } from './audioCacheManager';
 
 const KEYS = {
   PROGRESS: '@glh_progress', //stores progress level, week and audios
@@ -16,18 +18,22 @@ const KEYS = {
   AUDIO_URI: '@glh_audio_uri',
   PDF_URI: '@glh_pdf_uri',
   PREFERRED_SPEED: '@preferred_speed',
+  SLEEP_TIMER_ENABLED: '@glh_sleep_timer_enabled',
 };
 
 // Progress tracking
 export const saveProgress = async (audioId, completed = false, position = 0) => {
   try {
     const progressData = await getProgress();
+    const existingProgress = progressData[audioId] || {};
+
     progressData[audioId] = {
-      completed,
-      position,
+      completed: completed || existingProgress.completed || false,
+      position: position || existingProgress.position || 0,
       lastPlayed: new Date().toISOString(),
     };
     await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
+    emitProgressChanged('saveProgress');
   } catch (error) {
     console.error('Error saving progress:', error);
   }
@@ -86,6 +92,16 @@ export const savePlaybackPosition = async (audioId, position) => {
     const positions = await getPlaybackPositions();
     positions[audioId] = position;
     await AsyncStorage.setItem(KEYS.PLAYBACK_POSITION, JSON.stringify(positions));
+
+    const progressData = await getProgress();
+    const existingProgress = progressData[audioId] || {};
+    progressData[audioId] = {
+      completed: existingProgress.completed || false,
+      position,
+      lastPlayed: new Date().toISOString(),
+    };
+    await AsyncStorage.setItem(KEYS.PROGRESS, JSON.stringify(progressData));
+    emitProgressChanged('savePlaybackPosition');
   } catch (error) {
     console.error('Error saving playback position:', error);
   }
@@ -172,6 +188,8 @@ export const hasCompletedOnboarding = async () => {
 // Clear all data (for testing/reset)
 export const clearAllData = async () => {
   try {
+    await clearCachedPdfFiles();
+    await clearAudioCache();
     await AsyncStorage.multiRemove([
       KEYS.PROGRESS,
       KEYS.CURRENT_LEVEL,
@@ -182,10 +200,46 @@ export const clearAllData = async () => {
       KEYS.ONBOARDING_COMPLETED,
       KEYS.AUDIO_FOLDER_KEY,
       KEYS.AUDIO_URI,
+      KEYS.PDF_URI,
       KEYS.PREFERRED_SPEED,
+      KEYS.SLEEP_TIMER_ENABLED,
     ]);
+    emitProgressChanged('clearAllData');
   } catch (error) {
     console.error('Error clearing data:', error);
+  }
+};
+
+async function clearCachedPdfFiles() {
+  try {
+    const cacheEntries = await FileSystem.readDirectoryAsync(FileSystem.cacheDirectory);
+    const pdfCacheEntries = cacheEntries.filter((entry) => entry.startsWith('pdf_') && entry.endsWith('.pdf'));
+
+    await Promise.all(
+      pdfCacheEntries.map((entry) =>
+        FileSystem.deleteAsync(`${FileSystem.cacheDirectory}${entry}`, { idempotent: true })
+      )
+    );
+  } catch (error) {
+    console.error('Error clearing cached PDFs:', error);
+  }
+}
+
+export const getSleepTimerEnabled = async () => {
+  try {
+    const enabled = await AsyncStorage.getItem(KEYS.SLEEP_TIMER_ENABLED);
+    return enabled === 'true';
+  } catch (error) {
+    console.error('Error getting sleep timer preference:', error);
+    return false;
+  }
+};
+
+export const setSleepTimerEnabled = async (enabled) => {
+  try {
+    await AsyncStorage.setItem(KEYS.SLEEP_TIMER_ENABLED, enabled ? 'true' : 'false');
+  } catch (error) {
+    console.error('Error saving sleep timer preference:', error);
   }
 };
 
@@ -273,6 +327,7 @@ export const getAudioUri = async (audioID) => {
     const audioUris = await getAudioUris();
     return audioUris[audioID] || null;
   } catch (error) {
+    console.error('Error getting audio URI:', error);
     return null;
   }
 }
