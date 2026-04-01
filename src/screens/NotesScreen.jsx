@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     borderColor: '#E2E8F0',
   },
   saveButton: {
-    backgroundColor: '#2563EB',
+    backgroundColor: '#360f5a',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   },
   viewButtonText: {
     fontSize: 14,
-    color: '#2563EB',
+    color: '#360f5a',
     fontWeight: '600',
   },
 });
