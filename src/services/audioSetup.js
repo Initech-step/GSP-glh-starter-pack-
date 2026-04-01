@@ -1,8 +1,11 @@
 import { AudioPro, AudioProEventType, AudioProState } from 'react-native-audio-pro';
 import { prepareNextAudioTrack, preparePreviousAudioTrack } from '../utils/audioSequenceService';
-import { saveProgress } from '../utils/storage';
+import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
 
 // OFFICIAL AUDIO SETUP
+
+const SLEEP_TIMER_MS = 2 * 60 * 1000;
+let sleepTimerTimeout = null;
 
 export function setupAudio() {
   AudioPro.configure({
@@ -14,6 +17,7 @@ export function setupAudio() {
   });
 
   setupPersistentListeners();
+  refreshSleepTimerPreference();
 }
 
 function setupPersistentListeners() {
@@ -102,6 +106,7 @@ async function handleTrackEnded(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await armSleepTimerIfNeeded();
       // console.log('✅ Successfully transitioned to next audio');
     } 
     // else {
@@ -131,6 +136,7 @@ async function handleRemoteNext(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await armSleepTimerIfNeeded();
     } else {
       console.log('📭 No next audio available');
     }
@@ -158,6 +164,7 @@ async function handleRemotePrev(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
+      await armSleepTimerIfNeeded();
     }
   } catch (error) {
     console.error('❌ Error handling remote previous:', error);
@@ -190,7 +197,43 @@ function handlePlaybackError(event) {
 function handleStateChange(event) {
   const state = event.payload?.state;
 
-  // if (__DEV__) {
-  //   console.log('🔄 Player state changed to:', state);
-  // }
+  if (state === AudioProState.PLAYING) {
+    armSleepTimerIfNeeded();
+    return;
+  }
+
+  if (
+    state === AudioProState.PAUSED ||
+    state === AudioProState.STOPPED ||
+    state === AudioProState.IDLE ||
+    state === AudioProState.ERROR
+  ) {
+    clearSleepTimer();
+  }
+}
+
+function clearSleepTimer() {
+  if (sleepTimerTimeout) {
+    clearTimeout(sleepTimerTimeout);
+    sleepTimerTimeout = null;
+  }
+}
+
+async function armSleepTimerIfNeeded() {
+  const enabled = await getSleepTimerEnabled();
+
+  clearSleepTimer();
+
+  if (!enabled || AudioPro.getState() !== AudioProState.PLAYING) {
+    return;
+  }
+
+  sleepTimerTimeout = setTimeout(() => {
+    AudioPro.pause();
+    clearSleepTimer();
+  }, SLEEP_TIMER_MS);
+}
+
+export async function refreshSleepTimerPreference() {
+  await armSleepTimerIfNeeded();
 }
