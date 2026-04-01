@@ -6,6 +6,7 @@ import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
 
 const SLEEP_TIMER_MS = 2 * 60 * 1000;
 let sleepTimerTimeout = null;
+let sleepTimerDeadline = null;
 
 export function setupAudio() {
   AudioPro.configure({
@@ -20,9 +21,69 @@ export function setupAudio() {
   refreshSleepTimerPreference();
 }
 
+function getTimeRemainingMs() {
+  if (!sleepTimerDeadline) {
+    return null;
+  }
+
+  return Math.max(0, sleepTimerDeadline - Date.now());
+}
+
+function clearSleepTimer() {
+  if (sleepTimerTimeout) {
+    clearTimeout(sleepTimerTimeout);
+    sleepTimerTimeout = null;
+  }
+}
+
+async function scheduleSleepTimerFromDeadline() {
+  const enabled = await getSleepTimerEnabled();
+
+  clearSleepTimer();
+
+  if (!enabled || !sleepTimerDeadline || AudioPro.getState() !== AudioProState.PLAYING) {
+    return;
+  }
+
+  const remainingMs = getTimeRemainingMs();
+
+  if (remainingMs == null) {
+    return;
+  }
+
+  if (remainingMs <= 0) {
+    AudioPro.pause();
+    clearSleepTimer();
+    return;
+  }
+
+  sleepTimerTimeout = setTimeout(() => {
+    AudioPro.pause();
+    clearSleepTimer();
+  }, remainingMs);
+}
+
+export async function registerSleepTimerInteraction() {
+  const enabled = await getSleepTimerEnabled();
+
+  clearSleepTimer();
+
+  if (!enabled) {
+    sleepTimerDeadline = null;
+    return;
+  }
+
+  sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  await scheduleSleepTimerFromDeadline();
+}
+
 function setupPersistentListeners() {
   const subscription = AudioPro.addEventListener((event) => {
     switch (event.type) {
+      case AudioProEventType.PROGRESS:
+        handleProgress(event);
+        break;
+
       case AudioProEventType.TRACK_ENDED:
         handleTrackEnded(event);
         break;
@@ -106,7 +167,7 @@ async function handleTrackEnded(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
-      await armSleepTimerIfNeeded();
+      await scheduleSleepTimerFromDeadline();
       // console.log('✅ Successfully transitioned to next audio');
     } 
     // else {
@@ -136,7 +197,7 @@ async function handleRemoteNext(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
-      await armSleepTimerIfNeeded();
+      await registerSleepTimerInteraction();
     } else {
       console.log('📭 No next audio available');
     }
@@ -164,7 +225,7 @@ async function handleRemotePrev(event) {
         autoPlay: true,
         startTimeMs: 0,
       });
-      await armSleepTimerIfNeeded();
+      await registerSleepTimerInteraction();
     }
   } catch (error) {
     console.error('❌ Error handling remote previous:', error);
@@ -172,21 +233,24 @@ async function handleRemotePrev(event) {
 }
 
 function handleRemotePlay(event) {
-  // console.log('▶️ Remote Play button pressed');
+  // console.log('????? Remote Play button pressed');
   AudioPro.resume();
+  registerSleepTimerInteraction();
 }
 
 function handleRemotePause(event) {
-  // console.log('⏸️ Remote Pause button pressed');
+  // console.log('????? Remote Pause button pressed');
   AudioPro.pause();
+  registerSleepTimerInteraction();
 }
 
 function handleRemoteSeek(event) {
-  // console.log('⏩ Remote Seek:', event.payload);
+  // console.log('??? Remote Seek:', event.payload);
+  registerSleepTimerInteraction();
 }
 
 function handlePlaybackError(event) {
-  console.error('❌ Playback error:', event.payload);
+  console.error('??? Playback error:', event.payload);
   const error = event.payload;
   if (error) {
     console.error('Error code:', error.errorCode);
@@ -194,11 +258,15 @@ function handlePlaybackError(event) {
   }
 }
 
+function handleProgress(event) {
+  enforceSleepTimerDeadline();
+}
+
 function handleStateChange(event) {
   const state = event.payload?.state;
 
   if (state === AudioProState.PLAYING) {
-    armSleepTimerIfNeeded();
+    scheduleSleepTimerFromDeadline();
     return;
   }
 
@@ -212,28 +280,35 @@ function handleStateChange(event) {
   }
 }
 
-function clearSleepTimer() {
-  if (sleepTimerTimeout) {
-    clearTimeout(sleepTimerTimeout);
-    sleepTimerTimeout = null;
-  }
-}
-
-async function armSleepTimerIfNeeded() {
+export async function refreshSleepTimerPreference() {
   const enabled = await getSleepTimerEnabled();
 
-  clearSleepTimer();
-
-  if (!enabled || AudioPro.getState() !== AudioProState.PLAYING) {
+  if (!enabled) {
+    sleepTimerDeadline = null;
+    clearSleepTimer();
     return;
   }
 
-  sleepTimerTimeout = setTimeout(() => {
-    AudioPro.pause();
-    clearSleepTimer();
-  }, SLEEP_TIMER_MS);
+  if (!sleepTimerDeadline && AudioPro.getState() === AudioProState.PLAYING) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
+
+  await scheduleSleepTimerFromDeadline();
 }
 
-export async function refreshSleepTimerPreference() {
-  await armSleepTimerIfNeeded();
+function enforceSleepTimerDeadline() {
+  if (!sleepTimerDeadline) {
+    return;
+  }
+
+  if (AudioPro.getState() !== AudioProState.PLAYING) {
+    return;
+  }
+
+  const remainingMs = getTimeRemainingMs();
+
+  if (remainingMs != null && remainingMs <= 0) {
+    AudioPro.pause();
+    clearSleepTimer();
+  }
 }

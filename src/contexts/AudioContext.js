@@ -7,6 +7,7 @@ import {
   getPlaybackPosition,
 } from '../utils/storage';
 import { getPlayableAudioUri } from '../utils/audioCacheManager';
+import { registerSleepTimerInteraction } from '../services/audioSetup';
 
 const AudioContext = createContext();
 
@@ -288,6 +289,7 @@ export const AudioProvider = ({ children }) => {
   const play = () => {
     try {
       AudioPro.resume();
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error playing:', error);
     }
@@ -296,6 +298,7 @@ export const AudioProvider = ({ children }) => {
   const pause = () => {
     try {
       AudioPro.pause();
+      registerSleepTimerInteraction();
       // Save progress when pausing
       saveProgress();
     } catch (error) {
@@ -307,6 +310,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro.seekTo expects milliseconds
       AudioPro.seekTo(timeInSeconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking:', error);
     }
@@ -324,6 +328,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekForward method
       AudioPro.seekForward(seconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking forward:', error);
     }
@@ -333,6 +338,7 @@ export const AudioProvider = ({ children }) => {
     try {
       // AudioPro has a built-in seekBack method
       AudioPro.seekBack(seconds * 1000);
+      registerSleepTimerInteraction();
     } catch (error) {
       console.error('❌ Error seeking backward:', error);
     }
