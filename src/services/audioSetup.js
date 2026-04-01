@@ -7,6 +7,7 @@ import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
 const SLEEP_TIMER_MS = 2 * 60 * 1000;
 let sleepTimerTimeout = null;
 let sleepTimerDeadline = null;
+let sleepTimerEnabledCache = false;
 
 export function setupAudio() {
   AudioPro.configure({
@@ -37,7 +38,7 @@ function clearSleepTimer() {
 }
 
 async function scheduleSleepTimerFromDeadline() {
-  const enabled = await getSleepTimerEnabled();
+  const enabled = sleepTimerEnabledCache;
 
   clearSleepTimer();
 
@@ -64,11 +65,9 @@ async function scheduleSleepTimerFromDeadline() {
 }
 
 export async function registerSleepTimerInteraction() {
-  const enabled = await getSleepTimerEnabled();
-
   clearSleepTimer();
 
-  if (!enabled) {
+  if (!sleepTimerEnabledCache) {
     sleepTimerDeadline = null;
     return;
   }
@@ -233,15 +232,21 @@ async function handleRemotePrev(event) {
 }
 
 function handleRemotePlay(event) {
-  // console.log('????? Remote Play button pressed');
+  // console.log('??????? Remote Play button pressed');
+  if (sleepTimerEnabledCache) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
   AudioPro.resume();
-  registerSleepTimerInteraction();
+  scheduleSleepTimerFromDeadline();
 }
 
 function handleRemotePause(event) {
-  // console.log('????? Remote Pause button pressed');
+  // console.log('??????? Remote Pause button pressed');
+  if (sleepTimerEnabledCache) {
+    sleepTimerDeadline = Date.now() + SLEEP_TIMER_MS;
+  }
   AudioPro.pause();
-  registerSleepTimerInteraction();
+  clearSleepTimer();
 }
 
 function handleRemoteSeek(event) {
@@ -282,6 +287,7 @@ function handleStateChange(event) {
 
 export async function refreshSleepTimerPreference() {
   const enabled = await getSleepTimerEnabled();
+  sleepTimerEnabledCache = enabled;
 
   if (!enabled) {
     sleepTimerDeadline = null;
