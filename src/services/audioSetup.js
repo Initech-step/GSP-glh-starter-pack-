@@ -4,10 +4,12 @@ import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
 
 // OFFICIAL AUDIO SETUP
 
-const SLEEP_TIMER_MS = 2 * 60 * 1000;
+const SLEEP_TIMER_MS = 60 * 60 * 1000;
 let sleepTimerTimeout = null;
 let sleepTimerDeadline = null;
 let sleepTimerEnabledCache = false;
+let lastKnownState = AudioProState.IDLE;
+let lastKnownTrackId = null;
 
 export function setupAudio() {
   AudioPro.configure({
@@ -269,13 +271,18 @@ function handleProgress(event) {
 
 function handleStateChange(event) {
   const state = event.payload?.state;
+  const trackId = event.track?.id ?? AudioPro.getPlayingTrack()?.id ?? null;
+  const resumedSameTrack =
+    state === AudioProState.PLAYING &&
+    lastKnownState === AudioProState.PAUSED &&
+    trackId != null &&
+    trackId === lastKnownTrackId;
 
-  if (state === AudioProState.PLAYING) {
+  if (resumedSameTrack) {
+    registerSleepTimerInteraction();
+  } else if (state === AudioProState.PLAYING) {
     scheduleSleepTimerFromDeadline();
-    return;
-  }
-
-  if (
+  } else if (
     state === AudioProState.PAUSED ||
     state === AudioProState.STOPPED ||
     state === AudioProState.IDLE ||
@@ -283,6 +290,9 @@ function handleStateChange(event) {
   ) {
     clearSleepTimer();
   }
+
+  lastKnownState = state ?? lastKnownState;
+  lastKnownTrackId = trackId;
 }
 
 export async function refreshSleepTimerPreference() {
