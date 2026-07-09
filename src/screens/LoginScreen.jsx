@@ -10,25 +10,30 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
+  Image,
 } from 'react-native';
-import { registerUser, loginUser, isLoggedIn } from '../utils/api';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Image } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+
+import { registerUser, loginUser } from '../utils/api';
+import { useTheme, useThemedStyles } from '../theme';
+import { Surface, GradientButton } from '../components/ui';
 
 export default function LoginScreen({ navigation }) {
   // Toggle between login and signup
   const [isLogin, setIsLogin] = useState(true);
-  
+
   // Form state
   const [phoneOrEmail, setPhoneOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
   // UI state
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const { colors, gradients } = useTheme();
+  const styles = useThemedStyles(makeStyles);
 
   // Validation
   const validateEmail = (email) => {
@@ -93,24 +98,20 @@ export default function LoginScreen({ navigation }) {
     if (!validateInput()) return;
 
     setIsLoading(true);
-    
+
     try {
       const result = await loginUser(phoneOrEmail.trim(), password);
 
       if (result.success) {
-        Alert.alert(
-          'Success!',
-          'Logged in successfully',
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                // Navigate to Home or check onboarding status
-                navigation.replace('Home');
-              }
-            }
-          ]
-        );
+        Alert.alert('Success!', 'Logged in successfully', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navigate to Home or check onboarding status
+              navigation.replace('Home');
+            },
+          },
+        ]);
       } else {
         Alert.alert('Login Failed', result.error || 'Invalid credentials');
       }
@@ -132,18 +133,14 @@ export default function LoginScreen({ navigation }) {
       const result = await registerUser(phoneOrEmail.trim(), password);
 
       if (result.success) {
-        Alert.alert(
-          'Success!',
-          'Account created successfully',
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                navigation.replace('Home');
-              }
-            }
-          ]
-        );
+        Alert.alert('Success!', 'Account created successfully', [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.replace('Home');
+            },
+          },
+        ]);
       } else {
         Alert.alert('Signup Failed', result.error || 'Could not create account');
       }
@@ -178,36 +175,56 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate('Home');
   };
 
+  const renderPasswordField = (props) => (
+    <View style={styles.inputContainer}>
+      <Feather name="lock" size={20} color={colors.textMuted} style={styles.inputIcon} />
+      <TextInput
+        style={styles.input}
+        placeholderTextColor={colors.textFaint}
+        secureTextEntry={!props.visible}
+        editable={!isLoading}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChangeText={props.onChangeText}
+      />
+      <TouchableOpacity onPress={props.onToggleVisible} style={styles.eyeIcon} hitSlop={8}>
+        <Feather name={props.visible ? 'eye' : 'eye-off'} size={20} color={colors.textMuted} />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         {/* Header */}
         <View style={styles.header}>
-            <View style={styles.iconContainer}>
-                <Image 
-                source={require('../../assets/icon.png')} 
+          <Surface
+            gradient={gradients.play}
+            elevation="lg"
+            radius={60}
+            style={styles.logoRing}
+            innerStyle={styles.logoRingInner}
+          >
+            <View style={styles.logoInner}>
+              <Image
+                source={require('../../assets/icon.png')}
                 style={styles.logo}
                 resizeMode="contain"
-                />
+              />
             </View>
+          </Surface>
         </View>
 
         {/* Welcome Text */}
         <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>
-            {isLogin ? 'Welcome Back!' : 'Create Account'}
-          </Text>
+          <Text style={styles.welcomeTitle}>{isLogin ? 'Welcome Back!' : 'Create Account'}</Text>
           <Text style={styles.welcomeSubtitle}>
-            {isLogin 
+            {isLogin
               ? 'Sign in to sync your progress across devices'
-              : 'Sign up to backup and sync your progress'
-            }
+              : 'Sign up to backup and sync your progress'}
           </Text>
         </View>
 
@@ -215,16 +232,11 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.formContainer}>
           {/* Phone/Email Input */}
           <View style={styles.inputContainer}>
-            <MaterialIcons 
-              name="person-outline" 
-              size={24} 
-              color="#64748B" 
-              style={styles.inputIcon}
-            />
+            <Feather name="user" size={20} color={colors.textMuted} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Phone number or Email"
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={colors.textFaint}
               value={phoneOrEmail}
               onChangeText={setPhoneOrEmail}
               autoCapitalize="none"
@@ -233,80 +245,30 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
 
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <MaterialIcons 
-              name="lock-outline" 
-              size={24} 
-              color="#64748B" 
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#94A3B8"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              editable={!isLoading}
-            />
-            <TouchableOpacity
-              onPress={() => setShowPassword(!showPassword)}
-              style={styles.eyeIcon}
-            >
-              <MaterialIcons
-                name={showPassword ? 'visibility' : 'visibility-off'}
-                size={24}
-                color="#64748B"
-              />
-            </TouchableOpacity>
-          </View>
+          {renderPasswordField({
+            placeholder: 'Password',
+            value: password,
+            onChangeText: setPassword,
+            visible: showPassword,
+            onToggleVisible: () => setShowPassword(!showPassword),
+          })}
 
-          {/* Confirm Password Input (Signup only) */}
-          {!isLogin && (
-            <View style={styles.inputContainer}>
-              <MaterialIcons 
-                name="lock-outline" 
-                size={24} 
-                color="#64748B" 
-                style={styles.inputIcon}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Confirm Password"
-                placeholderTextColor="#94A3B8"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry={!showConfirmPassword}
-                editable={!isLoading}
-              />
-              <TouchableOpacity
-                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                style={styles.eyeIcon}
-              >
-                <MaterialIcons
-                  name={showConfirmPassword ? 'visibility' : 'visibility-off'}
-                  size={24}
-                  color="#64748B"
-                />
-              </TouchableOpacity>
-            </View>
-          )}
+          {!isLogin &&
+            renderPasswordField({
+              placeholder: 'Confirm Password',
+              value: confirmPassword,
+              onChangeText: setConfirmPassword,
+              visible: showConfirmPassword,
+              onToggleVisible: () => setShowConfirmPassword(!showConfirmPassword),
+            })}
 
           {/* Submit Button */}
-          <TouchableOpacity
-            style={[styles.submitButton, isLoading && styles.submitButtonDisabled]}
+          <GradientButton
+            title="Submit"
             onPress={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.submitButtonText}>
-                Submit
-              </Text>
-            )}
-          </TouchableOpacity>
+            loading={isLoading}
+            style={styles.submitButton}
+          />
 
           {/* Toggle Login/Signup */}
           <View style={styles.toggleContainer}>
@@ -314,26 +276,20 @@ export default function LoginScreen({ navigation }) {
               {isLogin ? "Don't have an account?" : 'Already have an account?'}
             </Text>
             <TouchableOpacity onPress={toggleMode} disabled={isLoading}>
-              <Text style={styles.toggleLink}>
-                {isLogin ? 'Sign Up' : 'Sign In'}
-              </Text>
+              <Text style={styles.toggleLink}>{isLogin ? 'Sign Up' : 'Sign In'}</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Skip Button */}
-        <TouchableOpacity
-          style={styles.skipButton}
-          onPress={handleSkip}
-          disabled={isLoading}
-        >
-          <Text style={styles.skipButtonText}>Skip for now</Text>
+        <TouchableOpacity style={styles.skipButton} onPress={handleSkip} disabled={isLoading}>
+          <Text style={styles.skipText}>Skip for now</Text>
         </TouchableOpacity>
 
-        {/* Info Section */}
         <View style={styles.infoBox}>
+          <Feather name="cloud" size={16} color={colors.primary} />
           <Text style={styles.infoText}>
-            Creating an account allows you to sync your progress and notes across devices
+            Signing in lets you back up your progress and notes, and restore them on another device.
           </Text>
         </View>
       </ScrollView>
@@ -341,139 +297,129 @@ export default function LoginScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  scrollContent: {
-    flexGrow: 1,
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
-    alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 30,
-  },
-  iconContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#EEF2FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    overflow: 'hidden',
-  },
-  logo: {
-    width: 100,
-    height: 100,
-  },
-  welcomeSection: {
-    marginBottom: 32,
-  },
-  welcomeTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 8,
-  },
-  welcomeSubtitle: {
-    fontSize: 14,
-    color: '#64748B',
-    lineHeight: 20,
-  },
-  formContainer: {
-    marginBottom: 24,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    paddingVertical: 16,
-    fontSize: 16,
-    color: '#1E293B',
-  },
-  eyeIcon: {
-    padding: 8,
-  },
-  submitButton: {
-    backgroundColor: '#360f5a',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 8,
-    shadowColor: '#360f5a',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  submitButtonDisabled: {
-    backgroundColor: '#94A3B8',
-    shadowOpacity: 0.1,
-  },
-  submitButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  toggleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 24,
-    gap: 8,
-  },
-  toggleText: {
-    fontSize: 14,
-    color: '#64748B',
-  },
-  toggleLink: {
-    fontSize: 14,
-    color: '#360f5a',
-    fontWeight: 'bold',
-  },
-  skipButton: {
-    alignSelf: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    marginBottom: 24,
-  },
-  skipButtonText: {
-    fontSize: 14,
-    color: '#64748B',
-    fontWeight: '600',
-  },
-  infoBox: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#EEF2FF',
-    padding: 16,
-    borderRadius: 12,
-    gap: 12,
-  },
-  infoText: {
-    flex: 1,
-    fontSize: 13,
-    color: '#360f5a',
-    lineHeight: 18,
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.bg,
+    },
+    scrollContent: {
+      padding: spacing.lg,
+      paddingBottom: spacing.xxxl,
+    },
+
+    header: {
+      alignItems: 'center',
+      marginTop: spacing.lg,
+      marginBottom: spacing.xl,
+    },
+    logoRing: {
+      width: 120,
+      height: 120,
+    },
+    logoRingInner: {
+      width: 120,
+      height: 120,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    logoInner: {
+      width: 104,
+      height: 104,
+      borderRadius: 52,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+    },
+    logo: {
+      width: 88,
+      height: 88,
+    },
+
+    welcomeSection: {
+      alignItems: 'center',
+      marginBottom: spacing.xl,
+    },
+    welcomeTitle: {
+      ...typography.textStyles.displayTitle,
+      color: colors.text,
+      marginBottom: spacing.sm,
+    },
+    welcomeSubtitle: {
+      ...typography.textStyles.body,
+      color: colors.textMuted,
+      textAlign: 'center',
+    },
+
+    formContainer: {
+      marginBottom: spacing.lg,
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: radii.md,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: spacing.base,
+      marginBottom: spacing.md,
+    },
+    inputIcon: {
+      marginRight: spacing.md,
+    },
+    input: {
+      flex: 1,
+      paddingVertical: spacing.base,
+      fontFamily: typography.fonts.body,
+      fontSize: typography.fontSizes.md,
+      color: colors.text,
+    },
+    eyeIcon: {
+      paddingLeft: spacing.sm,
+    },
+
+    submitButton: {
+      marginTop: spacing.sm,
+    },
+    toggleContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: spacing.xs + 2,
+      marginTop: spacing.lg,
+    },
+    toggleText: {
+      ...typography.textStyles.body,
+      color: colors.textMuted,
+    },
+    toggleLink: {
+      fontFamily: typography.fonts.bold,
+      fontSize: typography.fontSizes.body,
+      color: colors.primary,
+    },
+
+    skipButton: {
+      alignItems: 'center',
+      paddingVertical: spacing.md,
+    },
+    skipText: {
+      ...typography.textStyles.body,
+      color: colors.textFaint,
+    },
+
+    infoBox: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: spacing.md,
+      backgroundColor: colors.surfaceMuted,
+      borderRadius: radii.md,
+      padding: spacing.base,
+      marginTop: spacing.md,
+    },
+    infoText: {
+      flex: 1,
+      ...typography.textStyles.caption,
+      color: colors.textMuted,
+    },
+  });

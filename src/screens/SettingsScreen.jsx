@@ -1,20 +1,12 @@
 // src/screens/SettingsScreen.js
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  Switch,
-  Linking,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Switch, Linking } from 'react-native';
 import { AudioPro } from 'react-native-audio-pro';
-import { 
+import Feather from '@expo/vector-icons/Feather';
+
+import {
   clearAllData,
   getAudioFolderPath,
-  pickAudioFolder,
   getProgress,
   getNotes,
   getCurrentPosition,
@@ -33,24 +25,68 @@ import {
   retrieveNotes,
 } from '../utils/api';
 import { useApp } from '../contexts/AppContext';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {
   refreshRepeatCurrentChapterPreference,
   refreshSleepTimerPreference,
 } from '../services/audioSetup';
-import {
-  ensurePermission,
-  refreshReminderPreference,
-} from '../services/notificationReminders';
+import { ensurePermission, refreshReminderPreference } from '../services/notificationReminders';
+import { useTheme, useThemedStyles } from '../theme';
+import { ScreenScrollView, Card, Surface, SectionHeader } from '../components/ui';
 
+const WEBSITE_URL = 'https://www.g-lh.org';
+
+const THEME_OPTIONS = [
+  { mode: 'system', label: 'System', icon: 'smartphone' },
+  { mode: 'light', label: 'Light', icon: 'sun' },
+  { mode: 'dark', label: 'Dark', icon: 'moon' },
+];
+
+/** Segmented control for light / dark / follow-system. */
+function ThemeToggle() {
+  const { colors, gradients, mode, setMode, radii } = useTheme();
+  const styles = useThemedStyles(makeStyles);
+
+  return (
+    <View style={styles.themeToggle}>
+      {THEME_OPTIONS.map((option) => {
+        const selected = mode === option.mode;
+        const tint = selected ? colors.onGradient : colors.textMuted;
+
+        return (
+          <TouchableOpacity
+            key={option.mode}
+            style={styles.themeSegment}
+            onPress={() => setMode(option.mode)}
+            activeOpacity={0.8}
+            accessibilityRole="radio"
+            accessibilityState={{ selected }}
+          >
+            <Surface
+              gradient={selected ? gradients.play : undefined}
+              backgroundColor={colors.surface}
+              elevation={false}
+              radius={radii.sm + 2}
+              innerStyle={styles.themeSegmentInner}
+            >
+              <Feather name={option.icon} size={18} color={tint} />
+              <Text style={[styles.themeSegmentText, { color: tint }]}>{option.label}</Text>
+            </Surface>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
 
 export default function SettingsScreen({ navigation }) {
   const { refreshProgress } = useApp();
+  const { colors } = useTheme();
+  const styles = useThemedStyles(makeStyles);
+
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [currentPath, setCurrentPath] = useState('Not configured');
   const [isLoading, setIsLoading] = useState(true);
   const [sleepTimerEnabled, setSleepTimerEnabledState] = useState(false);
-
 
   useEffect(() => {
     loadCurrentPath();
@@ -75,70 +111,6 @@ export default function SettingsScreen({ navigation }) {
     setIsLoading(false);
   };
 
-  const handleChangeFolder = async () => {
-    try {
-      const folderPath = await pickAudioFolder();
-
-      if (!folderPath) return;
-
-      const verification = await verifyAudioFolder(folderPath);
-
-      if (!verification.valid) {
-        Alert.alert('Invalid Folder', verification.message);
-        return;
-      }
-
-      Alert.alert('Success', 'Audio folder updated successfully!');
-      await loadCurrentPath();
-    } catch (error) {
-      Alert.alert('Error', 'Could not change folder');
-    }
-  };
-
-  const handleResetFolder = () => {
-    Alert.alert(
-      'Reset Audio Folder?',
-      'You will need to select the folder again.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Reset',
-          style: 'destructive',
-          onPress: async () => {
-            await resetAudioFolder();
-            await loadCurrentPath();
-            Alert.alert('Reset Complete', 'Please select your audio folder again.');
-          },
-        },
-      ]
-    );
-  };
-
-  const handleResetProgress = () => {
-    Alert.alert(
-      'Reset Progress',
-      'Are you sure you want to reset all your progress? This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Reset',
-          style: 'destructive',
-          onPress: async () => {
-            await clearAllData();
-            await setRepeatCurrentChapterEnabled(false);
-            await refreshRepeatCurrentChapterPreference();
-            await refreshProgress();
-            Alert.alert(
-              'Success',
-              'All progress has been reset',
-              [{ text: 'OK', onPress: () => navigation.navigate('Home') }]
-            );
-          },
-        },
-      ]
-    );
-  };
-
   const handleResetAllData = () => {
     Alert.alert(
       'Reset App Data',
@@ -161,11 +133,9 @@ export default function SettingsScreen({ navigation }) {
               await loadCurrentPath();
               await loadSleepTimerPreference();
               await loadReminderPreference();
-              Alert.alert(
-                'Reset Complete',
-                'All local app data has been cleared.',
-                [{ text: 'OK', onPress: () => navigation.navigate('Home') }]
-              );
+              Alert.alert('Reset Complete', 'All local app data has been cleared.', [
+                { text: 'OK', onPress: () => navigation.navigate('Home') },
+              ]);
             } catch (error) {
               Alert.alert('Error', 'Failed to clear app data.');
             }
@@ -213,42 +183,44 @@ export default function SettingsScreen({ navigation }) {
     );
   };
 
+  const handleOpenWebsite = () => {
+    Linking.openURL(WEBSITE_URL).catch(() =>
+      Alert.alert('Error', 'Could not open the website.')
+    );
+  };
+
   const handleUploadProgress = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
       navigation.navigate('LoginOut');
-    }else{
-      Alert.alert(
-        'Upload Progress',
-        'Upload your local progress to the cloud?',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Upload',
-            onPress: async () => {
-              try {
-                const progress = await getProgress();
-                const position = await getCurrentPosition();
+    } else {
+      Alert.alert('Upload Progress', 'Upload your local progress to the cloud?', [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Upload',
+          onPress: async () => {
+            try {
+              const progress = await getProgress();
+              const position = await getCurrentPosition();
 
-                const result = await uploadProgress(
-                  progress,
-                  position.level,
-                  position.weekNumber,
-                  position.audioId
-                );
+              const result = await uploadProgress(
+                progress,
+                position.level,
+                position.weekNumber,
+                position.audioId
+              );
 
-                if (result.success) {
-                  Alert.alert('Success', 'Progress uploaded successfully!');
-                } else {
-                  Alert.alert('Error', result.error);
-                }
-              } catch (error) {
-                Alert.alert('Error', 'Failed to upload progress');
+              if (result.success) {
+                Alert.alert('Success', 'Progress uploaded successfully!');
+              } else {
+                Alert.alert('Error', result.error);
               }
-            },
+            } catch (error) {
+              Alert.alert('Error', 'Failed to upload progress');
+            }
           },
-        ]
-      );
+        },
+      ]);
     }
   };
 
@@ -256,7 +228,7 @@ export default function SettingsScreen({ navigation }) {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
       navigation.navigate('LoginOut');
-    }else{
+    } else {
       Alert.alert(
         'Download Progress',
         'Download progress from cloud? This will overwrite your local progress.',
@@ -287,7 +259,7 @@ export default function SettingsScreen({ navigation }) {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
       navigation.navigate('LoginOut');
-    }else{
+    } else {
       try {
         const notes = await getNotes();
         const result = await backupNotes(notes);
@@ -307,34 +279,28 @@ export default function SettingsScreen({ navigation }) {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
       navigation.navigate('LoginOut');
-    }else {
-      Alert.alert(
-        'Restore Notes',
-        'Restore notes from cloud? This will overwrite your local notes.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Restore',
-            style: 'destructive',
-            onPress: async () => {
-              try {
-                const result = await retrieveNotes();
+    } else {
+      Alert.alert('Restore Notes', 'Restore notes from cloud? This will overwrite your local notes.', [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Restore',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const result = await retrieveNotes();
 
-                if (result.success) {
-                  Alert.alert('Success', 'Notes restored successfully!');
-                } else {
-                  Alert.alert('Info', 'No notes found in cloud');
-                }
-              } catch (error) {
-                Alert.alert('Error', 'Failed to restore notes');
+              if (result.success) {
+                Alert.alert('Success', 'Notes restored successfully!');
+              } else {
+                Alert.alert('Info', 'No notes found in cloud');
               }
-            },
+            } catch (error) {
+              Alert.alert('Error', 'Failed to restore notes');
+            }
           },
-        ]
-      );
+        },
+      ]);
     }
-
-    
   };
 
   const settingsSections = [
@@ -370,12 +336,13 @@ export default function SettingsScreen({ navigation }) {
           label: 'About This App',
           type: 'button',
           onPress: handleAbout,
-          icon: 'ℹ️',
+          icon: 'info',
         },
         {
           label: "God's Lighthouse",
-          type: 'link',
-          icon: '🌐',
+          type: 'button',
+          onPress: handleOpenWebsite,
+          icon: 'globe',
           description: 'Visit our website @ www.g-lh.org',
         },
       ],
@@ -387,28 +354,28 @@ export default function SettingsScreen({ navigation }) {
           label: 'Upload Progress',
           type: 'button',
           onPress: handleUploadProgress,
-          icon: '☁️',
+          icon: 'upload-cloud',
           description: 'Backup your progress to the cloud',
         },
         {
           label: 'Download Progress',
           type: 'button',
           onPress: handleDownloadProgress,
-          icon: '⬇️',
+          icon: 'download-cloud',
           description: 'Restore progress from cloud',
         },
         {
           label: 'Backup Notes',
           type: 'button',
           onPress: handleBackupNotes,
-          icon: '📝',
+          icon: 'file-text',
           description: 'Backup your notes to the cloud',
         },
         {
           label: 'Restore Notes',
           type: 'button',
           onPress: handleRestoreNotes,
-          icon: '📥',
+          icon: 'inbox',
           description: 'Restore notes from cloud',
         },
       ],
@@ -420,277 +387,200 @@ export default function SettingsScreen({ navigation }) {
           label: 'Reset App Data',
           type: 'button',
           onPress: handleResetAllData,
-          icon: '🗑️',
+          icon: 'trash-2',
           description: 'Clear local progress, notes, cache, onboarding, and saved media paths.',
           destructive: true,
         },
       ],
-    }
+    },
   ];
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {settingsSections.map((section, sectionIndex) => (
-          <View key={sectionIndex} style={styles.section}>
-            <Text style={styles.sectionTitle}>{section.title}</Text>
-            
-            {section.items.map((item, itemIndex) => (
-              <View key={itemIndex}>
-                {item.type === 'switch' ? (
-                  <View style={styles.settingRow}>
-                    <View style={styles.settingInfo}>
-                      <Text style={styles.settingLabel}>{item.label}</Text>
-                      {item.description && (
-                        <Text style={styles.settingDescription}>
-                          {item.description}
-                        </Text>
-                      )}
-                    </View>
-                    <Switch
-                      value={item.value}
-                      onValueChange={item.onToggle}
-                      trackColor={{ false: '#CBD5E1', true: '#93C5FD' }}
-                      thumbColor={item.value ? '#2563EB' : '#F1F5F9'}
-                    />
-                  </View>
-                ) : (
-                  <TouchableOpacity
+    <ScreenScrollView>
+      <View style={styles.section}>
+        <SectionHeader title="Appearance" />
+        <ThemeToggle />
+      </View>
+
+      {settingsSections.map((section) => (
+        <View key={section.title} style={styles.section}>
+          <SectionHeader title={section.title} />
+
+          {section.items.map((item) =>
+            item.type === 'switch' ? (
+              <Card key={item.label} elevation="sm" style={styles.row} contentStyle={styles.rowContent}>
+                <View style={styles.settingInfo}>
+                  <Text style={styles.settingLabel}>{item.label}</Text>
+                  {item.description && (
+                    <Text style={styles.settingDescription}>{item.description}</Text>
+                  )}
+                </View>
+                <Switch
+                  value={item.value}
+                  onValueChange={item.onToggle}
+                  trackColor={{ false: colors.switchTrackOff, true: colors.switchTrackOn }}
+                  thumbColor={item.value ? colors.switchThumbOn : colors.switchThumbOff}
+                />
+              </Card>
+            ) : (
+              <Card
+                key={item.label}
+                onPress={item.onPress}
+                elevation="sm"
+                style={styles.row}
+                contentStyle={[
+                  styles.rowContent,
+                  item.destructive && styles.rowContentDestructive,
+                ]}
+              >
+                <Feather
+                  name={item.icon}
+                  size={20}
+                  color={item.destructive ? colors.danger : colors.primary}
+                  style={styles.settingIcon}
+                />
+                <View style={styles.settingInfo}>
+                  <Text
                     style={[
-                      styles.settingRow,
-                      item.destructive && styles.settingRowDestructive,
+                      styles.settingLabel,
+                      item.destructive && styles.settingLabelDestructive,
                     ]}
-                    onPress={item.onPress}
-                    activeOpacity={0.7}
                   >
-                    {item.icon && (
-                      <Text style={styles.settingIcon}>{item.icon}</Text>
-                    )}
-                    <View style={styles.settingInfo}>
-                      <Text
-                        style={[
-                          styles.settingLabel,
-                          item.destructive && styles.settingLabelDestructive,
-                        ]}
-                      >
-                        {item.label}
-                      </Text>
-                      {item.description && (
-                        <Text style={styles.settingDescription}>
-                          {item.description}
-                        </Text>
-                      )}
-                    </View>
-                    <Text style={styles.chevron}>›</Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            ))}
-          </View>
-        ))}
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Audio Storage</Text>
-          
-          <View style={styles.card}>
-            <View style={styles.cardHeader}>
-              <MaterialIcons name="folder" size={24} color="#360f5a" />
-              <Text style={styles.cardTitle}>Current Folder</Text>
-            </View>
-            <Text style={styles.pathText}>
-              {currentPath}
-            </Text>
-          </View>
-
-          {/* <TouchableOpacity style={styles.button} onPress={handleChangeFolder}>
-            <MaterialIcons name="folder-open" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Change Audio Folder</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.buttonDanger]}
-            onPress={handleResetFolder}
-          >
-            <MaterialIcons name="refresh" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Reset Folder</Text>
-          </TouchableOpacity> */}
+                    {item.label}
+                  </Text>
+                  {item.description && (
+                    <Text style={styles.settingDescription}>{item.description}</Text>
+                  )}
+                </View>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={item.destructive ? colors.danger : colors.borderStrong}
+                />
+              </Card>
+            )
+          )}
         </View>
+      ))}
 
-        {/* App Info Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            God's Lighthouse Starter Kit
-          </Text>
-          <Text style={styles.footerSubtext}>
-            Offline Edition v1.0.0
-          </Text>
-          {/* <Text style={styles.footerVerse}>
-            "Thy word is a lamp unto my feet,{'\n'}
-            and a light unto my path."{'\n'}
-            - Psalm 119:105
-          </Text> */}
-        </View>
-        
-      </ScrollView>
-    </View>
+      <View style={styles.section}>
+        <SectionHeader title="Audio Storage" />
+
+        <Card elevation="sm" contentStyle={styles.storageContent}>
+          <View style={styles.cardHeader}>
+            <Feather name="folder" size={20} color={colors.primary} />
+            <Text style={styles.cardTitle}>Current Folder</Text>
+          </View>
+          <Text style={styles.pathText}>{isLoading ? 'Loading…' : currentPath}</Text>
+        </Card>
+      </View>
+
+      {/* App Info Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>God&apos;s Lighthouse Starter Kit</Text>
+        <Text style={styles.footerSubtext}>Offline Edition v1.0.0</Text>
+      </View>
+    </ScreenScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  section: {
-    marginBottom: 32,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#64748B',
-    marginBottom: 12,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  settingRow: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  settingRowDestructive: {
-    backgroundColor: '#FEF2F2',
-    borderWidth: 1,
-    borderColor: '#FEE2E2',
-  },
-  settingIcon: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  settingInfo: {
-    flex: 1,
-  },
-  settingLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginBottom: 2,
-  },
-  settingLabelDestructive: {
-    color: '#DC2626',
-  },
-  settingDescription: {
-    fontSize: 13,
-    color: '#64748B',
-    marginTop: 2,
-  },
-  chevron: {
-    fontSize: 24,
-    color: '#CBD5E1',
-    marginLeft: 8,
-  },
-  footer: {
-    marginTop: 40,
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 4,
-  },
-  footerSubtext: {
-    fontSize: 12,
-    color: '#94A3B8',
-    marginBottom: 16,
-  },
-  footerVerse: {
-    fontSize: 14,
-    color: '#64748B',
-    textAlign: 'center',
-    fontStyle: 'italic',
-    lineHeight: 20,
-  },
-  buttonDanger: {
-    backgroundColor: '#ef4444',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  pathText: {
-    fontSize: 13,
-    color: '#64748B',
-    fontFamily: 'monospace',
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#360f5a',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    gap: 8,
-  },
-  infoText: {
-    flex: 1,
-    fontSize: 13,
-    color: '#360f5a',
-    lineHeight: 20,
-  },
-  infoBox: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#EEF2FF',
-    padding: 16,
-    margin: 20,
-    marginTop: 0,
-    borderRadius: 12,
-    gap: 12,
-  },
-  pathText: {
-    fontSize: 13,
-    color: '#64748B',
-    fontFamily: 'monospace',
-  },
-  card: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginLeft: 8,
-  },
-  section: {
-    padding: 5,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    section: {
+      marginBottom: spacing.xxl,
+    },
+
+    /* Theme toggle */
+    themeToggle: {
+      flexDirection: 'row',
+      gap: spacing.sm,
+    },
+    themeSegment: {
+      flex: 1,
+    },
+    themeSegmentInner: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: spacing.xs + 2,
+      paddingVertical: spacing.md,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    themeSegmentText: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.small,
+    },
+
+    /* Setting rows */
+    row: {
+      marginBottom: spacing.md,
+    },
+    rowContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: spacing.base,
+    },
+    rowContentDestructive: {
+      backgroundColor: colors.dangerTint,
+      borderWidth: 1,
+      borderColor: colors.dangerBorder,
+      borderRadius: radii.md,
+    },
+    settingIcon: {
+      marginRight: spacing.md,
+    },
+    settingInfo: {
+      flex: 1,
+      marginRight: spacing.md,
+    },
+    settingLabel: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.md,
+      color: colors.text,
+    },
+    settingLabelDestructive: {
+      color: colors.danger,
+    },
+    settingDescription: {
+      ...typography.textStyles.caption,
+      color: colors.textMuted,
+      marginTop: 2,
+    },
+
+    /* Audio storage */
+    storageContent: {
+      padding: spacing.base,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+      marginBottom: spacing.sm,
+    },
+    cardTitle: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.md,
+      color: colors.text,
+    },
+    pathText: {
+      fontFamily: typography.fonts.mono,
+      fontSize: typography.fontSizes.caption,
+      color: colors.textMuted,
+    },
+
+    /* Footer */
+    footer: {
+      alignItems: 'center',
+      paddingVertical: spacing.lg,
+    },
+    footerText: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.body,
+      color: colors.textMuted,
+    },
+    footerSubtext: {
+      ...typography.textStyles.caption,
+      color: colors.textFaint,
+      marginTop: spacing.xs,
+    },
+  });

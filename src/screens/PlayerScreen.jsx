@@ -8,24 +8,56 @@ import {
   Alert,
   ScrollView,
   Dimensions,
-  PanResponder,
-  Animated,
   Modal,
 } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useAudio } from '../contexts/AudioContext';
 import { useApp } from '../contexts/AppContext';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadAudioById } from '../utils/storage';
 import { getAudioMetadataById, getPlaylistInfo } from '../utils/audioSequenceService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme, useThemedStyles } from '../theme';
+import { Screen, Card, Surface, Badge, GradientIconButton } from '../components/ui';
+import { HeadphonesIcon } from '../components/icons';
 
 const { width, height } = Dimensions.get('window');
 const albumArtSize = Math.max(165, Math.min(width * 0.64, height * 0.23, 230));
 
+/** Pill in the utility row; fills with the play gradient when toggled on. */
+function UtilityPill({ active, disabled, onPress, icon, label }) {
+  const { colors, gradients, radii } = useTheme();
+  const styles = useThemedStyles(makeStyles);
+
+  const tint = disabled ? colors.disabled : active ? colors.onGradient : colors.primary;
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      activeOpacity={0.8}
+      style={styles.utilityWrap}
+    >
+      <Surface
+        gradient={active && !disabled ? gradients.play : undefined}
+        backgroundColor={colors.surface}
+        elevation={false}
+        radius={radii.md}
+        innerStyle={[styles.utilityInner, !active && styles.utilityBordered]}
+      >
+        <View style={styles.utilityContent}>
+          {React.cloneElement(icon, { color: tint })}
+          <Text style={[styles.utilityText, { color: tint }]}>{label}</Text>
+        </View>
+      </Surface>
+    </TouchableOpacity>
+  );
+}
+
 export default function PlayerScreen({ route, navigation }) {
   const { audio } = route.params;
+  const { colors, gradients } = useTheme();
+  const styles = useThemedStyles(makeStyles);
 
   // ============================================
   // GET AUDIO CONTEXT
@@ -42,7 +74,6 @@ export default function PlayerScreen({ route, navigation }) {
     loadAudio,
     play,
     pause,
-    seekTo,
     seekForward,
     seekBackward,
     repeatCurrentChapterEnabled,
@@ -50,8 +81,7 @@ export default function PlayerScreen({ route, navigation }) {
     skipToNextChapter,
     skipToPreviousChapter,
     isAudioLoaded,
-    releaseAudio,
-    setPlaybackRate
+    setPlaybackRate,
   } = useAudio();
 
   const { markAudioCompleted } = useApp();
@@ -68,15 +98,11 @@ export default function PlayerScreen({ route, navigation }) {
   // LOCAL STATE
   // ============================================
   const [audioPath, setAudioPath] = useState(null);
-  
+
   // PLAYBACK STATE
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
 
-  // Dragging state for progress bar
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragPosition, setDragPosition] = useState(0);
-  const progressBarWidth = width - 40; // Account for padding
   const completionHandledRef = useRef(null);
   const lastLoadedRouteAudioRef = useRef(null);
 
@@ -91,17 +117,13 @@ export default function PlayerScreen({ route, navigation }) {
       try {
         const path = await loadAudioById(audio.id);
         if (mounted) {
-          // console.log('📂 Audio path loaded:', path);
           setAudioPath(path);
         }
       } catch (error) {
-        // console.error('❌ Error loading audio path:', error);
         if (mounted) {
-          Alert.alert(
-            'Error',
-            'Failed to load audio file. Please try again.',
-            [{ text: 'OK', onPress: () => navigation.goBack() }]
-          );
+          Alert.alert('Error', 'Failed to load audio file. Please try again.', [
+            { text: 'OK', onPress: () => navigation.goBack() },
+          ]);
         }
       }
     };
@@ -135,10 +157,7 @@ export default function PlayerScreen({ route, navigation }) {
 
       // Only load if this audio isn't already loaded
       if (!alreadyLoaded) {
-        // console.log('???? Loading audio into player:', audio.title);
         await loadAudio(audioPath, audio);
-      } else {
-        console.log('??? Audio already loaded:', audio.title);
       }
 
       lastLoadedRouteAudioRef.current = audio.id;
@@ -162,22 +181,18 @@ export default function PlayerScreen({ route, navigation }) {
     if (!isLoaded || !duration || duration === 0) return;
 
     const progressPercentage = (position / duration) * 100;
-    // console.log(progressPercentage);
-    
+
     if (progressPercentage >= 99.999 && completionHandledRef.current !== activeAudioId) {
       completionHandledRef.current = activeAudioId;
-      // console.log("AUDIO COMPLETED!");
-      
-      // ✅ Create an async function inside useEffect
+
       const handleCompletion = async () => {
         try {
           await markAudioCompleted(activeAudioId);
         } catch (error) {
-          console.error('❌ Error marking audio as completed:', error);
+          console.error('Error marking audio as completed:', error);
         }
       };
-      
-      // ✅ Call the async function
+
       handleCompletion();
     }
   }, [activeAudioId, duration, isLoaded, markAudioCompleted, position]);
@@ -188,14 +203,12 @@ export default function PlayerScreen({ route, navigation }) {
 
   const togglePlayPause = () => {
     if (!isAudioLoaded(activeAudioId)) {
-      Alert.alert(
-        'Audio Changed',
-        'Another audio is currently loaded. Load this audio first.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Audio Changed', 'Another audio is currently loaded. Load this audio first.', [
+        { text: 'OK' },
+      ]);
       return;
     }
-    
+
     if (isPlaying) {
       pause();
     } else {
@@ -213,7 +226,6 @@ export default function PlayerScreen({ route, navigation }) {
     setPlaybackSpeed(speed);
     setPlaybackRate(speed);
     setShowSpeedMenu(false);
-    console.log(`⚡ Playback speed changed to: ${speed}x`);
     await AsyncStorage.setItem('@preferred_speed', speed.toString());
   };
 
@@ -248,24 +260,7 @@ export default function PlayerScreen({ route, navigation }) {
     await skipToPreviousChapter();
   };
 
-  // ============================================
-  // TIME FORMATTING HELPER
-  // ============================================
-  const formatTime = (seconds) => {
-    if (!seconds || isNaN(seconds)) return '0:00';
-    
-    const totalSeconds = Math.floor(seconds);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
-
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  // use on mount to 
+  // use on mount to restore the saved rate
   useEffect(() => {
     const loadSpeedPreference = async () => {
       const saved = await AsyncStorage.getItem('@preferred_speed');
@@ -280,20 +275,15 @@ export default function PlayerScreen({ route, navigation }) {
 
   // Determine if controls should be disabled
   const controlsDisabled = !isLoaded || isLoading;
+  const prevDisabled = controlsDisabled || !hasPreviousChapter;
+  const nextDisabled = controlsDisabled || !hasNextChapter;
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        
-        {/* ============================================
-            AUDIO INFO CARD
-            ============================================ */}
-        <View style={styles.infoCard}>
-          {chapter && (
-            <View style={styles.levelBadge}>
-              <Text style={styles.levelBadgeText}>{chapter.testamentName}</Text>
-            </View>
-          )}
+    <Screen>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* AUDIO INFO CARD */}
+        <Card gradient style={styles.infoCard} contentStyle={styles.infoContent}>
+          {chapter && <Badge label={chapter.testamentName.toUpperCase()} />}
 
           <Text style={styles.audioTitle}>
             {chapter
@@ -301,10 +291,8 @@ export default function PlayerScreen({ route, navigation }) {
               : activeAudio?.title ?? audio.title}
           </Text>
 
-          {activeAudio?.date && (
-            <Text style={styles.audioDate}>{activeAudio.date}</Text>
-          )}
-          
+          {activeAudio?.date && <Text style={styles.audioDate}>{activeAudio.date}</Text>}
+
           {/* Active Indicator - shows when this audio is loaded */}
           {isAudioLoaded(activeAudioId) && (
             <View style={styles.activeIndicator}>
@@ -315,38 +303,35 @@ export default function PlayerScreen({ route, navigation }) {
 
           {/* Loading Indicator */}
           {isLoading && (
-            <View style={styles.loadingIndicator}>
-              <MaterialIcons name="downloading" size={16} color="#360f5a" />
+            <View style={styles.activeIndicator}>
+              <Feather name="download-cloud" size={16} color={colors.primary} />
               <Text style={styles.loadingText}>Loading audio...</Text>
             </View>
           )}
+        </Card>
 
-          
-        </View>
+        {/* ALBUM ART */}
+        <Surface
+          gradient={gradients.hero}
+          elevation="lg"
+          radius={20}
+          style={styles.albumArt}
+          innerStyle={styles.albumArtInner}
+        >
+          <HeadphonesIcon size={albumArtSize * 0.42} color={colors.onGradient} />
+        </Surface>
 
-        {/* ============================================
-            ALBUM ART PLACEHOLDER
-            ============================================ */}
-        <View style={styles.albumArt}>
-          <Text style={styles.albumArtEmoji}>🎧</Text>
-        </View>
-
-        {/* ============================================
-            PLAYBACK CONTROLS
-            ============================================ */}
+        {/* PLAYBACK CONTROLS */}
         <View style={styles.controls}>
           <TouchableOpacity
             onPress={handlePreviousChapter}
-            disabled={controlsDisabled || !hasPreviousChapter}
-            style={[
-              styles.chapterNavButton,
-              (controlsDisabled || !hasPreviousChapter) && styles.chapterNavButtonDisabled
-            ]}
+            disabled={prevDisabled}
+            style={[styles.chapterNavButton, prevDisabled && styles.chapterNavButtonDisabled]}
           >
-            <FontAwesome
-              name="backward"
+            <Feather
+              name="skip-back"
               size={18}
-              color={controlsDisabled || !hasPreviousChapter ? '#CBD5E1' : '#360f5a'}
+              color={prevDisabled ? colors.disabled : colors.primary}
             />
           </TouchableOpacity>
 
@@ -356,36 +341,29 @@ export default function PlayerScreen({ route, navigation }) {
             disabled={controlsDisabled}
             style={styles.controlButton}
           >
-            <MaterialIcons
-              name="replay-30"
-              size={26}
-              color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
+            <Feather
+              name="rotate-ccw"
+              size={24}
+              color={controlsDisabled ? colors.disabled : colors.primary}
             />
-            <Text style={[
-              styles.controlLabel,
-              controlsDisabled && styles.controlLabelDisabled
-            ]}>
+            <Text style={[styles.controlLabel, controlsDisabled && styles.controlLabelDisabled]}>
               -30s
             </Text>
           </TouchableOpacity>
 
           {/* Play/Pause Button */}
-          <TouchableOpacity
+          <GradientIconButton
             onPress={togglePlayPause}
             disabled={controlsDisabled}
-            style={[
-              styles.playButton,
-              controlsDisabled && styles.playButtonDisabled
-            ]}
+            size={80}
+            pulsing={isPlaying && !controlsDisabled}
           >
-            {isLoading ? (
-              <MaterialIcons name="downloading" size={40} color="#fff" />
-            ) : isPlaying ? (
-              <FontAwesome name="pause" size={40} color="#ffff" />
-            ) : (
-              <FontAwesome name="play" size={40} color="#ffff" />
-            )}
-          </TouchableOpacity>
+            <Feather
+              name={isLoading ? 'download-cloud' : isPlaying ? 'pause' : 'play'}
+              size={34}
+              color={colors.onGradient}
+            />
+          </GradientIconButton>
 
           {/* Forward 30s Button */}
           <TouchableOpacity
@@ -393,551 +371,306 @@ export default function PlayerScreen({ route, navigation }) {
             disabled={controlsDisabled}
             style={styles.controlButton}
           >
-            <MaterialIcons
-              name="forward-30"
-              size={26}
-              color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
+            <Feather
+              name="rotate-cw"
+              size={24}
+              color={controlsDisabled ? colors.disabled : colors.primary}
             />
-            <Text style={[
-              styles.controlLabel,
-              controlsDisabled && styles.controlLabelDisabled
-            ]}>
+            <Text style={[styles.controlLabel, controlsDisabled && styles.controlLabelDisabled]}>
               +30s
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleNextChapter}
-            disabled={controlsDisabled || !hasNextChapter}
-            style={[
-              styles.chapterNavButton,
-              (controlsDisabled || !hasNextChapter) && styles.chapterNavButtonDisabled
-            ]}
+            disabled={nextDisabled}
+            style={[styles.chapterNavButton, nextDisabled && styles.chapterNavButtonDisabled]}
           >
-            <FontAwesome
-              name="forward"
+            <Feather
+              name="skip-forward"
               size={18}
-              color={controlsDisabled || !hasNextChapter ? '#CBD5E1' : '#360f5a'}
+              color={nextDisabled ? colors.disabled : colors.primary}
             />
           </TouchableOpacity>
         </View>
 
         <View style={styles.utilityRow}>
-          <TouchableOpacity
+          <UtilityPill
+            active={repeatCurrentChapterEnabled}
+            disabled={controlsDisabled}
             onPress={handleRepeatToggle}
+            icon={<Feather name="repeat" size={20} />}
+            label="Repeat One"
+          />
+          <UtilityPill
+            active={false}
             disabled={controlsDisabled}
-            style={[
-              styles.utilityButton,
-              repeatCurrentChapterEnabled && styles.utilityButtonActive,
-              controlsDisabled && styles.utilityButtonDisabled
-            ]}
-          >
-            <MaterialIcons
-              name="repeat-one"
-              size={22}
-              color={
-                controlsDisabled
-                  ? '#CBD5E1'
-                  : repeatCurrentChapterEnabled
-                    ? '#fff'
-                    : '#360f5a'
-              }
-            />
-            <Text style={[
-              styles.utilityButtonText,
-              repeatCurrentChapterEnabled && styles.utilityButtonTextActive,
-              controlsDisabled && styles.utilityButtonTextDisabled
-            ]}>
-              Repeat One
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.utilityButton,
-              controlsDisabled && styles.utilityButtonDisabled
-            ]}
             onPress={() => setShowSpeedMenu(true)}
-            disabled={controlsDisabled}
-          >
-            <MaterialIcons
-              name="speed"
-              size={24}
-              color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
-            />
-            <Text style={[
-              styles.utilityButtonText,
-              controlsDisabled && styles.utilityButtonTextDisabled
-            ]}>
-              {playbackSpeed}x Speed
-            </Text>
-          </TouchableOpacity>
+            icon={<Feather name="fast-forward" size={20} />}
+            label={`${playbackSpeed}x Speed`}
+          />
         </View>
 
-        {/* ============================================
-            INFO BOX
-        ============================================ */}
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={styles.notesButton}
-            onPress={() => navigation.navigate('Notes', { audioId: activeAudioId })}
-            activeOpacity={0.7}
-          >
-            <MaterialIcons name="notes" size={24} color="#360f5a" />
-            <Text style={styles.notesButtonText}>Take Notes</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* ============================================
-          SPEED SELECTION MODAL
-        ============================================ */}
-      <Modal
-        visible={showSpeedMenu}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowSpeedMenu(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowSpeedMenu(false)}
+        {/* NOTES */}
+        <Card
+          onPress={() => navigation.navigate('Notes', { audioId: activeAudioId })}
+          elevation="sm"
+          contentStyle={styles.notesContent}
         >
-          <View style={styles.speedModalContent}>
-            <View style={styles.speedModalHeader}>
-              <Text style={styles.speedModalTitle}>Playback Speed</Text>
-              <TouchableOpacity
-                onPress={() => setShowSpeedMenu(false)}
-                style={styles.modalCloseButton}
-              >
-                <MaterialIcons name="close" size={24} color="#64748B" />
-              </TouchableOpacity>
-            </View>
+          <Feather name="edit-3" size={20} color={colors.primary} />
+          <Text style={styles.notesButtonText}>Take Notes</Text>
+        </Card>
 
-            <View style={styles.speedOptionsContainer}>
-              {speedOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.speedOption,
-                    playbackSpeed === option.value && styles.speedOptionActive
-                  ]}
-                  onPress={() => handleSpeedChange(option.value)}
-                >
-                  <Text style={[
-                    styles.speedOptionText,
-                    playbackSpeed === option.value && styles.speedOptionTextActive
-                  ]}>
-                    {option.label}
-                  </Text>
-                  {playbackSpeed === option.value && (
-                    <MaterialIcons name="check" size={20} color="#360f5a" />
-                  )}
+        {/* SPEED SELECTION MODAL */}
+        <Modal
+          visible={showSpeedMenu}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setShowSpeedMenu(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setShowSpeedMenu(false)}
+          >
+            <View style={styles.speedModalContent}>
+              <View style={styles.speedModalHeader}>
+                <Text style={styles.speedModalTitle}>Playback Speed</Text>
+                <TouchableOpacity onPress={() => setShowSpeedMenu(false)} hitSlop={12}>
+                  <Feather name="x" size={24} color={colors.textMuted} />
                 </TouchableOpacity>
-              ))}
-            </View>
+              </View>
 
-            <Text style={styles.speedHint}>
-              💡 Tip: Increase speed to listen faster, or decrease for better comprehension
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-       
+              <View style={styles.speedOptionsContainer}>
+                {speedOptions.map((option) => {
+                  const selected = playbackSpeed === option.value;
+                  return (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[styles.speedOption, selected && styles.speedOptionActive]}
+                      onPress={() => handleSpeedChange(option.value)}
+                    >
+                      <Text
+                        style={[styles.speedOptionText, selected && styles.speedOptionTextActive]}
+                      >
+                        {option.label}
+                      </Text>
+                      {selected && <Feather name="check" size={20} color={colors.primary} />}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+
+              <View style={styles.speedHintRow}>
+                <Feather name="zap" size={14} color={colors.textFaint} />
+                <Text style={styles.speedHint}>
+                  Increase speed to listen faster, or decrease for better comprehension
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </ScrollView>
-    </View>
+    </Screen>
   );
 }
 
-// ============================================
-// STYLES
-// ============================================
-const styles = StyleSheet.create({
-  notesButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    gap: 8,
-  },
-  notesButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#360f5a',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  infoCard: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  levelBadge: {
-    backgroundColor: '#EEF2FF',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  levelBadgeText: {
-    fontSize: 10,
-    color: '#360f5a',
-    fontWeight: 'bold',
-  },
-  audioTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 8,
-    lineHeight: 28,
-  },
-  audioDate: {
-    fontSize: 14,
-    color: '#64748B',
-    marginBottom: 12,
-  },
-  activeIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 8,
-    gap: 6,
-  },
-  activeDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#22c55e',
-  },
-  activeText: {
-    fontSize: 12,
-    color: '#22c55e',
-    fontWeight: '600',
-  },
-  loadingIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 8,
-    gap: 6,
-  },
-  loadingText: {
-    fontSize: 12,
-    color: '#360f5a',
-    fontWeight: '600',
-  },
-  completionBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F0FDF4',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    alignSelf: 'flex-start',
-    marginTop: 8,
-    gap: 6,
-  },
-  completionText: {
-    fontSize: 12,
-    color: '#22c55e',
-    fontWeight: '600',
-  },
-  albumArt: {
-    width: albumArtSize,
-    height: albumArtSize,
-    alignSelf: 'center',
-    backgroundColor: '#EEF2FF',
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 26,
-  },
-  albumArtEmoji: {
-    fontSize: 72,
-  },
-  progressSection: {
-    marginBottom: 32,
-  },
-  progressBarContainer: {
-    paddingVertical: 10,
-    marginBottom: 8,
-  },
-  progressBar: {
-    height: 6,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 3,
-    position: 'relative',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#360f5a',
-    borderRadius: 3,
-  },
-  progressThumb: {
-    position: 'absolute',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#360f5a',
-    top: -7,
-    marginLeft: -10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  progressThumbActive: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    top: -9,
-    marginLeft: -12,
-    backgroundColor: '#5b21b6',
-    shadowOpacity: 0.4,
-  },
-  timeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  timeText: {
-    fontSize: 12,
-    color: '#64748B',
-  },
-  progressText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#360f5a',
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 24,
-    gap: 6,
-  },
-  chapterNavButton: {
-    width: 46,
-    height: 46,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 23,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  chapterNavButtonDisabled: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#E2E8F0',
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  utilityRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
-  },
-  utilityButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-    gap: 8,
-  },
-  utilityButtonActive: {
-    backgroundColor: '#360f5a',
-    borderColor: '#360f5a',
-  },
-  utilityButtonDisabled: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#E2E8F0',
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  utilityButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#360f5a',
-  },
-  utilityButtonTextActive: {
-    color: '#fff',
-  },
-  utilityButtonTextDisabled: {
-    color: '#CBD5E1',
-  },
-  controlButton: {
-    width: 54,
-    height: 54,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 2,
-  },
-  controlLabel: {
-    fontSize: 9,
-    color: '#64748B',
-    marginTop: 2,
-  },
-  controlLabelDisabled: {
-    color: '#CBD5E1',
-  },
-  playButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#360f5a',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#360f5a',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  playButtonDisabled: {
-    backgroundColor: '#CBD5E1',
-    shadowOpacity: 0.1,
-  },
-  infoBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF2FF',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-    gap: 12,
-  },
-  infoText: {
-    flex: 1,
-    fontSize: 13,
-    color: '#360f5a',
-    lineHeight: 18,
-  },
-  debugBox: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: '#360f5a',
-  },
-  debugTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#360f5a',
-    marginBottom: 12,
-  },
-  debugRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  debugLabel: {
-    fontSize: 12,
-    color: '#64748B',
-    fontWeight: '500',
-  },
-  debugValue: {
-    fontSize: 12,
-    color: '#1E293B',
-    fontFamily: 'monospace',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  speedModalContent: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingTop: 20,
-    paddingBottom: 40,
-    paddingHorizontal: 20,
-    maxHeight: '70%',
-  },
-  speedModalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  speedModalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-  },
-  modalCloseButton: {
-    padding: 4,
-  },
-  speedOptionsContainer: {
-    gap: 8,
-  },
-  speedOption: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    backgroundColor: '#F8FAFC',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  speedOptionActive: {
-    backgroundColor: '#EEF2FF',
-    borderColor: '#360f5a',
-  },
-  speedOptionText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#64748B',
-  },
-  speedOptionTextActive: {
-    color: '#360f5a',
-  },
-  speedHint: {
-    fontSize: 13,
-    color: '#64748B',
-    textAlign: 'center',
-    marginTop: 20,
-    lineHeight: 18,
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii, shadows }) =>
+  StyleSheet.create({
+    scrollContent: {
+      padding: spacing.lg,
+      paddingBottom: spacing.xxxl,
+    },
+
+    /* Info card */
+    infoCard: {
+      marginBottom: spacing.xl,
+    },
+    infoContent: {
+      padding: spacing.lg,
+    },
+    audioTitle: {
+      ...typography.textStyles.displayTitle,
+      color: colors.text,
+      marginTop: spacing.md,
+    },
+    audioDate: {
+      ...typography.textStyles.caption,
+      color: colors.textMuted,
+      marginTop: spacing.xs,
+    },
+    activeIndicator: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+      marginTop: spacing.md,
+    },
+    activeDot: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.success,
+    },
+    activeText: {
+      ...typography.textStyles.caption,
+      color: colors.success,
+    },
+    loadingText: {
+      ...typography.textStyles.caption,
+      color: colors.primary,
+    },
+
+    /* Album art */
+    albumArt: {
+      width: albumArtSize,
+      height: albumArtSize,
+      alignSelf: 'center',
+      marginBottom: spacing.xl,
+    },
+    albumArtInner: {
+      width: albumArtSize,
+      height: albumArtSize,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    /* Controls */
+    controls: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: spacing.xl,
+    },
+    chapterNavButton: {
+      width: 46,
+      height: 46,
+      borderRadius: 23,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    chapterNavButtonDisabled: {
+      opacity: 0.5,
+    },
+    controlButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 2,
+    },
+    controlLabel: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.micro,
+      color: colors.primary,
+    },
+    controlLabelDisabled: {
+      color: colors.disabled,
+    },
+
+    /* Utility row */
+    utilityRow: {
+      flexDirection: 'row',
+      gap: spacing.md,
+      marginBottom: spacing.base,
+    },
+    utilityWrap: {
+      flex: 1,
+    },
+    utilityInner: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    utilityBordered: {
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    utilityContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: spacing.sm,
+      paddingVertical: 14,
+    },
+    utilityText: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.body,
+    },
+
+    /* Notes */
+    notesContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: spacing.sm,
+      paddingVertical: 14,
+    },
+    notesButtonText: {
+      fontFamily: typography.fonts.bold,
+      fontSize: typography.fontSizes.md,
+      color: colors.primary,
+    },
+
+    /* Speed modal */
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: colors.scrim,
+      justifyContent: 'flex-end',
+    },
+    speedModalContent: {
+      backgroundColor: colors.surface,
+      borderTopLeftRadius: radii.xxl,
+      borderTopRightRadius: radii.xxl,
+      padding: spacing.lg,
+      paddingBottom: spacing.xxxl,
+      ...shadows.lg,
+    },
+    speedModalHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: spacing.base,
+    },
+    speedModalTitle: {
+      ...typography.textStyles.sectionTitle,
+      color: colors.text,
+    },
+    speedOptionsContainer: {
+      gap: spacing.sm,
+    },
+    speedOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 14,
+      paddingHorizontal: spacing.base,
+      borderRadius: radii.md,
+      borderWidth: 1,
+      borderColor: 'transparent',
+      backgroundColor: colors.bg,
+    },
+    speedOptionActive: {
+      backgroundColor: colors.primaryTint,
+      borderColor: colors.primary,
+    },
+    speedOptionText: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.md,
+      color: colors.text,
+    },
+    speedOptionTextActive: {
+      fontFamily: typography.fonts.bold,
+      color: colors.primary,
+    },
+    speedHintRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+      marginTop: spacing.base,
+    },
+    speedHint: {
+      flex: 1,
+      ...typography.textStyles.caption,
+      color: colors.textFaint,
+    },
+  });

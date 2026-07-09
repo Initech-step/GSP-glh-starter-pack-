@@ -1,59 +1,57 @@
 import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
-import {
-  pickAudioFolder, 
-  isAudioFolderConfigured, 
-  setOnboardingCompleted
-} from '../utils/storage';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { View, Text, StyleSheet, Dimensions, FlatList, Alert } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import Feather from '@expo/vector-icons/Feather';
+
+import { pickAudioFolder, isAudioFolderConfigured, setOnboardingCompleted } from '../utils/storage';
+import { useTheme, useThemedStyles } from '../theme';
+import { Surface, GradientButton } from '../components/ui';
+import { CrossIcon, FlameIcon, NotesEmptyIcon } from '../components/icons';
 
 const { width, height } = Dimensions.get('window');
+
+const ICON_SIZE = 52;
 
 const slides = [
   {
     id: '1',
     title: 'Welcome to the Audio Bible',
-    description: "God's Lighthouse brings you the dramatised English Standard Version, read from Genesis to Revelation.",
-    emoji: '📖',
+    description:
+      "God's Lighthouse brings you the dramatised English Standard Version, read from Genesis to Revelation.",
+    renderIcon: (color) => <Feather name="book-open" size={ICON_SIZE} color={color} />,
   },
   {
     id: '2',
     title: 'Old and New Testament',
-    description: 'All 66 books, 1,189 chapters. Start anywhere, and the next chapter plays automatically.',
-    emoji: '✞',
+    description:
+      'All 66 books, 1,189 chapters. Start anywhere, and the next chapter plays automatically.',
+    renderIcon: (color) => <CrossIcon size={ICON_SIZE} color={color} />,
   },
   {
     id: '3',
     title: 'Build a Daily Streak',
-    description: 'Finish a chapter each day to grow your streak. Every chapter you complete is counted, so you can see what you have heard and how often.',
-    emoji: '⭐',
+    description:
+      'Finish a chapter each day to grow your streak. Every chapter you complete is counted, so you can see what you have heard and how often.',
+    renderIcon: (color) => <FlameIcon size={ICON_SIZE} color={color} />,
   },
   {
     id: '4',
     title: 'Take Notes',
-    description: 'Capture insights and revelations as you listen. Your notes are saved for each chapter.',
-    emoji: '📝',
+    description:
+      'Capture insights and revelations as you listen. Your notes are saved for each chapter.',
+    renderIcon: (color) => <NotesEmptyIcon size={ICON_SIZE} color={color} />,
   },
   {
     id: '5',
     title: 'Offline Audio',
     description: 'All audio is stored on your memory card. No internet required!',
-    emoji: '📱',
+    renderIcon: (color) => <Feather name="smartphone" size={ICON_SIZE} color={color} />,
   },
   {
     id: '6',
     title: 'Select Audio Folder',
     description: 'Point the app to your audio folder.',
-    emoji: '📂',
+    renderIcon: (color) => <Feather name="folder" size={ICON_SIZE} color={color} />,
     isSetup: true,
   },
 ];
@@ -64,6 +62,9 @@ export default function OnboardingScreen({ navigation }) {
   const [folderSelected, setFolderSelected] = useState(false);
   const flatListRef = useRef(null);
 
+  const { colors, gradients, scheme } = useTheme();
+  const styles = useThemedStyles(makeStyles);
+
   const handleNext = () => {
     if (currentIndex < slides.length - 1) {
       const nextIndex = currentIndex + 1;
@@ -72,10 +73,6 @@ export default function OnboardingScreen({ navigation }) {
     } else {
       handleComplete();
     }
-  };
-
-  const handleSkip = () => {
-    handleComplete();
   };
 
   // ============================================
@@ -96,19 +93,12 @@ export default function OnboardingScreen({ navigation }) {
 
       // Success!
       setFolderSelected(true);
-      Alert.alert(
-        'Folder Selected! ✅',
-        'You can now access all audio messages offline.',
-        [{ text: 'Continue', onPress: handleNext }]
-      );
-
+      Alert.alert('Folder Selected', 'You can now access all audio messages offline.', [
+        { text: 'Continue', onPress: handleNext },
+      ]);
     } catch (error) {
       console.error('Error selecting folder:', error);
-      Alert.alert(
-        'Error',
-        'Could not access the folder. Please try again.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Error', 'Could not access the folder. Please try again.', [{ text: 'OK' }]);
     } finally {
       setIsSelecting(false);
     }
@@ -119,11 +109,9 @@ export default function OnboardingScreen({ navigation }) {
     const configured = await isAudioFolderConfigured();
 
     if (!configured) {
-      Alert.alert(
-        'Audio Folder Required',
-        'Please select the audio folder before continuing.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Audio Folder Required', 'Please select the audio folder before continuing.', [
+        { text: 'OK' },
+      ]);
       return;
     }
 
@@ -131,52 +119,53 @@ export default function OnboardingScreen({ navigation }) {
     navigation.replace('Home');
   };
 
+  const renderIconCircle = (slide) => (
+    <Surface
+      gradient={gradients.play}
+      elevation="lg"
+      radius={60}
+      style={styles.iconCircle}
+      innerStyle={styles.iconCircleInner}
+    >
+      {slide.renderIcon(colors.onGradient)}
+    </Surface>
+  );
+
   const renderItem = ({ item }) => {
     if (item.isSetup) {
       // Special setup slide with folder selection
       return (
         <View style={styles.slide}>
-          <View style={styles.emojiContainer}>
-            <Text style={styles.emoji}>{item.emoji}</Text>
-          </View>
+          {renderIconCircle(item)}
           <Text style={styles.title}>{item.title}</Text>
+
           {/* Folder Selection Button */}
-          <TouchableOpacity
-            style={[
-              styles.selectFolderButton,
-              folderSelected && styles.selectFolderButtonSuccess
-            ]}
+          <GradientButton
+            title={folderSelected ? 'Folder Selected' : 'Select Audio Folder'}
             onPress={handleSelectFolder}
-            disabled={isSelecting}
-          >
-            {isSelecting ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <>
-                <MaterialIcons 
-                  name={folderSelected ? "check-circle" : "folder-open"} 
-                  size={24} 
-                  color="#fff" 
-                />
-                <Text style={styles.selectFolderText}>
-                  {folderSelected ? 'Folder Selected ✓' : 'Select Audio Folder'}
-                </Text>
-              </>
-            )}
-          </TouchableOpacity>
+            loading={isSelecting}
+            gradient={folderSelected ? 'success' : 'play'}
+            size="md"
+            fullWidth={false}
+            style={styles.selectFolderButton}
+            icon={
+              <Feather
+                name={folderSelected ? 'check-circle' : 'folder'}
+                size={20}
+                color={colors.onPrimary}
+              />
+            }
+          />
 
           {/* Instructions */}
           <View style={styles.instructionsBox}>
-            <Text style={styles.instructionsTitle}>📋 Instructions:</Text>
-            <Text style={styles.instructionsText}>
-              1. Tap "Select Audio Folder"
-            </Text>
-            <Text style={styles.instructionsText}>
-              2. Navigate to the GLH_Audio folder
-            </Text>
-            <Text style={styles.instructionsText}>
-              3. Select the SELECT ME file
-            </Text>
+            <View style={styles.instructionsHeader}>
+              <Feather name="list" size={16} color={colors.primary} />
+              <Text style={styles.instructionsTitle}>Instructions</Text>
+            </View>
+            <Text style={styles.instructionsText}>1. Tap &quot;Select Audio Folder&quot;</Text>
+            <Text style={styles.instructionsText}>2. Navigate to the GLH_Audio folder</Text>
+            <Text style={styles.instructionsText}>3. Select the SELECT ME file</Text>
           </View>
         </View>
       );
@@ -185,17 +174,20 @@ export default function OnboardingScreen({ navigation }) {
     // Regular slide
     return (
       <View style={styles.slide}>
-        <View style={styles.emojiContainer}>
-          <Text style={styles.emoji}>{item.emoji}</Text>
-        </View>
+        {renderIconCircle(item)}
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
       </View>
     );
   };
 
+  const isLastSlide = currentIndex === slides.length - 1;
+
   return (
     <View style={styles.container}>
+      {/* Onboarding hides the gradient header, so the bar must follow the scheme. */}
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+
       <FlatList
         ref={flatListRef}
         data={slides}
@@ -206,191 +198,127 @@ export default function OnboardingScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         scrollEnabled={!isSelecting}
         onMomentumScrollEnd={(event) => {
-          const index = Math.round(
-            event.nativeEvent.contentOffset.x / width
-          );
+          const index = Math.round(event.nativeEvent.contentOffset.x / width);
           setCurrentIndex(index);
         }}
       />
 
       {/* Pagination dots */}
       <View style={styles.pagination}>
-        {slides.map((_, index) => (
+        {slides.map((slide, index) => (
           <View
-            key={index}
-            style={[
-              styles.dot,
-              currentIndex === index && styles.dotActive,
-            ]}
+            key={slide.id}
+            style={[styles.dot, currentIndex === index && styles.dotActive]}
           />
         ))}
       </View>
 
       {/* Navigation buttons */}
       <View style={styles.buttonContainer}>
-        {currentIndex < slides.length - 1 ? (
-          <>
-            <TouchableOpacity
-              style={[
-                styles.nextButton,
-                isSelecting && styles.buttonDisabled
-              ]}
-              onPress={handleNext}
-              disabled={isSelecting}
-            >
-              <Text style={styles.nextText}>Next</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <TouchableOpacity
-            style={[
-              styles.startButton,
-              (!folderSelected || isSelecting) && styles.buttonDisabled
-            ]}
+        {isLastSlide ? (
+          <GradientButton
+            title="Get Started"
             onPress={handleComplete}
             disabled={!folderSelected || isSelecting}
-          >
-            <Text style={styles.startText}>Get Started</Text>
-          </TouchableOpacity>
+          />
+        ) : (
+          <GradientButton title="Next" onPress={handleNext} disabled={isSelecting} />
         )}
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  slide: {
-    width,
-    height: height * 0.75,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 40,
-  },
-  emojiContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#CBC3E3',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  emoji: {
-    fontSize: 64,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  description: {
-    fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 24,
-  },
-  selectFolderButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#360f5a',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    marginTop: 16,
-    gap: 8,
-  },
-  selectFolderButtonSuccess: {
-    backgroundColor: '#22c55e',
-  },
-  selectFolderText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  instructionsBox: {
-    backgroundColor: '#F8FAFC',
-    padding: 20,
-    borderRadius: 12,
-    marginTop: 24,
-    width: '100%',
-    borderLeftWidth: 4,
-    borderLeftColor: '#360f5a',
-  },
-  instructionsTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 12,
-  },
-  instructionsText: {
-    fontSize: 13,
-    color: '#64748B',
-    marginBottom: 6,
-    lineHeight: 20,
-  },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#CBD5E1',
-    marginHorizontal: 4,
-  },
-  dotActive: {
-    width: 24,
-    backgroundColor: '#360f5a',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 40,
-    paddingBottom: 40,
-  },
-  skipButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-  },
-  skipText: {
-    fontSize: 16,
-    color: '#64748B',
-    fontWeight: '600',
-  },
-  nextButton: {
-    backgroundColor: '#360f5a',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-  },
-  nextText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  startButton: {
-    flex: 1,
-    backgroundColor: '#360f5a',
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  startText: {
-    fontSize: 18,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  buttonDisabled: {
-    backgroundColor: '#CBD5E1',
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.bg,
+    },
+    slide: {
+      width,
+      height: height * 0.75,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: spacing.xxxl,
+    },
+    iconCircle: {
+      width: 120,
+      height: 120,
+      marginBottom: spacing.xxl,
+    },
+    iconCircleInner: {
+      width: 120,
+      height: 120,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    title: {
+      ...typography.textStyles.displayTitle,
+      fontSize: 28,
+      lineHeight: 34,
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: spacing.base,
+    },
+    description: {
+      ...typography.textStyles.body,
+      fontSize: typography.fontSizes.md,
+      lineHeight: 24,
+      color: colors.textMuted,
+      textAlign: 'center',
+    },
+
+    selectFolderButton: {
+      marginTop: spacing.sm,
+    },
+
+    instructionsBox: {
+      marginTop: spacing.xl,
+      alignSelf: 'stretch',
+      backgroundColor: colors.surfaceMuted,
+      borderRadius: radii.md,
+      padding: spacing.base,
+      borderLeftWidth: 4,
+      borderLeftColor: colors.primary,
+    },
+    instructionsHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+      marginBottom: spacing.sm,
+    },
+    instructionsTitle: {
+      fontFamily: typography.fonts.bold,
+      fontSize: typography.fontSizes.body,
+      color: colors.text,
+    },
+    instructionsText: {
+      ...typography.textStyles.caption,
+      color: colors.textMuted,
+      marginBottom: 2,
+    },
+
+    pagination: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: spacing.sm,
+      marginBottom: spacing.xl,
+    },
+    dot: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.borderStrong,
+    },
+    dotActive: {
+      width: 24,
+      backgroundColor: colors.primary,
+    },
+
+    buttonContainer: {
+      paddingHorizontal: spacing.xxxl,
+      paddingBottom: spacing.xxxl,
+    },
+  });

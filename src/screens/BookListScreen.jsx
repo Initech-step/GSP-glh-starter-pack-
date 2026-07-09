@@ -1,176 +1,118 @@
 // src/screens/BookListScreen.js
-import React, { useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import Entypo from '@expo/vector-icons/Entypo';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
 
+import { useTheme, useThemedStyles } from '../theme';
+import { ScreenScrollView, Card, Surface, SectionHeader } from '../components/ui';
 
 export default function BookListScreen({ route, navigation }) {
-  const { level, title } = route.params;
+  const { level } = route.params;
+  const { colors, gradients } = useTheme();
+  const styles = useThemedStyles(makeStyles);
 
   const handleBookPress = async (book) => {
-    // console.log("Book clicked from list page", book);
     navigation.navigate('ReadBook', {
       book,
-      title: book.title
+      title: book.title,
     });
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Week Header */}
-        <View style={styles.headerCard}>
-          <Text style={styles.weekNumber}> {level.title }</Text>
-          <Text style={styles.weekTitle}>{level.description }</Text>
-        </View>
+    <ScreenScrollView>
+      {/* Level header */}
+      <Card gradient style={styles.headerCard} contentStyle={styles.headerContent}>
+        <Text style={styles.levelLabel}>{level.title}</Text>
+        <Text style={styles.levelDescription}>{level.description}</Text>
+      </Card>
 
-        {/* Audio List */}
-        <View style={styles.audiosSection}>
-          <Text style={styles.sectionTitle}>Books</Text>
+      <View style={styles.booksSection}>
+        <SectionHeader title="Books" />
 
-          { level.books.map((book, index) => {
+        {level.books.map((book) => (
+          <Card
+            key={book.id}
+            gradient
+            onPress={() => handleBookPress(book)}
+            elevation="sm"
+            style={styles.bookCard}
+            contentStyle={styles.bookContent}
+          >
+            <View style={styles.bookInfo}>
+              <Text style={styles.bookTitle}>{book.title}</Text>
+              <Text style={styles.bookAuthor}>{book.author}</Text>
+            </View>
 
-            return (
-              <TouchableOpacity
-                key={book.id}
-                style={[
-                  styles.audioCard
-                ]}
-                onPress={() => handleBookPress(book)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.audioHeader}>
-
-                  <View style={styles.audioInfo}>
-                    <Text style={styles.audioTitle}>{book.title}</Text>
-                    <Text style={styles.audioDate}>{book.author}</Text>
-                  </View>
-
-                  <View style={styles.playIconContainer}>
-                    <Text style={styles.playIcon}>
-                      <Entypo name="book" size={30} color="#360f5a" />
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+            <Surface
+              gradient={gradients.play}
+              elevation={false}
+              radius={12}
+              style={styles.bookIcon}
+              innerStyle={styles.bookIconInner}
+            >
+              <Feather name="book-open" size={20} color={colors.onGradient} />
+            </Surface>
+          </Card>
+        ))}
+      </View>
+    </ScreenScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  headerCard: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  weekNumber: {
-    fontSize: 14,
-    color: '#360f5a',
-    fontWeight: 'bold',
-    marginBottom: 4,
-    letterSpacing: 1,
-  },
-  weekTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 12,
-  },
-  audiosSection: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  audioCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  audioCardCompleted: {
-    backgroundColor: '#F0FDF4',
-    borderWidth: 1,
-    borderColor: '#360f5a',
-  },
-  audioHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  audioNumber: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#360f5a',
-  },
-  audioInfo: {
-    flex: 1,
-  },
-  audioTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginBottom: 4,
-    lineHeight: 20,
-  },
-  audioDate: {
-    fontSize: 12,
-    color: '#64748B',
-  },
-  playIconContainer: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  playIcon: {
-    fontSize: 20,
-  },
-  statusRow: {
-    marginTop: 12,
-  },
-  statusBadge: {
-    backgroundColor: '#360f5a',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  statusBadgeTextProgress: {
-    fontSize: 12,
-    color: '#fff',
-    fontWeight: '600',
-  },
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    headerCard: {
+      marginBottom: spacing.xl,
+      borderRadius: radii.lg,
+    },
+    headerContent: {
+      padding: spacing.lg,
+    },
+    levelLabel: {
+      ...typography.textStyles.overline,
+      color: colors.primary,
+      marginBottom: spacing.xs,
+    },
+    levelDescription: {
+      ...typography.textStyles.cardTitle,
+      color: colors.text,
+    },
 
-});
+    booksSection: {
+      marginBottom: spacing.lg,
+    },
+    bookCard: {
+      marginBottom: spacing.md,
+    },
+    bookContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: spacing.base,
+      gap: spacing.md,
+    },
+    bookInfo: {
+      flex: 1,
+    },
+    bookTitle: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.base,
+      color: colors.text,
+      marginBottom: spacing.xs,
+      lineHeight: 20,
+    },
+    bookAuthor: {
+      ...typography.textStyles.caption,
+      fontSize: typography.fontSizes.caption,
+      color: colors.textMuted,
+    },
+    bookIcon: {
+      width: 44,
+      height: 44,
+    },
+    bookIconInner: {
+      width: 44,
+      height: 44,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

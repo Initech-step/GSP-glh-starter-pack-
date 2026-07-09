@@ -28,6 +28,7 @@ const KEYS = {
   REMINDERS_ENABLED: '@glh_reminders_enabled',
   LAST_ACTIVITY_AT: '@glh_last_activity_at',
   NOTIF_MIGRATED: '@glh_notif_migrated_v2',
+  THEME_MODE: '@glh_theme_mode',
 };
 
 export const STORAGE_KEYS = KEYS;
@@ -245,6 +246,7 @@ export const clearAllData = async () => {
       KEYS.REMINDERS_ENABLED,
       KEYS.LAST_ACTIVITY_AT,
       KEYS.NOTIF_MIGRATED,
+      KEYS.THEME_MODE,
     ]);
     emitProgressChanged('clearAllData');
   } catch (error) {
@@ -301,6 +303,27 @@ export const setRemindersEnabled = async (enabled) => {
     await AsyncStorage.setItem(KEYS.REMINDERS_ENABLED, enabled ? 'true' : 'false');
   } catch (error) {
     console.error('Error saving reminder preference:', error);
+  }
+};
+
+// 'system' follows the OS appearance; 'light'/'dark' pin it.
+export const THEME_MODES = ['system', 'light', 'dark'];
+
+export const getThemeMode = async () => {
+  try {
+    const mode = await AsyncStorage.getItem(KEYS.THEME_MODE);
+    return THEME_MODES.includes(mode) ? mode : 'system';
+  } catch (error) {
+    console.error('Error getting theme mode:', error);
+    return 'system';
+  }
+};
+
+export const setThemeMode = async (mode) => {
+  try {
+    await AsyncStorage.setItem(KEYS.THEME_MODE, THEME_MODES.includes(mode) ? mode : 'system');
+  } catch (error) {
+    console.error('Error saving theme mode:', error);
   }
 };
 

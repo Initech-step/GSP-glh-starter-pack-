@@ -11,17 +11,19 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {
-  saveNote,
-  getNote,
-  getNotes,
-  deleteNote,
-} from '../utils/storage';
-import { getAudioMetadataById } from '../utils/audioSequenceService';
+import Feather from '@expo/vector-icons/Feather';
 
-export default function NotesScreen({ route, navigation }) {
+import { saveNote, getNote, getNotes, deleteNote } from '../utils/storage';
+import { getAudioMetadataById } from '../utils/audioSequenceService';
+import { useTheme, useThemedStyles } from '../theme';
+import { Card, GradientButton, SectionHeader, EmptyState } from '../components/ui';
+import { NotesEmptyIcon } from '../components/icons';
+
+export default function NotesScreen({ route }) {
   const audioId = route.params?.audioId;
-  
+  const { colors, gradients } = useTheme();
+  const styles = useThemedStyles(makeStyles);
+
   const [noteText, setNoteText] = useState('');
   const [allNotes, setAllNotes] = useState([]);
   const [currentAudioTitle, setCurrentAudioTitle] = useState('');
@@ -37,17 +39,15 @@ export default function NotesScreen({ route, navigation }) {
 
   const loadNotes = async () => {
     const notes = await getNotes();
-    const notesArray = Object.keys(notes).map(id => ({
+    const notesArray = Object.keys(notes).map((id) => ({
       audioId: id,
       text: notes[id].text,
       updatedAt: notes[id].updatedAt,
     }));
-    
+
     // Sort by most recent
-    notesArray.sort((a, b) => 
-      new Date(b.updatedAt) - new Date(a.updatedAt)
-    );
-    
+    notesArray.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
     setAllNotes(notesArray);
   };
 
@@ -98,24 +98,20 @@ export default function NotesScreen({ route, navigation }) {
   };
 
   const handleDeleteNote = (noteAudioId) => {
-    Alert.alert(
-      'Delete Note',
-      'Are you sure you want to delete this note?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            await deleteNote(noteAudioId);
-            await loadNotes();
-            if (noteAudioId === audioId) {
-              setNoteText('');
-            }
-          },
+    Alert.alert('Delete Note', 'Are you sure you want to delete this note?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          await deleteNote(noteAudioId);
+          await loadNotes();
+          if (noteAudioId === audioId) {
+            setNoteText('');
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleViewNote = (note) => {
@@ -137,10 +133,10 @@ export default function NotesScreen({ route, navigation }) {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Current Note Editor (if audioId provided) */}
         {audioId && (
-          <View style={styles.editorSection}>
+          <Card gradient style={styles.editorCard} contentStyle={styles.editorContent}>
             <View style={styles.editorHeader}>
               <Text style={styles.editorTitle}>Note for:</Text>
               <Text style={styles.audioTitle}>{currentAudioTitle}</Text>
@@ -149,7 +145,7 @@ export default function NotesScreen({ route, navigation }) {
             <TextInput
               style={styles.textInput}
               placeholder="Write your notes, insights, and revelations here..."
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={colors.textFaint}
               value={noteText}
               onChangeText={setNoteText}
               multiline
@@ -157,52 +153,47 @@ export default function NotesScreen({ route, navigation }) {
               textAlignVertical="top"
             />
 
-            <TouchableOpacity
-              style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}
+            <GradientButton
+              title={isSaving ? 'Saving...' : 'Save Note'}
               onPress={handleSaveNote}
-              disabled={isSaving}
-            >
-              <Text style={styles.saveButtonText}>
-                {isSaving ? 'Saving...' : 'Save Note'}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              loading={isSaving}
+              size="md"
+            />
+          </Card>
         )}
 
         {/* All Notes List */}
         <View style={styles.notesListSection}>
-          <Text style={styles.sectionTitle}>
-            All Notes ({allNotes.length})
-          </Text>
+          <SectionHeader title={`All Notes (${allNotes.length})`} />
 
           {allNotes.length === 0 ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyEmoji}>📝</Text>
-              <Text style={styles.emptyText}>No notes yet</Text>
-              <Text style={styles.emptySubtext}>
-                Start taking notes while listening to messages
-              </Text>
-            </View>
+            <Card contentStyle={styles.emptyContent}>
+              <EmptyState
+                icon={<NotesEmptyIcon size={56} gradient={gradients.play} />}
+                title="No notes yet"
+                subtitle="Start taking notes while listening to messages"
+              />
+            </Card>
           ) : (
             allNotes.map((note) => {
               const audioTitle = resolveAudioTitle(note.audioId);
 
               return (
-                <View key={note.audioId} style={styles.noteCard}>
+                <Card key={note.audioId} style={styles.noteCard} contentStyle={styles.noteContent}>
                   <View style={styles.noteHeader}>
                     <View style={styles.noteInfo}>
                       <Text style={styles.noteAudioTitle} numberOfLines={2}>
                         {audioTitle}
                       </Text>
-                      <Text style={styles.noteDate}>
-                        {formatDate(note.updatedAt)}
-                      </Text>
+                      <Text style={styles.noteDate}>{formatDate(note.updatedAt)}</Text>
                     </View>
                     <TouchableOpacity
                       style={styles.deleteButton}
                       onPress={() => handleDeleteNote(note.audioId)}
+                      hitSlop={10}
+                      accessibilityLabel="Delete note"
                     >
-                      <Text style={styles.deleteIcon}>🗑️</Text>
+                      <Feather name="trash-2" size={18} color={colors.danger} />
                     </TouchableOpacity>
                   </View>
 
@@ -211,14 +202,11 @@ export default function NotesScreen({ route, navigation }) {
                   </Text>
 
                   {note.audioId !== audioId && (
-                    <TouchableOpacity
-                      style={styles.viewButton}
-                      onPress={() => handleViewNote(note)}
-                    >
+                    <TouchableOpacity style={styles.viewButton} onPress={() => handleViewNote(note)}>
                       <Text style={styles.viewButtonText}>View/Edit</Text>
                     </TouchableOpacity>
                   )}
-                </View>
+                </Card>
               );
             })
           )}
@@ -228,148 +216,102 @@ export default function NotesScreen({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  editorSection: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  editorHeader: {
-    marginBottom: 16,
-  },
-  editorTitle: {
-    fontSize: 14,
-    color: '#64748B',
-    marginBottom: 4,
-  },
-  audioTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    lineHeight: 22,
-  },
-  textInput: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 12,
-    padding: 16,
-    fontSize: 15,
-    color: '#1E293B',
-    minHeight: 150,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  saveButton: {
-    backgroundColor: '#360f5a',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-  },
-  saveButtonDisabled: {
-    opacity: 0.6,
-  },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  notesListSection: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  emptyState: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 40,
-    alignItems: 'center',
-  },
-  emptyEmoji: {
-    fontSize: 48,
-    marginBottom: 16,
-  },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: '#64748B',
-    textAlign: 'center',
-  },
-  noteCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  noteHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 12,
-  },
-  noteInfo: {
-    flex: 1,
-    marginRight: 12,
-  },
-  noteAudioTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginBottom: 4,
-    lineHeight: 20,
-  },
-  noteDate: {
-    fontSize: 12,
-    color: '#64748B',
-  },
-  deleteButton: {
-    padding: 4,
-  },
-  deleteIcon: {
-    fontSize: 20,
-  },
-  noteText: {
-    fontSize: 14,
-    color: '#475569',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  viewButton: {
-    backgroundColor: '#EEF2FF',
-    borderRadius: 8,
-    padding: 10,
-    alignItems: 'center',
-  },
-  viewButtonText: {
-    fontSize: 14,
-    color: '#360f5a',
-    fontWeight: '600',
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.bg,
+    },
+    scrollContent: {
+      padding: spacing.lg,
+      paddingBottom: spacing.xxxl,
+    },
+
+    editorCard: {
+      marginBottom: spacing.xl,
+      borderRadius: radii.lg,
+    },
+    editorContent: {
+      padding: spacing.lg,
+    },
+    editorHeader: {
+      marginBottom: spacing.base,
+    },
+    editorTitle: {
+      ...typography.textStyles.body,
+      color: colors.textMuted,
+      marginBottom: spacing.xs,
+    },
+    audioTitle: {
+      ...typography.textStyles.bookTitle,
+      fontSize: typography.fontSizes.lg,
+      color: colors.text,
+    },
+    textInput: {
+      backgroundColor: colors.bg,
+      borderRadius: radii.md,
+      padding: spacing.base,
+      fontFamily: typography.fonts.body,
+      fontSize: typography.fontSizes.base,
+      color: colors.text,
+      minHeight: 150,
+      marginBottom: spacing.base,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    notesListSection: {
+      marginBottom: spacing.lg,
+    },
+    emptyContent: {
+      paddingHorizontal: spacing.lg,
+    },
+
+    noteCard: {
+      marginBottom: spacing.md,
+    },
+    noteContent: {
+      padding: spacing.base,
+    },
+    noteHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: spacing.md,
+    },
+    noteInfo: {
+      flex: 1,
+      marginRight: spacing.md,
+    },
+    noteAudioTitle: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.base,
+      color: colors.text,
+      marginBottom: spacing.xs,
+      lineHeight: 20,
+    },
+    noteDate: {
+      ...typography.textStyles.caption,
+      fontSize: typography.fontSizes.caption,
+      color: colors.textMuted,
+    },
+    deleteButton: {
+      padding: spacing.xs,
+    },
+    noteText: {
+      ...typography.textStyles.body,
+      color: colors.textMuted,
+      marginBottom: spacing.md,
+    },
+    viewButton: {
+      backgroundColor: colors.primaryTint,
+      borderRadius: radii.sm,
+      padding: 10,
+      alignItems: 'center',
+    },
+    viewButtonText: {
+      fontFamily: typography.fonts.semibold,
+      fontSize: typography.fontSizes.body,
+      color: colors.primary,
+    },
+  });

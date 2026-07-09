@@ -5,37 +5,38 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
-  StatusBar,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+
 import { useApp } from '../contexts/AppContext';
 import { book_curriculum } from '../data/curriculum';
 import { getAudioMetadataById } from '../utils/audioSequenceService';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { useCountUp } from '../utils/useCountUp';
+import { useTheme, useThemedStyles } from '../theme';
+import { ScreenScrollView, Card, Surface, Scrim, SectionHeader } from '../components/ui';
+import { ScrollIcon, CrossIcon, BookLevelIcon, FlameIcon } from '../components/icons';
 
 const BIBLE_TESTAMENTS = [
   {
     key: 'old_testament',
     name: 'Old Testament',
-    color: '#04642c',
-    emoji: '🐑',
+    Icon: ScrollIcon,
     description: 'English Standard Version (ESV)',
   },
   {
     key: 'new_testament',
     name: 'New Testament',
-    color: '#067e0e',
-    emoji: '˗ˏˋ ✞ ˎˊ˗',
+    Icon: CrossIcon,
     description: 'English Standard Version (ESV)',
   },
 ];
 
 const BOOK_LEVELS = [
-  { key: 'beginner', color: '#360f5a', emoji: '📗' },
-  { key: 'intermediate', color: '#360f5a', emoji: '📘' },
-  { key: 'advanced', color: '#360f5a', emoji: '📙' },
+  { key: 'beginner', level: 'beginner' },
+  { key: 'intermediate', level: 'intermediate' },
+  { key: 'advanced', level: 'advanced' },
 ];
 
 const TESTAMENT_BACKGROUND_IMAGES = {
@@ -43,8 +44,22 @@ const TESTAMENT_BACKGROUND_IMAGES = {
   new_testament: require('../../assets/new_testament.jpg'),
 };
 
+/** Gradient tile holding an identity icon — the visual anchor of every list row. */
+function IconChip({ children }) {
+  const styles = useThemedStyles(makeStyles);
+  const { gradients } = useTheme();
+
+  return (
+    <Surface gradient={gradients.play} elevation={false} style={styles.chip} radius={14}>
+      <View style={styles.chipInner}>{children}</View>
+    </Surface>
+  );
+}
+
 export default function HomeScreen({ navigation }) {
   const { currentAudioId, currentStreak, loading } = useApp();
+  const { colors, gradients } = useTheme();
+  const styles = useThemedStyles(makeStyles);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -55,19 +70,19 @@ export default function HomeScreen({ navigation }) {
             hitSlop={12}
             accessibilityLabel="My Notes"
           >
-            <MaterialIcons name="edit-note" size={28} color="#fff" />
+            <Feather name="edit-3" size={22} color={colors.headerTint} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings')}
             hitSlop={12}
             accessibilityLabel="Settings"
           >
-            <AntDesign name="setting" size={24} color="#fff" />
+            <Feather name="settings" size={22} color={colors.headerTint} />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [navigation]);
+  }, [navigation, styles, colors]);
 
   // The Continue card resolves its label from the audio id, since Bible
   // chapters carry no level/week.
@@ -100,269 +115,231 @@ export default function HomeScreen({ navigation }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading...</Text>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
+  const streakActive = currentStreak > 0;
+  const displayedStreak = useCountUp(currentStreak);
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Daily streak */}
-        <View style={styles.streakCard}>
-          <AntDesign
-            name="star"
-            size={34}
-            color={currentStreak > 0 ? '#F59E0B' : '#CBD5E1'}
-          />
-          <View style={styles.streakInfo}>
-            <Text style={styles.streakCount}>{currentStreak}</Text>
-            <Text style={styles.streakLabel}>day streak</Text>
-          </View>
-          <Text style={styles.streakHint}>
-            {currentStreak > 0
-              ? 'Finish a chapter today to keep it going.'
-              : 'Finish a chapter to start your streak.'}
-          </Text>
+    <ScreenScrollView>
+      {/* Daily streak */}
+      <Card gradient elevation="md" style={styles.streakCard} contentStyle={styles.streakContent}>
+        <FlameIcon
+          size={36}
+          gradient={streakActive ? gradients.accent : undefined}
+          color={colors.borderStrong}
+        />
+        <View style={styles.streakInfo}>
+          <Text style={styles.streakCount}>{displayedStreak}</Text>
+          <Text style={styles.streakLabel}>day streak</Text>
         </View>
+        <Text style={styles.streakHint}>
+          {streakActive
+            ? 'Finish a chapter today to keep it going.'
+            : 'Finish a chapter to start your streak.'}
+        </Text>
+      </Card>
 
-        {/* Continue Section */}
-        {currentChapter && (
-          <TouchableOpacity
-            style={styles.continueCard}
-            onPress={handleContinue}
-            activeOpacity={0.7}
+      {/* Continue Section */}
+      {currentChapter && (
+        <TouchableOpacity onPress={handleContinue} activeOpacity={0.85} style={styles.continueWrap}>
+          <Surface
+            gradient={gradients.hero}
+            gradientOpacity={continueCardBackground ? 0.85 : 1}
+            elevation="lg"
+            behind={
+              continueCardBackground ? (
+                <ImageBackground
+                  source={continueCardBackground}
+                  style={StyleSheet.absoluteFill}
+                  imageStyle={styles.continueImage}
+                />
+              ) : null
+            }
+            overlay={continueCardBackground ? <Scrim strength={0.5} /> : null}
           >
-            {continueCardBackground && (
-              <ImageBackground
-                source={continueCardBackground}
-                style={styles.continueBackground}
-                imageStyle={styles.continueBackgroundImage}
-              />
-            )}
-            <View style={styles.continueOverlay} />
             <View style={styles.continueContent}>
               <View style={styles.continueHeader}>
                 <Text style={styles.continueLabel}>CONTINUE LISTENING</Text>
-                <AntDesign name="play-circle" size={30} color="#ffff" />
+                <Feather name="play-circle" size={30} color={colors.onGradient} />
               </View>
               <Text style={styles.continueLevel}>{currentChapter.bookName}</Text>
               <Text style={styles.continueWeek}>
                 Chapter {currentChapter.chapterNumber} · {currentChapter.testamentName}
               </Text>
             </View>
-          </TouchableOpacity>
-        )}
+          </Surface>
+        </TouchableOpacity>
+      )}
 
-        {/* AUDIO BIBLE DRAMATISED */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Audio Bible Dramatised</Text>
+      {/* AUDIO BIBLE DRAMATISED */}
+      <View style={styles.section}>
+        <SectionHeader title="Audio Bible Dramatised" />
 
-          {BIBLE_TESTAMENTS.map((item) => (
-            <TouchableOpacity
+        {BIBLE_TESTAMENTS.map(({ key, name, description, Icon }) => (
+          <Card
+            key={key}
+            gradient
+            onPress={() => handleTestamentPress({ key, name, description })}
+            style={styles.levelCard}
+            contentStyle={styles.levelContent}
+          >
+            <IconChip>
+              <Icon size={26} color={colors.onGradient} />
+            </IconChip>
+            <View style={styles.levelInfo}>
+              <Text style={styles.levelTitle}>{name}</Text>
+              <Text style={styles.levelDescription}>{description}</Text>
+            </View>
+            <Feather name="chevron-right" size={20} color={colors.textFaint} />
+          </Card>
+        ))}
+      </View>
+
+      {/* Spiritual Books */}
+      <View style={styles.section}>
+        <SectionHeader title="Recommended Books" />
+
+        {BOOK_LEVELS.map((item) => {
+          const levelData = book_curriculum[item.key];
+
+          return (
+            <Card
               key={item.key}
-              style={[styles.levelCard, { borderLeftColor: item.color }]}
-              onPress={() => handleTestamentPress(item)}
-              activeOpacity={0.7}
+              gradient
+              onPress={() => handleBookLevelPress(levelData)}
+              style={styles.levelCard}
+              contentStyle={styles.levelContent}
             >
-              <View style={styles.levelHeader}>
-                <View style={styles.levelTitleRow}>
-                  <Text style={styles.levelEmoji}>{item.emoji}</Text>
-                  <View style={styles.levelInfo}>
-                    <Text style={styles.levelTitle}>{item.name}</Text>
-                    <Text style={styles.levelDescription}>{item.description}</Text>
-                  </View>
-                </View>
+              <IconChip>
+                <BookLevelIcon size={26} color={colors.onGradient} level={item.level} />
+              </IconChip>
+              <View style={styles.levelInfo}>
+                <Text style={styles.levelTitle}>{levelData.title}</Text>
+                <Text style={styles.levelDescription}>{levelData.description}</Text>
               </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Spiritual Books */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommended Books</Text>
-
-          {BOOK_LEVELS.map((item) => {
-            const levelData = book_curriculum[item.key];
-
-            return (
-              <TouchableOpacity
-                key={item.key}
-                style={[styles.levelCard, { borderLeftColor: item.color }]}
-                onPress={() => handleBookLevelPress(levelData)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.levelHeader}>
-                  <View style={styles.levelTitleRow}>
-                    <Text style={styles.levelEmoji}>{item.emoji}</Text>
-                    <View style={styles.levelInfo}>
-                      <Text style={styles.levelTitle}>{levelData.title}</Text>
-                      <Text style={styles.levelDescription}>{levelData.description}</Text>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+              <Feather name="chevron-right" size={20} color={colors.textFaint} />
+            </Card>
+          );
+        })}
+      </View>
+    </ScreenScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8FAFC',
-  },
-  loadingText: {
-    fontSize: 16,
-    color: '#6a329f',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 18,
-  },
-  streakCard: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  streakInfo: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginLeft: 12,
-    gap: 6,
-  },
-  streakCount: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: '#1E293B',
-  },
-  streakLabel: {
-    fontSize: 15,
-    color: '#64748B',
-    fontWeight: '600',
-  },
-  streakHint: {
-    flexBasis: '100%',
-    marginTop: 10,
-    fontSize: 13,
-    color: '#94A3B8',
-  },
-  continueCard: {
-    backgroundColor: '#360f5a',
-    borderRadius: 16,
-    marginBottom: 24,
-    shadowColor: '#6a329f',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  continueBackground: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  continueBackgroundImage: {
-    opacity: 0.22,
-    resizeMode: 'cover',
-  },
-  continueOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(54, 15, 90, 0.72)',
-  },
-  continueContent: {
-    padding: 20,
-  },
-  continueHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  continueLabel: {
-    fontSize: 12,
-    color: '#ffff',
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-  continueLevel: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#ffff',
-    marginBottom: 4,
-  },
-  continueWeek: {
-    fontSize: 16,
-    color: '#ffff',
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  levelCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    borderLeftWidth: 4,
-    shadowColor: '#0000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  levelHeader: {
-    marginBottom: 12,
-  },
-  levelTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  levelEmoji: {
-    fontSize: 32,
-    marginRight: 12,
-  },
-  levelInfo: {
-    flex: 1,
-  },
-  levelTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1E293B',
-    marginBottom: 4,
-  },
-  levelDescription: {
-    fontSize: 14,
-    color: '#64748B',
-  },
-});
+const makeStyles = ({ colors, typography, spacing, radii }) =>
+  StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.bg,
+    },
+    headerActions: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 18,
+    },
+
+    chip: {
+      width: 48,
+      height: 48,
+    },
+    chipInner: {
+      width: 48,
+      height: 48,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    streakCard: {
+      marginBottom: spacing.xl,
+      borderRadius: radii.lg,
+    },
+    streakContent: {
+      padding: spacing.lg,
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+    },
+    streakInfo: {
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      marginLeft: spacing.md,
+      gap: spacing.xs + 2,
+    },
+    streakCount: {
+      fontFamily: typography.fonts.display,
+      fontSize: typography.fontSizes.giant,
+      color: colors.text,
+    },
+    streakLabel: {
+      ...typography.textStyles.label,
+      color: colors.textMuted,
+    },
+    streakHint: {
+      flexBasis: '100%',
+      marginTop: spacing.sm + 2,
+      ...typography.textStyles.caption,
+      color: colors.textFaint,
+    },
+
+    continueWrap: {
+      marginBottom: spacing.xl,
+    },
+    continueImage: {
+      opacity: 0.35,
+      resizeMode: 'cover',
+    },
+    continueContent: {
+      padding: spacing.lg,
+    },
+    continueHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.md,
+    },
+    continueLabel: {
+      ...typography.textStyles.overline,
+      color: colors.onGradientMuted,
+    },
+    continueLevel: {
+      ...typography.textStyles.bookTitle,
+      color: colors.onGradient,
+      marginBottom: spacing.xs,
+    },
+    continueWeek: {
+      ...typography.textStyles.body,
+      fontSize: typography.fontSizes.md,
+      color: colors.onGradientMuted,
+    },
+
+    section: {
+      marginBottom: spacing.xl,
+    },
+    levelCard: {
+      marginBottom: spacing.md,
+    },
+    levelContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: spacing.base,
+      gap: spacing.md,
+    },
+    levelInfo: {
+      flex: 1,
+    },
+    levelTitle: {
+      ...typography.textStyles.cardTitle,
+      color: colors.text,
+      marginBottom: 2,
+    },
+    levelDescription: {
+      ...typography.textStyles.caption,
+      color: colors.textMuted,
+    },
+  });
