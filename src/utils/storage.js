@@ -184,9 +184,9 @@ export const deleteNote = async (audioId) => {
 };
 
 // Onboarding
-export const setOnboardingCompleted = async () => {
+export const setOnboardingCompleted = async (completed = true) => {
   try {
-    await AsyncStorage.setItem(KEYS.ONBOARDING_COMPLETED, 'true');
+    await AsyncStorage.setItem(KEYS.ONBOARDING_COMPLETED, String(completed));
   } catch (error) {
     console.error('Error setting onboarding:', error);
   }

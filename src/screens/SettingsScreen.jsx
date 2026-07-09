@@ -17,7 +17,12 @@ import {
   pickAudioFolder,
   getProgress,
   getNotes,
-  getCurrentPosition
+  getCurrentPosition,
+  getSleepTimerEnabled,
+  setSleepTimerEnabled,
+  getRemindersEnabled,
+  setRemindersEnabled,
+  setOnboardingCompleted,
 } from '../utils/storage';
 import {
   isLoggedIn,
@@ -28,12 +33,6 @@ import {
 } from '../utils/api';
 import { useApp } from '../contexts/AppContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import {
-  getSleepTimerEnabled,
-  setSleepTimerEnabled,
-  getRemindersEnabled,
-  setRemindersEnabled,
-} from '../utils/storage';
 import { refreshSleepTimerPreference } from '../services/audioSetup';
 import { ensurePermission, refreshReminderPreference } from '../services/notificationReminders';
 
@@ -144,6 +143,7 @@ export default function SettingsScreen({ navigation }) {
             try {
               AudioPro.clear();
               await clearAllData();
+              await setOnboardingCompleted(false);
               await refreshSleepTimerPreference();
               await refreshReminderPreference();
               await refreshProgress();
