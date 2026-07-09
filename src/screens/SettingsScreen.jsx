@@ -22,6 +22,7 @@ import {
   setSleepTimerEnabled,
   getRemindersEnabled,
   setRemindersEnabled,
+  setRepeatCurrentChapterEnabled,
   setOnboardingCompleted,
 } from '../utils/storage';
 import {
@@ -33,8 +34,14 @@ import {
 } from '../utils/api';
 import { useApp } from '../contexts/AppContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { refreshSleepTimerPreference } from '../services/audioSetup';
-import { ensurePermission, refreshReminderPreference } from '../services/notificationReminders';
+import {
+  refreshRepeatCurrentChapterPreference,
+  refreshSleepTimerPreference,
+} from '../services/audioSetup';
+import {
+  ensurePermission,
+  refreshReminderPreference,
+} from '../services/notificationReminders';
 
 
 export default function SettingsScreen({ navigation }) {
@@ -118,6 +125,8 @@ export default function SettingsScreen({ navigation }) {
           style: 'destructive',
           onPress: async () => {
             await clearAllData();
+            await setRepeatCurrentChapterEnabled(false);
+            await refreshRepeatCurrentChapterPreference();
             await refreshProgress();
             Alert.alert(
               'Success',
@@ -143,8 +152,10 @@ export default function SettingsScreen({ navigation }) {
             try {
               AudioPro.clear();
               await clearAllData();
+              await setRepeatCurrentChapterEnabled(false);
               await setOnboardingCompleted(false);
               await refreshSleepTimerPreference();
+              await refreshRepeatCurrentChapterPreference();
               await refreshReminderPreference();
               await refreshProgress();
               await loadCurrentPath();

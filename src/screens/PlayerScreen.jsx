@@ -18,10 +18,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadAudioById } from '../utils/storage';
-import { getAudioMetadataById } from '../utils/audioSequenceService';
+import { getAudioMetadataById, getPlaylistInfo } from '../utils/audioSequenceService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+const albumArtSize = Math.max(165, Math.min(width * 0.64, height * 0.23, 230));
 
 export default function PlayerScreen({ route, navigation }) {
   const { audio } = route.params;
@@ -44,6 +45,10 @@ export default function PlayerScreen({ route, navigation }) {
     seekTo,
     seekForward,
     seekBackward,
+    repeatCurrentChapterEnabled,
+    setRepeatCurrentChapterEnabled,
+    skipToNextChapter,
+    skipToPreviousChapter,
     isAudioLoaded,
     releaseAudio,
     setPlaybackRate
@@ -55,6 +60,9 @@ export default function PlayerScreen({ route, navigation }) {
   const activeAudioId = activeAudio?.id ?? audio.id;
   // Chapter titles are raw filenames in the data, so resolve book/chapter here.
   const chapter = useMemo(() => getAudioMetadataById(activeAudioId), [activeAudioId]);
+  const playlistInfo = useMemo(() => getPlaylistInfo(activeAudioId), [activeAudioId]);
+  const hasPreviousChapter = playlistInfo.hasPrevious;
+  const hasNextChapter = playlistInfo.hasNext;
 
   // ============================================
   // LOCAL STATE
@@ -226,6 +234,20 @@ export default function PlayerScreen({ route, navigation }) {
     seekForward(30); // 30 seconds forward
   };
 
+  const handleRepeatToggle = async () => {
+    await setRepeatCurrentChapterEnabled(!repeatCurrentChapterEnabled);
+  };
+
+  const handleNextChapter = async () => {
+    if (!isAudioLoaded(activeAudioId) || !hasNextChapter) return;
+    await skipToNextChapter();
+  };
+
+  const handlePreviousChapter = async () => {
+    if (!isAudioLoaded(activeAudioId) || !hasPreviousChapter) return;
+    await skipToPreviousChapter();
+  };
+
   // ============================================
   // TIME FORMATTING HELPER
   // ============================================
@@ -313,6 +335,21 @@ export default function PlayerScreen({ route, navigation }) {
             PLAYBACK CONTROLS
             ============================================ */}
         <View style={styles.controls}>
+          <TouchableOpacity
+            onPress={handlePreviousChapter}
+            disabled={controlsDisabled || !hasPreviousChapter}
+            style={[
+              styles.chapterNavButton,
+              (controlsDisabled || !hasPreviousChapter) && styles.chapterNavButtonDisabled
+            ]}
+          >
+            <FontAwesome
+              name="backward"
+              size={18}
+              color={controlsDisabled || !hasPreviousChapter ? '#CBD5E1' : '#360f5a'}
+            />
+          </TouchableOpacity>
+
           {/* Backward 30s Button */}
           <TouchableOpacity
             onPress={handleBackward}
@@ -321,7 +358,7 @@ export default function PlayerScreen({ route, navigation }) {
           >
             <MaterialIcons
               name="replay-30"
-              size={32}
+              size={26}
               color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
             />
             <Text style={[
@@ -358,7 +395,7 @@ export default function PlayerScreen({ route, navigation }) {
           >
             <MaterialIcons
               name="forward-30"
-              size={32}
+              size={26}
               color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
             />
             <Text style={[
@@ -368,21 +405,69 @@ export default function PlayerScreen({ route, navigation }) {
               +30s
             </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleNextChapter}
+            disabled={controlsDisabled || !hasNextChapter}
+            style={[
+              styles.chapterNavButton,
+              (controlsDisabled || !hasNextChapter) && styles.chapterNavButtonDisabled
+            ]}
+          >
+            <FontAwesome
+              name="forward"
+              size={18}
+              color={controlsDisabled || !hasNextChapter ? '#CBD5E1' : '#360f5a'}
+            />
+          </TouchableOpacity>
         </View>
 
-        {/* ============================================
-            PLAYBACK SPEED CONTROL
-        ============================================ */}
-        <View style={styles.speedControlSection}>
+        <View style={styles.utilityRow}>
           <TouchableOpacity
-            style={styles.speedButton}
+            onPress={handleRepeatToggle}
+            disabled={controlsDisabled}
+            style={[
+              styles.utilityButton,
+              repeatCurrentChapterEnabled && styles.utilityButtonActive,
+              controlsDisabled && styles.utilityButtonDisabled
+            ]}
+          >
+            <MaterialIcons
+              name="repeat-one"
+              size={22}
+              color={
+                controlsDisabled
+                  ? '#CBD5E1'
+                  : repeatCurrentChapterEnabled
+                    ? '#fff'
+                    : '#360f5a'
+              }
+            />
+            <Text style={[
+              styles.utilityButtonText,
+              repeatCurrentChapterEnabled && styles.utilityButtonTextActive,
+              controlsDisabled && styles.utilityButtonTextDisabled
+            ]}>
+              Repeat One
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.utilityButton,
+              controlsDisabled && styles.utilityButtonDisabled
+            ]}
             onPress={() => setShowSpeedMenu(true)}
             disabled={controlsDisabled}
           >
-            <MaterialIcons name="speed" size={24} color={controlsDisabled ? '#CBD5E1' : '#360f5a'} />
+            <MaterialIcons
+              name="speed"
+              size={24}
+              color={controlsDisabled ? '#CBD5E1' : '#360f5a'}
+            />
             <Text style={[
-              styles.speedButtonText,
-              controlsDisabled && styles.speedButtonTextDisabled
+              styles.utilityButtonText,
+              controlsDisabled && styles.utilityButtonTextDisabled
             ]}>
               {playbackSpeed}x Speed
             </Text>
@@ -576,17 +661,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   albumArt: {
-    width: width - 80,
-    height: width - 80,
+    width: albumArtSize,
+    height: albumArtSize,
     alignSelf: 'center',
     backgroundColor: '#EEF2FF',
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 26,
   },
   albumArtEmoji: {
-    fontSize: 80,
+    fontSize: 72,
   },
   progressSection: {
     marginBottom: 32,
@@ -648,18 +733,84 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 24,
+    gap: 6,
+  },
+  chapterNavButton: {
+    width: 46,
+    height: 46,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 23,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  chapterNavButtonDisabled: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#E2E8F0',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  utilityRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 24,
+  },
+  utilityButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+    gap: 8,
+  },
+  utilityButtonActive: {
+    backgroundColor: '#360f5a',
+    borderColor: '#360f5a',
+  },
+  utilityButtonDisabled: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#E2E8F0',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  utilityButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#360f5a',
+  },
+  utilityButtonTextActive: {
+    color: '#fff',
+  },
+  utilityButtonTextDisabled: {
+    color: '#CBD5E1',
   },
   controlButton: {
-    width: 64,
-    height: 64,
+    width: 54,
+    height: 54,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 16,
+    marginHorizontal: 2,
   },
   controlLabel: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#64748B',
-    marginTop: 4,
+    marginTop: 2,
   },
   controlLabelDisabled: {
     color: '#CBD5E1',
@@ -724,33 +875,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#1E293B',
     fontFamily: 'monospace',
-  },
-  // Speed Control Styles
-  speedControlSection: {
-    marginBottom: 24,
-  },
-  speedButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    gap: 8,
-  },
-  speedButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#360f5a',
-  },
-  speedButtonTextDisabled: {
-    color: '#CBD5E1',
   },
   modalOverlay: {
     flex: 1,

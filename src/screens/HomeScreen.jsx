@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  ImageBackground,
 } from 'react-native';
 import { useApp } from '../contexts/AppContext';
 import { book_curriculum } from '../data/curriculum';
@@ -36,6 +37,11 @@ const BOOK_LEVELS = [
   { key: 'intermediate', color: '#360f5a', emoji: '📘' },
   { key: 'advanced', color: '#360f5a', emoji: '📙' },
 ];
+
+const TESTAMENT_BACKGROUND_IMAGES = {
+  old_testament: require('../../assets/old_testament.jpg'),
+  new_testament: require('../../assets/new_testament.jpg'),
+};
 
 export default function HomeScreen({ navigation }) {
   const { currentAudioId, currentStreak, loading } = useApp();
@@ -69,6 +75,9 @@ export default function HomeScreen({ navigation }) {
     () => (currentAudioId ? getAudioMetadataById(currentAudioId) : null),
     [currentAudioId]
   );
+  const continueCardBackground = currentChapter
+    ? TESTAMENT_BACKGROUND_IMAGES[currentChapter.testament]
+    : null;
 
   const handleContinue = () => {
     if (!currentChapter) return;
@@ -126,14 +135,24 @@ export default function HomeScreen({ navigation }) {
             onPress={handleContinue}
             activeOpacity={0.7}
           >
-            <View style={styles.continueHeader}>
-              <Text style={styles.continueLabel}>CONTINUE LISTENING</Text>
-              <AntDesign name="play-circle" size={30} color="#ffff" />
+            {continueCardBackground && (
+              <ImageBackground
+                source={continueCardBackground}
+                style={styles.continueBackground}
+                imageStyle={styles.continueBackgroundImage}
+              />
+            )}
+            <View style={styles.continueOverlay} />
+            <View style={styles.continueContent}>
+              <View style={styles.continueHeader}>
+                <Text style={styles.continueLabel}>CONTINUE LISTENING</Text>
+                <AntDesign name="play-circle" size={30} color="#ffff" />
+              </View>
+              <Text style={styles.continueLevel}>{currentChapter.bookName}</Text>
+              <Text style={styles.continueWeek}>
+                Chapter {currentChapter.chapterNumber} · {currentChapter.testamentName}
+              </Text>
             </View>
-            <Text style={styles.continueLevel}>{currentChapter.bookName}</Text>
-            <Text style={styles.continueWeek}>
-              Chapter {currentChapter.chapterNumber} · {currentChapter.testamentName}
-            </Text>
           </TouchableOpacity>
         )}
 
@@ -256,13 +275,28 @@ const styles = StyleSheet.create({
   continueCard: {
     backgroundColor: '#360f5a',
     borderRadius: 16,
-    padding: 20,
     marginBottom: 24,
     shadowColor: '#6a329f',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  continueBackground: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  continueBackgroundImage: {
+    opacity: 0.22,
+    resizeMode: 'cover',
+  },
+  continueOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(54, 15, 90, 0.72)',
+  },
+  continueContent: {
+    padding: 20,
   },
   continueHeader: {
     flexDirection: 'row',

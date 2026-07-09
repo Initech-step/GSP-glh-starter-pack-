@@ -139,7 +139,7 @@ export function getAudioMetadataById(audioId) {
  * @param {string} audioId - Audio ID to prepare
  * @returns {Promise<object|null>} - Track data, or null if the file can't be resolved
  */
-async function prepareAudioTrack(audioId) {
+export async function prepareAudioTrack(audioId) {
   try {
     if (!audioId) {
       return null;

@@ -1,6 +1,6 @@
 import { AudioPro, AudioProEventType, AudioProState } from 'react-native-audio-pro';
-import { prepareNextAudioTrack, preparePreviousAudioTrack } from '../utils/audioSequenceService';
-import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
+import { prepareAudioTrack, prepareNextAudioTrack, preparePreviousAudioTrack } from '../utils/audioSequenceService';
+import { getRepeatCurrentChapterEnabled, getSleepTimerEnabled, saveProgress } from '../utils/storage';
 import { armChapterCompletion, recordChapterCompletion } from '../utils/listenTracking';
 import { touchActivity, recordActivity, onChapterCompleted } from './notificationReminders';
 
@@ -13,6 +13,7 @@ const SLEEP_TIMER_MS = 60 * 60 * 1000;
 let sleepTimerTimeout = null;
 let sleepTimerDeadline = null;
 let sleepTimerEnabledCache = false;
+let repeatCurrentChapterEnabledCache = false;
 let lastKnownState = AudioProState.IDLE;
 let lastKnownTrackId = null;
 
@@ -27,6 +28,7 @@ export function setupAudio() {
 
   setupPersistentListeners();
   refreshSleepTimerPreference();
+  refreshRepeatCurrentChapterPreference();
 }
 
 function getTimeRemainingMs() {
@@ -167,6 +169,20 @@ async function handleTrackEnded(event) {
     // near-100% effect deliberately does not count.
     await recordChapterCompletion(completedTrack.id);
     await onChapterCompleted();
+
+    if (repeatCurrentChapterEnabledCache) {
+      const repeatTrack = await prepareAudioTrack(completedTrack.id);
+
+      if (repeatTrack) {
+        armChapterCompletion(repeatTrack.id);
+        AudioPro.play(repeatTrack, {
+          autoPlay: true,
+          startTimeMs: 0,
+        });
+        await scheduleSleepTimerFromDeadline();
+      }
+      return;
+    }
 
     // Prepare and play next audio
     // console.log('🔄 Preparing next audio...');
@@ -349,6 +365,12 @@ export async function refreshSleepTimerPreference() {
   }
 
   await scheduleSleepTimerFromDeadline();
+}
+
+export async function refreshRepeatCurrentChapterPreference() {
+  const enabled = await getRepeatCurrentChapterEnabled();
+  repeatCurrentChapterEnabledCache = enabled;
+  return enabled;
 }
 
 function enforceSleepTimerDeadline() {

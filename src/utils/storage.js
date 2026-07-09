@@ -18,6 +18,7 @@ const KEYS = {
   AUDIO_URI: '@glh_audio_uri',
   PDF_URI: '@glh_pdf_uri',
   PREFERRED_SPEED: '@preferred_speed',
+  REPEAT_CURRENT_CHAPTER_ENABLED: '@glh_repeat_current_chapter_enabled',
   SLEEP_TIMER_ENABLED: '@glh_sleep_timer_enabled',
   // Device-local only. api.js replaceAllProgress() overwrites PROGRESS wholesale,
   // so listen counts and streak must never live inside it.
@@ -201,6 +202,24 @@ export const hasCompletedOnboarding = async () => {
   }
 };
 
+export const getRepeatCurrentChapterEnabled = async () => {
+  try {
+    const enabled = await AsyncStorage.getItem(KEYS.REPEAT_CURRENT_CHAPTER_ENABLED);
+    return enabled === 'true';
+  } catch (error) {
+    console.error('Error getting repeat current chapter preference:', error);
+    return false;
+  }
+};
+
+export const setRepeatCurrentChapterEnabled = async (enabled) => {
+  try {
+    await AsyncStorage.setItem(KEYS.REPEAT_CURRENT_CHAPTER_ENABLED, enabled ? 'true' : 'false');
+  } catch (error) {
+    console.error('Error saving repeat current chapter preference:', error);
+  }
+};
+
 // Clear all data (for testing/reset)
 export const clearAllData = async () => {
   try {
@@ -218,6 +237,7 @@ export const clearAllData = async () => {
       KEYS.AUDIO_URI,
       KEYS.PDF_URI,
       KEYS.PREFERRED_SPEED,
+      KEYS.REPEAT_CURRENT_CHAPTER_ENABLED,
       KEYS.SLEEP_TIMER_ENABLED,
       KEYS.LISTEN_COUNTS,
       KEYS.STREAK,

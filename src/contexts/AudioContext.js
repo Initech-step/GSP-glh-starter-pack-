@@ -3,13 +3,22 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 import { AudioPro, AudioProEventType, AudioProState } from 'react-native-audio-pro';
 import { AppState } from 'react-native';
 import {
+  getRepeatCurrentChapterEnabled,
   savePlaybackPosition,
   getPlaybackPosition,
+  setRepeatCurrentChapterEnabled as persistRepeatCurrentChapterEnabled,
 } from '../utils/storage';
 import { getPlayableAudioUri } from '../utils/audioCacheManager';
-import { getAudioMetadataById } from '../utils/audioSequenceService';
+import {
+  getAudioMetadataById,
+  prepareNextAudioTrack,
+  preparePreviousAudioTrack,
+} from '../utils/audioSequenceService';
 import { armChapterCompletion } from '../utils/listenTracking';
-import { registerSleepTimerInteraction } from '../services/audioSetup';
+import {
+  refreshRepeatCurrentChapterPreference,
+  registerSleepTimerInteraction,
+} from '../services/audioSetup';
 
 const AudioContext = createContext();
 
@@ -26,6 +35,7 @@ export const AudioProvider = ({ children }) => {
   const [duration, setDuration] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [repeatCurrentChapterEnabled, setRepeatCurrentChapterEnabledState] = useState(false);
   
   // ============================================
   // REFS - For avoiding stale closures
@@ -43,6 +53,7 @@ export const AudioProvider = ({ children }) => {
   useEffect(() => {    
     // Set up event listeners for this Context
     setupContextListeners();
+    loadRepeatCurrentChapterPreference();
     
     // Monitor app state changes
     const subscription = AppState.addEventListener('change', handleAppStateChange);
@@ -54,6 +65,12 @@ export const AudioProvider = ({ children }) => {
       }
     };
   }, []);
+
+  const loadRepeatCurrentChapterPreference = async () => {
+    const enabled = await getRepeatCurrentChapterEnabled();
+    setRepeatCurrentChapterEnabledState(enabled);
+    await refreshRepeatCurrentChapterPreference();
+  };
 
   // ============================================
   // PROGRESS SAVING INTERVAL
@@ -361,6 +378,66 @@ export const AudioProvider = ({ children }) => {
     }
   };
 
+  const setRepeatCurrentChapterEnabled = async (enabled) => {
+    try {
+      await persistRepeatCurrentChapterEnabled(enabled);
+      setRepeatCurrentChapterEnabledState(enabled);
+      await refreshRepeatCurrentChapterPreference();
+    } catch (error) {
+      console.error('❌ Error setting repeat current chapter:', error);
+    }
+  };
+
+  const skipToNextChapter = async () => {
+    try {
+      const currentTrack = AudioPro.getPlayingTrack();
+      if (!currentTrack?.id) {
+        return false;
+      }
+
+      const nextTrack = await prepareNextAudioTrack(currentTrack.id);
+      if (!nextTrack) {
+        return false;
+      }
+
+      armChapterCompletion(nextTrack.id);
+      AudioPro.play(nextTrack, {
+        autoPlay: true,
+        startTimeMs: 0,
+      });
+      await registerSleepTimerInteraction();
+      return true;
+    } catch (error) {
+      console.error('❌ Error skipping to next chapter:', error);
+      return false;
+    }
+  };
+
+  const skipToPreviousChapter = async () => {
+    try {
+      const currentTrack = AudioPro.getPlayingTrack();
+      if (!currentTrack?.id) {
+        return false;
+      }
+
+      const previousTrack = await preparePreviousAudioTrack(currentTrack.id);
+      if (!previousTrack) {
+        return false;
+      }
+
+      armChapterCompletion(previousTrack.id);
+      AudioPro.play(previousTrack, {
+        autoPlay: true,
+        startTimeMs: 0,
+      });
+      await registerSleepTimerInteraction();
+      return true;
+    } catch (error) {
+      console.error('❌ Error skipping to previous chapter:', error);
+      return false;
+    }
+  };
+
   // ============================================
   // RELEASE AUDIO
   // Completely stops and clears the audio player
@@ -419,6 +496,7 @@ export const AudioProvider = ({ children }) => {
     duration,
     isLoaded,
     isLoading,
+    repeatCurrentChapterEnabled,
     
     // Controls
     loadAudio,
@@ -428,6 +506,9 @@ export const AudioProvider = ({ children }) => {
     seekForward,
     seekBackward,
     setPlaybackRate,
+    setRepeatCurrentChapterEnabled,
+    skipToNextChapter,
+    skipToPreviousChapter,
     releaseAudio,
     
     // Helpers
