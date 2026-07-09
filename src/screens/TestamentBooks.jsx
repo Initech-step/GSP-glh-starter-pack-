@@ -7,10 +7,12 @@ import {
   StatusBar,
   ImageBackground 
 } from "react-native";
-import React from 'react';
+import React, { useMemo } from 'react';
 import { bible_curriculum } from '../data/curriculum';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Feather from '@expo/vector-icons/Feather';
+import { useApp } from '../contexts/AppContext';
+import { computeBookListenCount, formatListenedLabel } from '../utils/listenTracking';
 
 const TESTAMENT_CONFIG = {
   old_testament: {
@@ -34,6 +36,7 @@ const TESTAMENT_CONFIG = {
 export default function TestamentBooks({ route, navigation }) {
   const { testament } = route.params;
   // testament = { key, name, color, emoji, description }
+  const { listenCounts } = useApp();
 
   const config = TESTAMENT_CONFIG[testament.key] || {
     accent: '#360f5a',
@@ -43,6 +46,16 @@ export default function TestamentBooks({ route, navigation }) {
   };
 
   const books = bible_curriculum[testament.key]?.books ?? [];
+
+  // Recomputed only when counts change. computeBookListenCount early-breaks at
+  // the first unheard chapter, so most books cost a single lookup.
+  const bookListenCounts = useMemo(() => {
+    const result = {};
+    for (const book of books) {
+      result[book.id] = computeBookListenCount(book, listenCounts);
+    }
+    return result;
+  }, [books, listenCounts]);
 
   const handleBookPress = (book) => {
     navigation.navigate('BookChapters', { book, testament });
@@ -78,38 +91,51 @@ export default function TestamentBooks({ route, navigation }) {
         <View style={styles.booksSection}>
           <Text style={styles.sectionTitle}>Select a Book</Text>
 
-          {books.map((book, index) => (
-            <TouchableOpacity
-              key={book.id}
-              style={styles.bookCard}
-              onPress={() => handleBookPress(book)}
-              activeOpacity={0.72}
-            >
-              {/* Index pill */}
-              <View style={[styles.indexPill, { backgroundColor: config.accentLight }]}>
-                <Text style={[styles.indexText, { color: config.accent }]}>
-                  {String(index + 1).padStart(2, '0')}
-                </Text>
-              </View>
+          {books.map((book, index) => {
+            const listenedLabel = formatListenedLabel(bookListenCounts[book.id]);
 
-              {/* Book info */}
-              <View style={styles.bookInfo}>
-                <Text style={styles.bookName}>{book.name}</Text>
-                <View style={styles.bookMeta}>
-                  <Feather name="headphones" size={12} color="#94A3B8" />
-                  <Text style={styles.bookMetaText}>
-                    {book.audios?.length ?? 0}{' '}
-                    {(book.audios?.length ?? 0) === 1 ? 'chapter' : 'chapters'}
+            return (
+              <TouchableOpacity
+                key={book.id}
+                style={styles.bookCard}
+                onPress={() => handleBookPress(book)}
+                activeOpacity={0.72}
+              >
+                {/* Index pill */}
+                <View style={[styles.indexPill, { backgroundColor: config.accentLight }]}>
+                  <Text style={[styles.indexText, { color: config.accent }]}>
+                    {String(index + 1).padStart(2, '0')}
                   </Text>
                 </View>
-              </View>
 
-              {/* Arrow */}
-              <View style={[styles.arrowContainer, { backgroundColor: config.accentLight }]}>
-                <Feather name="chevron-right" size={18} color={config.accent} />
-              </View>
-            </TouchableOpacity>
-          ))}
+                {/* Book info */}
+                <View style={styles.bookInfo}>
+                  <Text style={styles.bookName}>{book.name}</Text>
+                  <View style={styles.bookMeta}>
+                    <Feather name="headphones" size={12} color="#94A3B8" />
+                    <Text style={styles.bookMetaText}>
+                      {book.audios?.length ?? 0}{' '}
+                      {(book.audios?.length ?? 0) === 1 ? 'chapter' : 'chapters'}
+                    </Text>
+                    {listenedLabel ? (
+                      <>
+                        <Text style={styles.bookMetaDot}>·</Text>
+                        <Feather name="check-circle" size={12} color={config.accent} />
+                        <Text style={[styles.bookListenedText, { color: config.accent }]}>
+                          {listenedLabel}
+                        </Text>
+                      </>
+                    ) : null}
+                  </View>
+                </View>
+
+                {/* Arrow */}
+                <View style={[styles.arrowContainer, { backgroundColor: config.accentLight }]}>
+                  <Feather name="chevron-right" size={18} color={config.accent} />
+                </View>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </ScrollView>
     </View>
@@ -240,6 +266,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#94A3B8',
     fontWeight: '500',
+  },
+  bookMetaDot: {
+    fontSize: 12,
+    color: '#CBD5E1',
+    marginHorizontal: 2,
+  },
+  bookListenedText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   arrowContainer: {
     width: 32,

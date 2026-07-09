@@ -7,9 +7,14 @@ import {
   getPlaybackPosition,
 } from '../utils/storage';
 import { getPlayableAudioUri } from '../utils/audioCacheManager';
+import { getAudioMetadataById } from '../utils/audioSequenceService';
+import { armChapterCompletion } from '../utils/listenTracking';
 import { registerSleepTimerInteraction } from '../services/audioSetup';
 
 const AudioContext = createContext();
+
+// A saved position this close to the end counts as "finished".
+const END_THRESHOLD_SECONDS = 2;
 
 export const AudioProvider = ({ children }) => {
   // ============================================
@@ -249,20 +254,32 @@ export const AudioProvider = ({ children }) => {
       setCurrentAudio(audioMetadata);
       currentAudioIdRef.current = audioMetadata.id;
 
+      // A fresh load is a fresh listen. Arming here (rather than on position 0)
+      // also covers resuming a chapter that was left at 90%.
+      armChapterCompletion(audioMetadata.id);
+
       // convert content:\\ to file
       const playableUri = await getPlayableAudioUri(audioMetadata.id, audioSource);
+
+      // Match the lock-screen title autoplay uses, instead of the raw filename.
+      const chapter = getAudioMetadataById(audioMetadata.id);
 
       const track = {
         id: audioMetadata.id,
         url: playableUri,
-        title: audioMetadata.title,
-        artist: 'Pst. Ita Udoh', // Use speaker as artist
+        title: chapter ? `${chapter.bookName} - Chapter ${chapter.chapterNumber}` : audioMetadata.title,
+        artist: 'ESV Audio Bible',
         artwork: 'https://res.cloudinary.com/dhsnrwwwn/image/upload/v1768211441/SELECT_ME_aevm3j.png'
       };
 
-      // Check if we should restore previous position
+      // Check if we should restore previous position.
+      // A finished chapter has its position saved at the very end; resuming
+      // there would fire TRACK_ENDED at once and bank a listen the user never
+      // heard. Replay such a chapter from the top instead.
       const savedPosition = await getPlaybackPosition(audioMetadata.id);
-      const startTimeMs = savedPosition && savedPosition > 0 ? savedPosition * 1000 : 0;
+      const totalSeconds = audioMetadata.duration ?? chapter?.duration ?? 0;
+      const atEnd = totalSeconds > 0 && savedPosition >= totalSeconds - END_THRESHOLD_SECONDS;
+      const startTimeMs = savedPosition > 0 && !atEnd ? savedPosition * 1000 : 0;
 
       // Set up progress saving interval (every 30 seconds)
       startProgressSavingInterval();

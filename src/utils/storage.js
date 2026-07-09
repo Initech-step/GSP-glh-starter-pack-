@@ -19,7 +19,17 @@ const KEYS = {
   PDF_URI: '@glh_pdf_uri',
   PREFERRED_SPEED: '@preferred_speed',
   SLEEP_TIMER_ENABLED: '@glh_sleep_timer_enabled',
+  // Device-local only. api.js replaceAllProgress() overwrites PROGRESS wholesale,
+  // so listen counts and streak must never live inside it.
+  LISTEN_COUNTS: '@glh_listen_counts',
+  STREAK: '@glh_streak',
+  LISTEN_SEEDED: '@glh_listen_seeded',
+  REMINDERS_ENABLED: '@glh_reminders_enabled',
+  LAST_ACTIVITY_AT: '@glh_last_activity_at',
+  NOTIF_MIGRATED: '@glh_notif_migrated_v2',
 };
+
+export const STORAGE_KEYS = KEYS;
 
 // Progress tracking
 export const saveProgress = async (audioId, completed = false, position = 0) => {
@@ -59,10 +69,16 @@ export const isAudioCompleted = async (audioId) => {
 };
 
 // Current position tracking
+// Bible chapters have no week, so weekNumber is routinely null. AsyncStorage
+// rejects null values, hence the removeItem branch.
 export const saveCurrentPosition = async (level, weekNumber, audioId) => {
   try {
-    await AsyncStorage.setItem(KEYS.CURRENT_LEVEL, level);
-    await AsyncStorage.setItem(KEYS.CURRENT_WEEK, weekNumber.toString());
+    await AsyncStorage.setItem(KEYS.CURRENT_LEVEL, level ?? '');
+    if (weekNumber == null) {
+      await AsyncStorage.removeItem(KEYS.CURRENT_WEEK);
+    } else {
+      await AsyncStorage.setItem(KEYS.CURRENT_WEEK, String(weekNumber));
+    }
     await AsyncStorage.setItem(KEYS.CURRENT_AUDIO, audioId);
   } catch (error) {
     console.error('Error saving current position:', error);
@@ -74,15 +90,15 @@ export const getCurrentPosition = async () => {
     const level = await AsyncStorage.getItem(KEYS.CURRENT_LEVEL);
     const week = await AsyncStorage.getItem(KEYS.CURRENT_WEEK);
     const audio = await AsyncStorage.getItem(KEYS.CURRENT_AUDIO);
-    
+
     return {
-      level: level || 'beginners',
-      weekNumber: week ? parseInt(week) : 1,
+      level: level || null,
+      weekNumber: week ? parseInt(week) : null,
       audioId: audio || null,
     };
   } catch (error) {
     console.error('Error getting current position:', error);
-    return { level: 'beginners', weekNumber: 1, audioId: null };
+    return { level: null, weekNumber: null, audioId: null };
   }
 };
 
@@ -203,6 +219,12 @@ export const clearAllData = async () => {
       KEYS.PDF_URI,
       KEYS.PREFERRED_SPEED,
       KEYS.SLEEP_TIMER_ENABLED,
+      KEYS.LISTEN_COUNTS,
+      KEYS.STREAK,
+      KEYS.LISTEN_SEEDED,
+      KEYS.REMINDERS_ENABLED,
+      KEYS.LAST_ACTIVITY_AT,
+      KEYS.NOTIF_MIGRATED,
     ]);
     emitProgressChanged('clearAllData');
   } catch (error) {
@@ -240,6 +262,25 @@ export const setSleepTimerEnabled = async (enabled) => {
     await AsyncStorage.setItem(KEYS.SLEEP_TIMER_ENABLED, enabled ? 'true' : 'false');
   } catch (error) {
     console.error('Error saving sleep timer preference:', error);
+  }
+};
+
+// Reminders default to ON until the user explicitly turns them off.
+export const getRemindersEnabled = async () => {
+  try {
+    const enabled = await AsyncStorage.getItem(KEYS.REMINDERS_ENABLED);
+    return enabled !== 'false';
+  } catch (error) {
+    console.error('Error getting reminder preference:', error);
+    return true;
+  }
+};
+
+export const setRemindersEnabled = async (enabled) => {
+  try {
+    await AsyncStorage.setItem(KEYS.REMINDERS_ENABLED, enabled ? 'true' : 'false');
+  } catch (error) {
+    console.error('Error saving reminder preference:', error);
   }
 };
 

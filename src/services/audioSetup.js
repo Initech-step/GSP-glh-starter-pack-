@@ -1,9 +1,14 @@
 import { AudioPro, AudioProEventType, AudioProState } from 'react-native-audio-pro';
 import { prepareNextAudioTrack, preparePreviousAudioTrack } from '../utils/audioSequenceService';
 import { getSleepTimerEnabled, saveProgress } from '../utils/storage';
+import { armChapterCompletion, recordChapterCompletion } from '../utils/listenTracking';
+import { touchActivity, recordActivity, onChapterCompleted } from './notificationReminders';
 
 // OFFICIAL AUDIO SETUP
 
+// A chapter is re-armed once playback rewinds to the very start, so scrubbing
+// back and listening again counts as a second listen.
+const REARM_POSITION_MS = 2000;
 const SLEEP_TIMER_MS = 60 * 60 * 1000;
 let sleepTimerTimeout = null;
 let sleepTimerDeadline = null;
@@ -157,6 +162,12 @@ async function handleTrackEnded(event) {
       // console.log('💾 Final progress saved for:', completedTrack.id, 'at', posSeconds.toFixed(2), 's');
     }
 
+    // The single place a listen is counted and a streak day is earned. This
+    // fires with the screen off and PlayerScreen unmounted; PlayerScreen's
+    // near-100% effect deliberately does not count.
+    await recordChapterCompletion(completedTrack.id);
+    await onChapterCompleted();
+
     // Prepare and play next audio
     // console.log('🔄 Preparing next audio...');
     const nextTrack = await prepareNextAudioTrack(completedTrack.id);
@@ -164,13 +175,14 @@ async function handleTrackEnded(event) {
     if (nextTrack) {
       // console.log('▶️ Auto-playing next audio:', nextTrack.title);
 
+      armChapterCompletion(nextTrack.id);
       AudioPro.play(nextTrack, {
         autoPlay: true,
         startTimeMs: 0,
       });
       await scheduleSleepTimerFromDeadline();
       // console.log('✅ Successfully transitioned to next audio');
-    } 
+    }
     // else {
     //   console.log('📭 No next audio available - playlist complete');
     // }
@@ -194,11 +206,13 @@ async function handleRemoteNext(event) {
 
     if (nextTrack) {
       // console.log('▶️ Playing next audio:', nextTrack.title);
+      armChapterCompletion(nextTrack.id);
       AudioPro.play(nextTrack, {
         autoPlay: true,
         startTimeMs: 0,
       });
       await registerSleepTimerInteraction();
+      await recordActivity();
     } else {
       console.log('📭 No next audio available');
     }
@@ -222,17 +236,22 @@ async function handleRemotePrev(event) {
     const previousTrack = await preparePreviousAudioTrack(currentTrack.id);
     if (previousTrack) {
       // console.log('▶️ Playing previous audio:', previousTrack.title);
+      armChapterCompletion(previousTrack.id);
       AudioPro.play(previousTrack, {
         autoPlay: true,
         startTimeMs: 0,
       });
       await registerSleepTimerInteraction();
+      await recordActivity();
     }
   } catch (error) {
     console.error('❌ Error handling remote previous:', error);
   }
 }
 
+// Remote play/pause change the player state, so handleStateChange records the
+// activity for them. Seek and next/prev don't always change state, so they
+// record it themselves.
 function handleRemotePlay(event) {
   // console.log('??????? Remote Play button pressed');
   if (sleepTimerEnabledCache) {
@@ -254,6 +273,7 @@ function handleRemotePause(event) {
 function handleRemoteSeek(event) {
   // console.log('??? Remote Seek:', event.payload);
   registerSleepTimerInteraction();
+  recordActivity();
 }
 
 function handlePlaybackError(event) {
@@ -267,6 +287,14 @@ function handlePlaybackError(event) {
 
 function handleProgress(event) {
   enforceSleepTimerDeadline();
+
+  // ~1/s. Keeps the activity timestamp warm without a reschedule storm.
+  touchActivity();
+
+  // Rewound to the top: this is a fresh listen, so let it count again.
+  if (event.payload?.position != null && event.payload.position < REARM_POSITION_MS) {
+    armChapterCompletion(event.track?.id);
+  }
 }
 
 function handleStateChange(event) {
@@ -289,6 +317,17 @@ function handleStateChange(event) {
     state === AudioProState.ERROR
   ) {
     clearSleepTimer();
+  }
+
+  // Discrete transitions are where the idle reminder is re-armed. LOADING/IDLE/
+  // ERROR aren't the user doing anything, so they don't slide the window.
+  const isUserActivity =
+    state === AudioProState.PLAYING ||
+    state === AudioProState.PAUSED ||
+    state === AudioProState.STOPPED;
+
+  if (isUserActivity && state !== lastKnownState) {
+    recordActivity();
   }
 
   lastKnownState = state ?? lastKnownState;

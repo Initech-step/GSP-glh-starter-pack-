@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   Switch,
+  Linking,
 } from 'react-native';
 import { AudioPro } from 'react-native-audio-pro';
 import { 
@@ -27,8 +28,14 @@ import {
 } from '../utils/api';
 import { useApp } from '../contexts/AppContext';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { getSleepTimerEnabled, setSleepTimerEnabled } from '../utils/storage';
+import {
+  getSleepTimerEnabled,
+  setSleepTimerEnabled,
+  getRemindersEnabled,
+  setRemindersEnabled,
+} from '../utils/storage';
 import { refreshSleepTimerPreference } from '../services/audioSetup';
+import { ensurePermission, refreshReminderPreference } from '../services/notificationReminders';
 
 
 export default function SettingsScreen({ navigation }) {
@@ -42,11 +49,17 @@ export default function SettingsScreen({ navigation }) {
   useEffect(() => {
     loadCurrentPath();
     loadSleepTimerPreference();
+    loadReminderPreference();
   }, []);
 
   const loadSleepTimerPreference = async () => {
     const enabled = await getSleepTimerEnabled();
     setSleepTimerEnabledState(enabled);
+  };
+
+  const loadReminderPreference = async () => {
+    const enabled = await getRemindersEnabled();
+    setNotificationsEnabled(enabled);
   };
 
   const loadCurrentPath = async () => {
@@ -121,7 +134,7 @@ export default function SettingsScreen({ navigation }) {
   const handleResetAllData = () => {
     Alert.alert(
       'Reset App Data',
-      'This will clear progress, notes, cached audio files, saved audio and PDF URIs, folder selection, sleep timer preference, onboarding state, and other local app data.',
+      'This will clear progress, your listening streak and listen counts, notes, cached audio files, saved audio and PDF URIs, folder selection, sleep timer preference, onboarding state, and other local app data.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -132,9 +145,11 @@ export default function SettingsScreen({ navigation }) {
               AudioPro.clear();
               await clearAllData();
               await refreshSleepTimerPreference();
+              await refreshReminderPreference();
               await refreshProgress();
               await loadCurrentPath();
               await loadSleepTimerPreference();
+              await loadReminderPreference();
               Alert.alert(
                 'Reset Complete',
                 'All local app data has been cleared.',
@@ -154,6 +169,29 @@ export default function SettingsScreen({ navigation }) {
     await setSleepTimerEnabled(value);
     // Tell audioSetup.js to arm or disarm the timer immediately
     await refreshSleepTimerPreference();
+  };
+
+  const handleNotificationsToggle = async (value) => {
+    // Turning the switch on is the user asking for reminders, so this is the
+    // right moment to request permission. The OS won't prompt twice.
+    if (value && !(await ensurePermission({ request: true }))) {
+      setNotificationsEnabled(false);
+      await setRemindersEnabled(false);
+      Alert.alert(
+        'Notifications are blocked',
+        'Enable notifications for this app in system settings to get listening reminders.',
+        [
+          { text: 'Not now', style: 'cancel' },
+          { text: 'Open Settings', onPress: () => Linking.openSettings() },
+        ]
+      );
+      return;
+    }
+
+    setNotificationsEnabled(value);
+    await setRemindersEnabled(value);
+    // Arms the 4-hour idle reminder, or cancels ours if switched off.
+    await refreshReminderPreference();
   };
 
   const handleAbout = () => {
@@ -298,6 +336,19 @@ export default function SettingsScreen({ navigation }) {
           value: sleepTimerEnabled,
           onToggle: handleSleepTimerToggle,
           description: 'Pause playback automatically after 60 minutes of listening.',
+        },
+      ],
+    },
+    {
+      title: 'Notifications',
+      items: [
+        {
+          label: 'Listening Reminders',
+          type: 'switch',
+          value: notificationsEnabled,
+          onToggle: handleNotificationsToggle,
+          description:
+            'Remind me 4 hours after I last listened. Never between 10pm and 7am, and never once I have finished a chapter that day.',
         },
       ],
     },

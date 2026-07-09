@@ -21,32 +21,32 @@ const { width, height } = Dimensions.get('window');
 const slides = [
   {
     id: '1',
-    title: 'Welcome to GLH Audio Starter Kit',
-    description: "God's Lighthouse Messages Starter Pack helps you journey through recommended Christian teachings in an organized way.",
+    title: 'Welcome to the Audio Bible',
+    description: "God's Lighthouse brings you the dramatised English Standard Version, read from Genesis to Revelation.",
     emoji: '📖',
   },
   {
     id: '2',
-    title: 'Three Learning Levels',
-    description: 'Progress through Beginners (30 weeks), Intermediary (33 weeks), and Advanced (12 weeks) teachings sequentially.',
-    emoji: '🎓',
+    title: 'Old and New Testament',
+    description: 'All 66 books, 1,189 chapters. Start anywhere, and the next chapter plays automatically.',
+    emoji: '✞',
   },
   {
     id: '3',
-    title: 'Track Your Progress',
-    description: 'The app remembers where you left off, tracks completed messages, and helps you stay consistent in your learning.',
-    emoji: '✅',
+    title: 'Build a Daily Streak',
+    description: 'Finish a chapter each day to grow your streak. Every chapter you complete is counted, so you can see what you have heard and how often.',
+    emoji: '⭐',
   },
   {
     id: '4',
     title: 'Take Notes',
-    description: 'Capture insights and revelations as you listen. Your notes are saved for each message.',
+    description: 'Capture insights and revelations as you listen. Your notes are saved for each chapter.',
     emoji: '📝',
   },
   {
     id: '5',
     title: 'Offline Audio',
-    description: 'All audio messages are stored on your memory card. No internet required!',
+    description: 'All audio is stored on your memory card. No internet required!',
     emoji: '📱',
   },
   {

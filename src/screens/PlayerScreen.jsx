@@ -1,5 +1,5 @@
 // src/screens/PlayerScreen.js - Using React Native Audio Pro via AudioContext
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -18,12 +18,13 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadAudioById } from '../utils/storage';
+import { getAudioMetadataById } from '../utils/audioSequenceService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
 export default function PlayerScreen({ route, navigation }) {
-  const { level, weekNumber, audio } = route.params;
+  const { audio } = route.params;
 
   // ============================================
   // GET AUDIO CONTEXT
@@ -52,7 +53,8 @@ export default function PlayerScreen({ route, navigation }) {
 
   const activeAudio = currentAudio?.metadata ?? currentAudio ?? audio;
   const activeAudioId = activeAudio?.id ?? audio.id;
-  const activeWeekNumber = activeAudio?.weekNumber ?? weekNumber;
+  // Chapter titles are raw filenames in the data, so resolve book/chapter here.
+  const chapter = useMemo(() => getAudioMetadataById(activeAudioId), [activeAudioId]);
 
   // ============================================
   // LOCAL STATE
@@ -138,9 +140,11 @@ export default function PlayerScreen({ route, navigation }) {
   }, [audio.id, audioPath]);
 
   // ============================================
-  // MONITOR COMPLETION (95% THRESHOLD)
-  // Track when user reaches 95% to mark as completed
-  // Show completion dialog at 98%
+  // MONITOR COMPLETION
+  // Sets the `completed` flag (which cloud sync carries) when playback reaches
+  // the end while this screen is mounted. It deliberately does NOT increment
+  // the listen count or the streak — audioSetup's TRACK_ENDED handler owns
+  // that, because it also fires with the screen off.
   // ============================================
   useEffect(() => {
     completionHandledRef.current = null;
@@ -263,14 +267,18 @@ export default function PlayerScreen({ route, navigation }) {
             AUDIO INFO CARD
             ============================================ */}
         <View style={styles.infoCard}>
-          <View style={styles.levelBadge}>
-            <Text style={styles.levelBadgeText}>
-              Week {activeWeekNumber}
-            </Text>
-          </View>
-          
-          <Text style={styles.audioTitle}>{activeAudio?.title ?? audio.title}</Text>
-          
+          {chapter && (
+            <View style={styles.levelBadge}>
+              <Text style={styles.levelBadgeText}>{chapter.testamentName}</Text>
+            </View>
+          )}
+
+          <Text style={styles.audioTitle}>
+            {chapter
+              ? `${chapter.bookName} · Chapter ${chapter.chapterNumber}`
+              : activeAudio?.title ?? audio.title}
+          </Text>
+
           {activeAudio?.date && (
             <Text style={styles.audioDate}>{activeAudio.date}</Text>
           )}

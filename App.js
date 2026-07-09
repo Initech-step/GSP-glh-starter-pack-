@@ -1,15 +1,14 @@
 // App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as Notifications from 'expo-notifications';
 
 import { AppProvider } from './src/contexts/AppContext';
-import { hasCompletedOnboarding, clearAllData } from './src/utils/storage';
+import { hasCompletedOnboarding } from './src/utils/storage';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import HomeScreen from './src/screens/HomeScreen';
-import LevelScreen from './src/screens/LevelScreen';
-import WeekScreen from './src/screens/WeekScreen';
 import PlayerScreen from './src/screens/PlayerScreen';
 import NotesScreen from './src/screens/NotesScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
@@ -18,21 +17,42 @@ import ReadBook from './src/screens/ReadBook';
 import { AudioProvider } from './src/contexts/AudioContext';
 import LoginScreen from './src/screens/LoginScreen';
 import TestamentBooks from './src/screens/TestamentBooks';
-import BookChapters from './src/screens/BookChapters'
-import { clearAudioCache } from './src/utils/audioCacheManager';
+import BookChapters from './src/screens/BookChapters';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(null);
+  const navigationRef = useRef(null);
 
   useEffect(() => {
     checkOnboarding();
   }, []);
 
+  // A reminder tap can't rebuild Player's route params, so it lands on Home,
+  // whose Continue card already resumes the last chapter.
+  useEffect(() => {
+    const isReminder = (response) =>
+      response?.notification?.request?.content?.data?.type === 'listen-reminder';
+
+    const goHome = () => navigationRef.current?.navigate('Home');
+
+    // Cold start: the tap that launched the app.
+    Notifications.getLastNotificationResponseAsync()
+      .then((response) => {
+        if (isReminder(response)) goHome();
+      })
+      .catch(() => {});
+
+    // Warm: tapped while the app was already running.
+    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      if (isReminder(response)) goHome();
+    });
+
+    return () => subscription.remove();
+  }, []);
+
   const checkOnboarding = async () => {
-    // await clearAllData()
-    // await clearAudioCache();
     const completed = await hasCompletedOnboarding();
     console.log('🔍 Onboarding completed value:', completed);
     setShowOnboarding(!completed);
@@ -46,7 +66,7 @@ export default function App() {
   return (
     <AudioProvider>
       <AppProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <StatusBar style="auto" />
           <Stack.Navigator
             initialRouteName={showOnboarding ? 'Onboarding' : 'Home'}
@@ -68,23 +88,13 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: "GSP Full" }}
+              options={{ title: 'Audio Bible' }}
             />
-            <Stack.Screen
-              name="Level"
-              component={LevelScreen}
-              options={({ route }) => ({ title: route.params?.title || 'Level' })}
-            />
-            <Stack.Screen
-              name="Week"
-              component={WeekScreen}
-              options={({ route }) => ({ title: `Week${route.params?.weekNumber}` })}
-            /> 
             <Stack.Screen
               name="Player"
               component={PlayerScreen}
               options={{ title: 'Now Playing' }}
-            /> 
+            />
             <Stack.Screen
               name="Notes"
               component={NotesScreen}
@@ -108,19 +118,17 @@ export default function App() {
             <Stack.Screen
               name="LoginOut"
               component={LoginScreen}
-              options={({ route }) => ({ title:'LoginOut' })}
+              options={{ title: 'LoginOut' }}
             />
             <Stack.Screen
               name="TestamentBooks"
               component={TestamentBooks}
-              options={({ route }) => ({ title:'Books' })}
+              options={{ title: 'Books' }}
             />
             <Stack.Screen
               name="BookChapters"
               component={BookChapters}
-              options={({ route }) => (
-                { title: route.params?.book?.name ?? 'Chapters' }
-              )}
+              options={({ route }) => ({ title: route.params?.book?.name ?? 'Chapters' })}
             />
           </Stack.Navigator>
         </NavigationContainer>

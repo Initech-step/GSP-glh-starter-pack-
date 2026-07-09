@@ -1,4 +1,4 @@
-// src/screens/WeekScreen.js
+// src/screens/BookListScreen.js
 import React, { useEffect} from 'react';
 import {
   View,

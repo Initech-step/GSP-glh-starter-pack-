@@ -136,10 +136,15 @@ export const loginUser = async (phoneOrEmail, password) => {
 /**
  * Replace current position (used when downloading from cloud)
  */
+// Bible chapters have no week, so the cloud can return a null level/week.
 export const replaceCurrentPosition = async (level, weekNumber, audioId) => {
   try {
-    await AsyncStorage.setItem(KEYS.CURRENT_LEVEL, level);
-    await AsyncStorage.setItem(KEYS.CURRENT_WEEK, weekNumber.toString());
+    await AsyncStorage.setItem(KEYS.CURRENT_LEVEL, level ?? '');
+    if (weekNumber == null) {
+      await AsyncStorage.removeItem(KEYS.CURRENT_WEEK);
+    } else {
+      await AsyncStorage.setItem(KEYS.CURRENT_WEEK, String(weekNumber));
+    }
     if (audioId) {
       await AsyncStorage.setItem(KEYS.CURRENT_AUDIO, audioId);
     }

@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.js
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,89 +9,84 @@ import {
   StatusBar,
 } from 'react-native';
 import { useApp } from '../contexts/AppContext';
-import { curriculum, book_curriculum } from '../data/curriculum';
+import { book_curriculum } from '../data/curriculum';
+import { getAudioMetadataById } from '../utils/audioSequenceService';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
+const BIBLE_TESTAMENTS = [
+  {
+    key: 'old_testament',
+    name: 'Old Testament',
+    color: '#04642c',
+    emoji: '🐑',
+    description: 'English Standard Version (ESV)',
+  },
+  {
+    key: 'new_testament',
+    name: 'New Testament',
+    color: '#067e0e',
+    emoji: '˗ˏˋ ✞ ˎˊ˗',
+    description: 'English Standard Version (ESV)',
+  },
+];
+
+const BOOK_LEVELS = [
+  { key: 'beginner', color: '#360f5a', emoji: '📗' },
+  { key: 'intermediate', color: '#360f5a', emoji: '📘' },
+  { key: 'advanced', color: '#360f5a', emoji: '📙' },
+];
+
 export default function HomeScreen({ navigation }) {
-  const { 
-    currentLevel, 
-    currentWeek, 
-    currentAudioId,
-    getCompletionStats,
-    loading 
-  } = useApp();
+  const { currentAudioId, currentStreak, loading } = useApp();
 
-  const levels = [
-    { key: 'beginners', color: '#360f5a', emoji: '🌱' },
-    { key: 'intermediary', color: '#360f5a', emoji: '🌿' },
-    { key: 'advanced', color: '#360f5a', emoji: '🌳' },
-  ];
-  
-  const book_levels = [
-    { key: 'beginner', color: '#360f5a', emoji: '📗' },
-    { key: 'intermediate', color: '#360f5a', emoji: '📘' },
-    { key: 'advanced', color: '#360f5a', emoji: '📙' },
-  ];
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.headerActions}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Notes')}
+            hitSlop={12}
+            accessibilityLabel="My Notes"
+          >
+            <MaterialIcons name="edit-note" size={28} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Settings')}
+            hitSlop={12}
+            accessibilityLabel="Settings"
+          >
+            <AntDesign name="setting" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation]);
 
-  const bible_levels = [
-    { 
-      key: 'old_testament', 
-      name: 'Old Testament', 
-      color: '#04642c', 
-      emoji: '🐑', 
-      description: 'English Standard Version (ESV)'
-    },
-    { 
-      key: 'new_testament', 
-      name: 'New Testament', 
-      color: '#067e0e', 
-      emoji: '˗ˏˋ ✞ ˎˊ˗' , 
-      description: 'English Standard Version (ESV)'
-    },
-  ];
+  // The Continue card resolves its label from the audio id, since Bible
+  // chapters carry no level/week.
+  const currentChapter = useMemo(
+    () => (currentAudioId ? getAudioMetadataById(currentAudioId) : null),
+    [currentAudioId]
+  );
 
   const handleContinue = () => {
-    if (currentAudioId) {
-      const levelData = curriculum[currentLevel];
-      const weekData = levelData.weeks.find(w => w.weekNumber === currentWeek);
-      const audioData = weekData?.audios.find(a => a.id === currentAudioId);
+    if (!currentChapter) return;
 
-      if (audioData) {
-        navigation.navigate('Player', {
-          level: currentLevel,
-          weekNumber: currentWeek,
-          audio: audioData,
-        });
-      }
-    } else {
-      // Navigate to first audio if no current audio
-      navigation.navigate('Level', {
-        level: 'beginners',
-        title: curriculum.beginners.title,
-      });
-    }
-  };
-
-  const handleLevelPress = (levelKey) => {
-    navigation.navigate('Level', {
-      level: levelKey,
-      title: curriculum[levelKey].title,
+    navigation.navigate('Player', {
+      level: currentChapter.testament,
+      weekNumber: null,
+      audio: currentChapter,
     });
   };
 
-  const handleBookLevelPress = (levelData) => {
-    navigation.navigate('BooksByLevel', {
-      level: levelData,
-      title: levelData.title,});
+  const handleTestamentPress = (testament) => {
+    navigation.navigate('TestamentBooks', { testament, title: testament.name });
   };
 
-  const handleBibleTestamentPress = (item) => {
-    navigation.navigate(
-      'TestamentBooks', 
-      { testament: item, title: item.name}
-    );
-  }
+  const handleBookLevelPress = (levelData) => {
+    navigation.navigate('BooksByLevel', { level: levelData, title: levelData.title });
+  };
 
   if (loading) {
     return (
@@ -104,11 +99,29 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Daily streak */}
+        <View style={styles.streakCard}>
+          <AntDesign
+            name="star"
+            size={34}
+            color={currentStreak > 0 ? '#F59E0B' : '#CBD5E1'}
+          />
+          <View style={styles.streakInfo}>
+            <Text style={styles.streakCount}>{currentStreak}</Text>
+            <Text style={styles.streakLabel}>day streak</Text>
+          </View>
+          <Text style={styles.streakHint}>
+            {currentStreak > 0
+              ? 'Finish a chapter today to keep it going.'
+              : 'Finish a chapter to start your streak.'}
+          </Text>
+        </View>
+
         {/* Continue Section */}
-        {currentAudioId && (
-          <TouchableOpacity 
+        {currentChapter && (
+          <TouchableOpacity
             style={styles.continueCard}
             onPress={handleContinue}
             activeOpacity={0.7}
@@ -117,92 +130,48 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.continueLabel}>CONTINUE LISTENING</Text>
               <AntDesign name="play-circle" size={30} color="#ffff" />
             </View>
-            <Text style={styles.continueLevel}>
-              {curriculum[currentLevel].title}
-            </Text>
+            <Text style={styles.continueLevel}>{currentChapter.bookName}</Text>
             <Text style={styles.continueWeek}>
-              Week {currentWeek}
+              Chapter {currentChapter.chapterNumber} · {currentChapter.testamentName}
             </Text>
           </TouchableOpacity>
         )}
 
-        {/* Levels Section */}
+        {/* AUDIO BIBLE DRAMATISED */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Learning Paths</Text>
-          
-          {levels.map((item) => {
-            const levelData = curriculum[item.key];
-            const stats = getCompletionStats(item.key);
-            const isCurrentLevel = item.key === currentLevel;
+          <Text style={styles.sectionTitle}>Audio Bible Dramatised</Text>
 
-            return (
-              <TouchableOpacity
-                key={item.key}
-                style={[
-                  styles.levelCard,
-                  { borderLeftColor: item.color },
-                  isCurrentLevel && styles.levelCardActive
-                ]}
-                onPress={() => handleLevelPress(item.key)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.levelHeader}>
-                  <View style={styles.levelTitleRow}>
-                    <Text style={styles.levelEmoji}>{item.emoji}</Text>
-                    <View style={styles.levelInfo}>
-                      <Text style={styles.levelTitle}>{levelData.title}</Text>
-                      <Text style={styles.levelDescription}>
-                        {levelData.description}
-                      </Text>
-                    </View>
+          {BIBLE_TESTAMENTS.map((item) => (
+            <TouchableOpacity
+              key={item.key}
+              style={[styles.levelCard, { borderLeftColor: item.color }]}
+              onPress={() => handleTestamentPress(item)}
+              activeOpacity={0.7}
+            >
+              <View style={styles.levelHeader}>
+                <View style={styles.levelTitleRow}>
+                  <Text style={styles.levelEmoji}>{item.emoji}</Text>
+                  <View style={styles.levelInfo}>
+                    <Text style={styles.levelTitle}>{item.name}</Text>
+                    <Text style={styles.levelDescription}>{item.description}</Text>
                   </View>
-                  {isCurrentLevel && (
-                    <View style={styles.currentBadge}>
-                      <Text style={styles.currentBadgeText}>Current</Text>
-                    </View>
-                  )}
                 </View>
-
-                <View style={styles.levelStats}>
-                  <Text style={styles.statsText}>
-                    {levelData.weeks.length} weeks • {stats.total} messages
-                  </Text>
-                  <Text style={[styles.statsProgress, { color: item.color }]}>
-                    {stats.completed}/{stats.total} completed
-                  </Text>
-                </View>
-
-                {/* Progress Bar */}
-                <View style={styles.progressBarContainer}>
-                  <View 
-                    style={[
-                      styles.progressBar,
-                      { 
-                        width: `${stats.percentage}%`,
-                        backgroundColor: item.color 
-                      }
-                    ]} 
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
-        
+
         {/* Spiritual Books */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Recommended Books</Text>
-          
-          {book_levels.map((item) => {
+
+          {BOOK_LEVELS.map((item) => {
             const levelData = book_curriculum[item.key];
 
             return (
               <TouchableOpacity
                 key={item.key}
-                style={[
-                  styles.levelCard,
-                  { borderLeftColor: item.color },
-                ]}
+                style={[styles.levelCard, { borderLeftColor: item.color }]}
                 onPress={() => handleBookLevelPress(levelData)}
                 activeOpacity={0.7}
               >
@@ -211,70 +180,13 @@ export default function HomeScreen({ navigation }) {
                     <Text style={styles.levelEmoji}>{item.emoji}</Text>
                     <View style={styles.levelInfo}>
                       <Text style={styles.levelTitle}>{levelData.title}</Text>
-                      <Text style={styles.levelDescription}>
-                        {levelData.description}
-                      </Text>
+                      <Text style={styles.levelDescription}>{levelData.description}</Text>
                     </View>
                   </View>
                 </View>
               </TouchableOpacity>
             );
           })}
-        </View>
-
-        {/* AUDIO BIBLE DRAMATISED */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Audio Bible Dramatised</Text>
-          
-          {bible_levels.map((item) => {
-
-            return (
-              <TouchableOpacity
-                key={item.key}
-                style={[
-                  styles.levelCard,
-                  { borderLeftColor: item.color },
-                ]}
-                onPress={() => handleBibleTestamentPress(item)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.levelHeader}>
-                  <View style={styles.levelTitleRow}>
-                    <Text style={styles.levelEmoji}>{item.emoji}</Text>
-                    <View style={styles.levelInfo}>
-                      <Text style={styles.levelTitle}>{item.name}</Text>
-                      <Text style={styles.levelDescription}>
-                        {item.description}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {/* Quick Actions */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
-          
-          <View style={styles.quickActionsRow}>
-            <TouchableOpacity
-              style={styles.quickActionCard}
-              onPress={() => navigation.navigate('Notes')}
-            >
-              <MaterialIcons style={styles.quickActionEmoji} name="notes" size={24} color="#360f5a" />
-              <Text style={styles.quickActionText}>My Notes</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.quickActionCard}
-              onPress={() => navigation.navigate('Settings')}
-            >
-              <AntDesign style={styles.quickActionEmoji} name="setting" size={30} color="#360f5a" />
-              <Text style={styles.quickActionText}>Settings</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
     </View>
@@ -300,12 +212,46 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 40,
   },
-  header: {
-    marginBottom: 24,
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 18,
   },
-  subtitle: {
-    fontSize: 16,
+  streakCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  streakInfo: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginLeft: 12,
+    gap: 6,
+  },
+  streakCount: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  streakLabel: {
+    fontSize: 15,
     color: '#64748B',
+    fontWeight: '600',
+  },
+  streakHint: {
+    flexBasis: '100%',
+    marginTop: 10,
+    fontSize: 13,
+    color: '#94A3B8',
   },
   continueCard: {
     backgroundColor: '#360f5a',
@@ -329,9 +275,6 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontWeight: 'bold',
     letterSpacing: 1,
-  },
-  continueIcon: {
-    fontSize: 20,
   },
   continueLevel: {
     fontSize: 22,
@@ -364,10 +307,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  levelCardActive: {
-    borderWidth: 2,
-    borderColor: '#6a329f',
-  },
   levelHeader: {
     marginBottom: 12,
   },
@@ -391,67 +330,5 @@ const styles = StyleSheet.create({
   levelDescription: {
     fontSize: 14,
     color: '#64748B',
-  },
-  currentBadge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    backgroundColor: '#6a329f',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  currentBadgeText: {
-    fontSize: 9,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  levelStats: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  statsText: {
-    fontSize: 13,
-    color: '#64748B',
-  },
-  statsProgress: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  progressBarContainer: {
-    height: 6,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  progressBar: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  quickActionsRow: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  quickActionCard: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  quickActionEmoji: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  quickActionText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#6a329f',
   },
 });

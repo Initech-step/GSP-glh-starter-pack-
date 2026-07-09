@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-nati
 import React from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useApp } from '../contexts/AppContext';
+import { formatListenedLabel } from '../utils/listenTracking';
 
 const TESTAMENT_CONFIG = {
   old_testament: { accent: '#360f5a', accentLight: '#ebdefb' },
@@ -18,6 +20,7 @@ function formatDuration(seconds) {
 export default function BookChapters({ route, navigation }) {
   const { book, testament } = route.params;
   // book = { id, name, audios: [{ id, title, duration, date, filePath, ... }] }
+  const { listenCounts, updateCurrentPosition } = useApp();
 
   const config = TESTAMENT_CONFIG[testament?.key] || {
     accent: '#360f5a',
@@ -26,15 +29,14 @@ export default function BookChapters({ route, navigation }) {
 
   const audios = book.audios ?? [];
 
-  const handleAudioPress = (audio, index) => {
+  const handleAudioPress = async (audio) => {
+    // Records the chapter as "current" so Home's Continue card can resume it.
+    await updateCurrentPosition(testament?.key, null, audio.id);
+
     navigation.navigate('Player', {
       level: testament?.key,
       weekNumber: null,
-      audio: {
-        ...audio,
-        // normalize title to chapter label if raw filename
-        //displayTitle: `Chapter ${index + 1}`,
-      },
+      audio,
     });
   };
 
@@ -65,43 +67,55 @@ export default function BookChapters({ route, navigation }) {
             </View>
           )}
 
-          {audios.map((audio, index) => (
-            <TouchableOpacity
-              key={audio.id}
-              style={styles.chapterCard}
-              onPress={() => handleAudioPress(audio, index)}
-              activeOpacity={0.72}
-            >
-              {/* Chapter number */}
-              <View style={[styles.chapterNum, { backgroundColor: config.accentLight }]}>
-                <Text style={[styles.chapterNumText, { color: config.accent }]}>
-                  {index + 1}
-                </Text>
-              </View>
+          {audios.map((audio, index) => {
+            const listenedLabel = formatListenedLabel(listenCounts[audio.id]);
 
-              {/* Info */}
-              <View style={styles.chapterInfo}>
-                <Text style={styles.chapterTitle}>Chapter {index + 1}</Text>
-                {audio.duration ? (
-                  <View style={styles.metaRow}>
-                    <Feather name="clock" size={11} color="#94A3B8" />
-                    <Text style={styles.metaText}>{formatDuration(audio.duration)}</Text>
-                    {audio.size ? (
-                      <>
-                        <Text style={styles.metaDot}>·</Text>
-                        <Text style={styles.metaText}>{audio.size}</Text>
-                      </>
-                    ) : null}
-                  </View>
-                ) : null}
-              </View>
+            return (
+              <TouchableOpacity
+                key={audio.id}
+                style={styles.chapterCard}
+                onPress={() => handleAudioPress(audio)}
+                activeOpacity={0.72}
+              >
+                {/* Chapter number */}
+                <View style={[styles.chapterNum, { backgroundColor: config.accentLight }]}>
+                  <Text style={[styles.chapterNumText, { color: config.accent }]}>
+                    {index + 1}
+                  </Text>
+                </View>
 
-              {/* Play button */}
-              <View style={[styles.playBtn, { backgroundColor: config.accentLight }]}>
-                <AntDesign name="play-circle" size={14} color={config.accent} />
-              </View>
-            </TouchableOpacity>
-          ))}
+                {/* Info */}
+                <View style={styles.chapterInfo}>
+                  <Text style={styles.chapterTitle}>Chapter {index + 1}</Text>
+                  {audio.duration ? (
+                    <View style={styles.metaRow}>
+                      <Feather name="clock" size={11} color="#94A3B8" />
+                      <Text style={styles.metaText}>{formatDuration(audio.duration)}</Text>
+                      {audio.size ? (
+                        <>
+                          <Text style={styles.metaDot}>·</Text>
+                          <Text style={styles.metaText}>{audio.size}</Text>
+                        </>
+                      ) : null}
+                    </View>
+                  ) : null}
+                  {listenedLabel ? (
+                    <View style={styles.listenedRow}>
+                      <Feather name="check-circle" size={11} color={config.accent} />
+                      <Text style={[styles.listenedText, { color: config.accent }]}>
+                        {listenedLabel}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+
+                {/* Play button */}
+                <View style={[styles.playBtn, { backgroundColor: config.accentLight }]}>
+                  <AntDesign name="play-circle" size={14} color={config.accent} />
+                </View>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
       </ScrollView>
@@ -217,6 +231,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
+  },
+  listenedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 4,
+  },
+  listenedText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   metaText: {
     fontSize: 12,

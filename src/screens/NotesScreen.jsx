@@ -17,7 +17,6 @@ import {
   getNotes,
   deleteNote,
 } from '../utils/storage';
-import { curriculum } from '../data/curriculum';
 import { getAudioMetadataById } from '../utils/audioSequenceService';
 
 export default function NotesScreen({ route, navigation }) {
@@ -57,30 +56,18 @@ export default function NotesScreen({ route, navigation }) {
     setNoteText(note);
   };
 
+  // Notes carried over from the teaching audio no longer resolve to a title.
   const resolveAudioTitle = (targetAudioId) => {
-    for (const level of Object.values(curriculum)) {
-      for (const week of level.weeks) {
-        const audio = week.audios.find(a => a.id === targetAudioId);
-        if (audio) {
-          return audio.title;
-        }
-      }
-    }
-
     const audioMetadata = getAudioMetadataById(targetAudioId);
     if (!audioMetadata) {
       return 'Unknown Message';
     }
 
-    if (audioMetadata.type === 'bible') {
-      if (audioMetadata.bookName && audioMetadata.chapterNumber) {
-        return `${audioMetadata.bookName} - Chapter ${audioMetadata.chapterNumber}`;
-      }
-
-      return audioMetadata.title || 'Bible Audio';
+    if (audioMetadata.bookName && audioMetadata.chapterNumber) {
+      return `${audioMetadata.bookName} - Chapter ${audioMetadata.chapterNumber}`;
     }
 
-    return audioMetadata.title || 'Unknown Message';
+    return audioMetadata.title || 'Bible Audio';
   };
 
   const findAudioTitle = () => {
